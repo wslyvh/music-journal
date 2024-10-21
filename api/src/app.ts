@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 
 // configure express app
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(helmet());
 app.use(json());
 app.use(cookieParser());
@@ -28,7 +28,9 @@ const store = createMemoryStore(session);
 const sessionConfig: SessionOptions = {
   name: CONFIG.API_ID,
   secret: CONFIG.SESSION_SECRET,
-  cookie: {},
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+  },
   resave: false,
   saveUninitialized: true,
   store: new store({
