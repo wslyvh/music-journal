@@ -1,0 +1,17 @@
+meta {
+  name: Account Token
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/account/token
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identifier": "test@w5.gg"
+  }
+}
