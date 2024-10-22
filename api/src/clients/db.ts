@@ -75,5 +75,6 @@ const createAccountsTable = `
     type VARCHAR(255),
     "createdAt" TIMESTAMPTZ NOT NULL,
     "updatedAt" TIMESTAMPTZ,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (email, "appId")
   );`;

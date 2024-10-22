@@ -31,6 +31,12 @@ export async function verify() {
 }
 
 export async function sendVerificationToken(to: string, token: number) {
+  if (CONFIG.NODE_ENV === "development") {
+    console.log("Skip email sending in development mode");
+    console.log("- Verification token:", token);
+    return;
+  }
+
   const transporter = await getSmtpClient();
   await transporter.sendMail({
     from: SMTP_TRANSPORT_CONFIG.from,

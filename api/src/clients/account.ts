@@ -42,8 +42,8 @@ export async function getAccountByEmail(email: string, appId?: string) {
 
   try {
     const result = await client.query(
-      'SELECT * FROM accounts WHERE email = $1 AND "appId" = $2',
-      [email, appId]
+      'SELECT * FROM accounts WHERE email = $1 AND ("appId" = $2 OR "appId" IS NULL)',
+      [email, appId || null]
     );
 
     return result.rows[0] as Account;
