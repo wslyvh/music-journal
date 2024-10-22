@@ -12,8 +12,6 @@ export const SMTP_TRANSPORT_CONFIG = {
 };
 
 export async function getSmtpClient() {
-  console.log("Init stmp client..");
-
   return createTransport(SMTP_TRANSPORT_CONFIG);
 }
 

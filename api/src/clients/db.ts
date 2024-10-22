@@ -16,7 +16,6 @@ export const DB_POOL_CONFIG: PoolConfig = {
 
 export function getDbPool() {
   if (!dbPool) {
-    console.log("Initializing db connection pool...");
     dbPool = new Pool(DB_POOL_CONFIG);
 
     dbPool.on("error", (err) => {
