@@ -4,6 +4,7 @@ declare module "express-session" {
   interface Session {
     userId?: number;
     tokenId?: number;
+    appId?: string;
   }
 }
 
@@ -12,7 +13,7 @@ export interface Account {
   email: string;
   createdAt: number;
   updatedAt: number;
-  domain: string;
+  appId?: string;
 }
 
 export interface VerificationToken {

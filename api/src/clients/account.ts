@@ -1,15 +1,14 @@
 import { getDbPool } from "@/clients/db";
 import { Account, VerificationToken } from "@/types";
-import { CONFIG } from "@/utils/config";
 
-export async function createAccount(email: string) {
+export async function createAccount(email: string, appId?: string) {
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
     const result = await client.query(
-      'INSERT INTO accounts (email, domain, type, "createdAt") VALUES ($1, $2, $3, NOW()) RETURNING *',
-      [email, CONFIG.API_DOMAIN, "user"]
+      'INSERT INTO accounts (email, "appId", type, "createdAt") VALUES ($1, $2, $3, NOW()) RETURNING *',
+      [email, appId, "user"]
     );
 
     return result.rows[0] as Account;
@@ -37,14 +36,14 @@ export async function getAccount(userId: number) {
   }
 }
 
-export async function getAccountByEmail(email: string) {
+export async function getAccountByEmail(email: string, appId?: string) {
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
     const result = await client.query(
-      "SELECT * FROM accounts WHERE email = $1",
-      [email]
+      'SELECT * FROM accounts WHERE email = $1 AND "appId" = $2',
+      [email, appId]
     );
 
     return result.rows[0] as Account;
@@ -61,7 +60,7 @@ export async function updateAccount(account: Account) {
 
   try {
     const result = await client.query(
-      "UPDATE accounts SET email = $1 WHERE id = $2 RETURNING *",
+      'UPDATE accounts SET email = $1, "updatedAt" = NOW() WHERE id = $2 RETURNING *',
       [account.email, account.id]
     );
 

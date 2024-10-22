@@ -26,7 +26,7 @@ app.use(logHandler);
 
 const store = createMemoryStore(session);
 const sessionConfig: SessionOptions = {
-  name: CONFIG.API_ID,
+  name: CONFIG.APP_ID,
   secret: CONFIG.SESSION_SECRET,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year

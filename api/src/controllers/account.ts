@@ -13,10 +13,14 @@ import { Request, Response, Router } from "express";
 import { validate } from "@/middleware/validate";
 import { body } from "express-validator";
 
-const tokenValidation = [body("identifier").isEmail().normalizeEmail()];
+const tokenValidation = [
+  body("identifier").isEmail().normalizeEmail(),
+  body("appId").optional().isString().trim(),
+];
 const loginValidation = [
   body("identifier").isEmail().normalizeEmail(),
   body("token").isNumeric().trim().isLength({ min: 6, max: 6 }),
+  body("appId").optional().isString().trim(),
 ];
 
 export const accountRouter = Router();
@@ -65,7 +69,7 @@ async function DeleteAccount(req: Request, res: Response) {
 }
 
 async function Token(req: Request, res: Response) {
-  const identifier = req.body.identifier;
+  const { identifier, appId } = req.body;
 
   const data = await createVerificationToken(identifier);
   if (!data) {
@@ -76,6 +80,7 @@ async function Token(req: Request, res: Response) {
   await sendVerificationToken(identifier, data.token);
 
   req.session.tokenId = data.token;
+  req.session.appId = appId;
   req.session.save();
 
   res.status(204).send();
@@ -96,9 +101,9 @@ async function Login(req: Request, res: Response) {
     return;
   }
 
-  let account = await getAccountByEmail(data.identifier);
+  let account = await getAccountByEmail(data.identifier, req.session.appId);
   if (!account) {
-    account = await createAccount(data.identifier);
+    account = await createAccount(data.identifier, req.session.appId);
   }
 
   if (!account) {

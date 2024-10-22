@@ -35,9 +35,9 @@ export async function sendVerificationToken(to: string, token: number) {
   await transporter.sendMail({
     from: SMTP_TRANSPORT_CONFIG.from,
     to,
-    subject: `Your ${CONFIG.API_DOMAIN} verification token`,
+    subject: `Your ${CONFIG.APP_NAME} verification token`,
     text: `Hi,\n
-We received a request to verify your email address at ${CONFIG.API_DOMAIN}.\n
+We received a request to verify your email address at ${CONFIG.APP_DOMAIN}.\n
 Your verification token is: ${token} \n
 This token expires in 20 minutes. \n\n
 ******************** \n

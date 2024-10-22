@@ -71,7 +71,7 @@ const createAccountsTable = `
   CREATE TABLE IF NOT EXISTS accounts (
     id SERIAL,
     email VARCHAR(255) NOT NULL,
-    domain VARCHAR(255),
+    "appId" VARCHAR(255),
     type VARCHAR(255),
     "createdAt" TIMESTAMPTZ NOT NULL,
     "updatedAt" TIMESTAMPTZ,
