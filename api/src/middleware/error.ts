@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
-export function errorHandler(error: Error, req: Request, res: Response) {
+export function errorHandler(
+  error: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   console.error("[500]", error.message, error.stack);
-
-  res.status(500).send({
-    status: 500,
-    message: "Unexpected Error",
-  });
+  next(error);
 }
