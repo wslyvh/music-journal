@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
-import createMemoryStore from "memorystore";
+import pgSession from "connect-pg-simple";
 import session, { SessionOptions } from "express-session";
 import { logHandler } from "@/middleware/log";
 import { errorHandler } from "@/middleware/error";
@@ -11,6 +11,7 @@ import { notFoundHandler } from "@/middleware/notfound";
 import { csrfProtectionHandler, csrfTokenHandler } from "@/middleware/csrf";
 import { router } from "@/routes";
 import { CONFIG } from "@/utils/config";
+import { getDbPool } from "./clients/db";
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(logHandler);
 
-const store = createMemoryStore(session);
+const pgSessionStore = pgSession(session);
 const sessionConfig: SessionOptions = {
   name: CONFIG.APP_ID,
   secret: CONFIG.SESSION_SECRET,
@@ -33,8 +34,9 @@ const sessionConfig: SessionOptions = {
   },
   resave: false,
   saveUninitialized: true,
-  store: new store({
-    checkPeriod: 86400000,
+  store: new pgSessionStore({
+    pool: getDbPool(),
+    tableName: "sessions",
   }),
 };
 

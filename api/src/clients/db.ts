@@ -47,7 +47,7 @@ export async function initDbTables() {
     console.log("Creating Db tables...");
     await client.query(createVerificationTokenTable);
     await client.query(createAccountsTable);
-
+    await client.query(createSessionsTable);
     await client.query("COMMIT");
     console.log("Tables created successfully");
   } catch (err) {
@@ -76,4 +76,17 @@ const createAccountsTable = `
     "updatedAt" TIMESTAMPTZ,
     PRIMARY KEY (id),
     UNIQUE (email, "appId")
-  );`;
+  );
+
+  CREATE INDEX IF NOT EXISTS "IDX_account_email" ON accounts (email);
+`;
+
+const createSessionsTable = `
+  CREATE TABLE IF NOT EXISTS sessions (
+    "sid" varchar PRIMARY KEY,
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON sessions ("expire");
+`;
