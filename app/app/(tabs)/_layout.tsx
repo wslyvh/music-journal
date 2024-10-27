@@ -5,15 +5,14 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#ffd33d",
-        tabBarShowLabel: false,
-        headerStyle: {
-          backgroundColor: "#25292e",
-        },
+        headerShown: false,
         headerShadowVisible: false,
-        headerTintColor: "#fff",
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#FC766A",
         tabBarStyle: {
-          backgroundColor: "#25292e",
+          backgroundColor: "#28323c",
+          borderTopWidth: 0,
+          height: 60,
         },
       }}
     >
@@ -31,12 +30,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="start"
         options={{
-          title: "Settings",
+          title: "Start",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "settings" : "settings-outline"}
+              name={focused ? "play" : "play-outline"}
               color={color}
               size={24}
             />
@@ -44,12 +43,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="account"
+        name="settings"
         options={{
-          title: "Account",
+          title: "Settings",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "person" : "person-outline"}
+              name={focused ? "settings" : "settings-outline"}
               color={color}
               size={24}
             />

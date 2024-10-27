@@ -12,6 +12,7 @@ interface AuthContextType {
   isLoading: boolean;
   error?: string;
   account?: Account;
+  onboarded?: boolean;
   requestToken: (email: string) => Promise<boolean>;
   login: (email: string, token: string) => Promise<Account | undefined>;
   logout: () => Promise<boolean>;

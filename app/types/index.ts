@@ -4,6 +4,7 @@ export interface Account {
   createdAt: number;
   updatedAt: number;
   appId?: string;
+  onboarded?: boolean;
 }
 
 export interface VerificationToken {

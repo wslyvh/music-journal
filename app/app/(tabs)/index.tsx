@@ -1,10 +1,10 @@
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ScreenLayout } from "@/components/screen-layout";
+import { StartActivityBanner } from "@/components/start-activity";
 
 export default function Index() {
   return (
-    <ThemedView>
-      <ThemedText>Music Journal</ThemedText>
-    </ThemedView>
+    <ScreenLayout title="Music Journal">
+      <StartActivityBanner />
+    </ScreenLayout>
   );
 }

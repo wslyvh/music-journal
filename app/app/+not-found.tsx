@@ -1,29 +1,17 @@
-import { StyleSheet } from "react-native";
-import { Link, Stack } from "expo-router";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { router, Stack } from "expo-router";
+import { ScreenLayout } from "@/components/screen-layout";
+import { Button } from "@/components/button";
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <ThemedView>
-        <ThemedText type="title" style={{ marginBottom: 10 }}>
-          Not Found (404)
-        </ThemedText>
-
-        <Link href="/" style={styles.button}>
-          Go back
-        </Link>
-      </ThemedView>
+      <ScreenLayout
+        title="Page not found"
+        className="items-center justify-center"
+      >
+        <Button text="Go Back" onPress={() => router.push("/")} />
+      </ScreenLayout>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    fontSize: 16,
-    textDecorationLine: "underline",
-    color: "#fff",
-  },
-});
