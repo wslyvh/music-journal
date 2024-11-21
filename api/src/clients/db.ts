@@ -5,13 +5,10 @@ let dbPool: Pool;
 
 export const DB_POOL_CONFIG: PoolConfig = {
   connectionString: CONFIG.DB_CONNECTIONSTRING,
-  ssl:
-    CONFIG.NODE_ENV === "production"
-      ? true
-      : {
-          rejectUnauthorized: false,
-        },
-  max: 20,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  max: 90,
 };
 
 export function getDbPool() {

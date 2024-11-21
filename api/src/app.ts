@@ -33,16 +33,25 @@ const sessionConfig: SessionOptions = {
     maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
   },
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: new pgSessionStore({
     pool: getDbPool(),
     tableName: "sessions",
+    ttl: 60 * 60 * 24 * 7, // 1 week
   }),
 };
 
 if (CONFIG.NODE_ENV === "production") {
+  sessionConfig.cookie = {
+    ...sessionConfig.cookie,
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+    partitioned: true,
+  };
+
+  sessionConfig.proxy = true;
   app.set("trust proxy", 1);
-  sessionConfig.cookie = { ...sessionConfig.cookie, secure: true };
 }
 app.use(session(sessionConfig));
 
