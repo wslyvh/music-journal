@@ -1,10 +1,12 @@
-import "express-session";
-
-declare module "express-session" {
-  interface Session {
-    userId?: string;
-    tokenId?: number;
-    appId?: string;
+declare global {
+  namespace Express {
+    interface Request {
+      user: {
+        id: string;
+        appId: string;
+        [key: string]: string;
+      };
+    }
   }
 }
 

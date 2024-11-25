@@ -14,9 +14,8 @@ export const CONFIG = {
   APP_DOMAIN: "musicjournal.fm",
 
   API_KEYS: process.env.API_KEYS?.split(",") || [],
-  SESSION_SECRET:
-    process.env.SESSION_SECRET ||
-    "default-test-session-secret-for-iron-session",
+  JWT_SECRET: process.env.JWT_SECRET || "default-test-secret",
+  JWT_EXPIRATION: Number(process.env.JWT_EXPIRATION) || 24 * 60 * 60 * 365, // 1 year
 
   DB_CONNECTIONSTRING: process.env.DB_CONNECTIONSTRING,
 

@@ -1,19 +1,11 @@
 import express, { json, urlencoded } from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
-import cookieParser from "cookie-parser";
-import pgSession from "connect-pg-simple";
-import session, { SessionOptions } from "express-session";
 import { logHandler } from "@/middleware/log";
 import { errorHandler } from "@/middleware/error";
 import { notFoundHandler } from "@/middleware/notfound";
 import { csrfProtectionHandler, csrfTokenHandler } from "@/middleware/csrf";
 import { router } from "@/routes";
-import { CONFIG } from "@/utils/config";
-import { getDbPool } from "./clients/db";
-
-dotenv.config();
 
 const app = express();
 
@@ -21,39 +13,8 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(helmet());
 app.use(json());
-app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(logHandler);
-
-const pgSessionStore = pgSession(session);
-const sessionConfig: SessionOptions = {
-  name: CONFIG.APP_ID,
-  secret: CONFIG.SESSION_SECRET,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
-  },
-  resave: false,
-  saveUninitialized: false,
-  store: new pgSessionStore({
-    pool: getDbPool(),
-    tableName: "sessions",
-    ttl: 60 * 60 * 24 * 7, // 1 week
-  }),
-};
-
-if (CONFIG.NODE_ENV === "production") {
-  sessionConfig.cookie = {
-    ...sessionConfig.cookie,
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-    partitioned: true,
-  };
-
-  sessionConfig.proxy = true;
-  app.set("trust proxy", 1);
-}
-app.use(session(sessionConfig));
 
 // Apply CSRF middleware
 // app.use(csrfTokenHandler);

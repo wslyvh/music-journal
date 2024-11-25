@@ -7,10 +7,14 @@ meta {
 get {
   url: {{BASE_URI}}/practice?page=2&size=2
   body: none
-  auth: none
+  auth: bearer
 }
 
 params:query {
   page: 2
   size: 2
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYjljMDA3Ny1lZWYxLTRkNmYtYTkwNy0wNGUwODhlODlkZGMiLCJpYXQiOjE3MzI1MjEyNjMsImV4cCI6MTc2NDA1NzI2M30.jWqqzl-Q2dvq3qR3jPBSZqghA9dXBiH_j1YOkdACSYM
 }

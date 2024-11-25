@@ -54,14 +54,14 @@ export async function getAccountByEmail(email: string, appId?: string) {
   }
 }
 
-export async function updateAccount(account: Account) {
+export async function updateAccount(userId: string, account: Account) {
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
     const result = await client.query(
       'UPDATE accounts SET email = $1, "updatedAt" = NOW() WHERE id = $2 RETURNING *',
-      [account.email, account.id]
+      [account.email, userId]
     );
 
     return result.rows[0] as Account;

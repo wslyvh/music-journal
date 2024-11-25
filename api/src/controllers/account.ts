@@ -12,11 +12,11 @@ import { authHandler } from "@/middleware/auth";
 import { Request, Response, Router } from "express";
 import { validate } from "@/middleware/validate";
 import { body } from "express-validator";
+import { generateToken } from "@/utils/jwt";
+import { CONFIG } from "@/utils/config";
+import dayjs from "dayjs";
 
-const tokenValidation = [
-  body("identifier").isEmail().normalizeEmail(),
-  body("appId").optional().isString().trim(),
-];
+const tokenValidation = [body("identifier").isEmail().normalizeEmail()];
 const loginValidation = [
   body("identifier").isEmail().normalizeEmail(),
   body("token").isNumeric().trim().isLength({ min: 6, max: 6 }),
@@ -32,7 +32,7 @@ accountRouter.post(`/account/login`, validate(loginValidation), Login);
 accountRouter.post(`/account/logout`, authHandler, Logout);
 
 async function GetAccount(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
 
   const account = await getAccount(userId);
   if (!account) {
@@ -44,10 +44,10 @@ async function GetAccount(req: Request, res: Response) {
 }
 
 async function UpdateAccount(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const data = req.body; // TODO: validate
 
-  const account = await updateAccount(data);
+  const account = await updateAccount(userId, data);
   if (!account) {
     res.status(500).send({ message: "Unable to update account." });
     return;
@@ -57,7 +57,7 @@ async function UpdateAccount(req: Request, res: Response) {
 }
 
 async function DeleteAccount(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
 
   const success = await deleteAccount(userId);
   if (!success) {
@@ -69,7 +69,7 @@ async function DeleteAccount(req: Request, res: Response) {
 }
 
 async function Token(req: Request, res: Response) {
-  const { identifier, appId } = req.body;
+  const { identifier } = req.body;
 
   const data = await createVerificationToken(identifier);
   if (!data) {
@@ -79,21 +79,11 @@ async function Token(req: Request, res: Response) {
 
   await sendVerificationToken(identifier, data.token);
 
-  req.session.tokenId = data.token;
-  req.session.appId = appId;
-  req.session.save();
-
   res.status(204).send();
 }
 
 async function Login(req: Request, res: Response) {
-  const { identifier, token } = req.body;
-
-  const id = req.session.tokenId;
-  if (!id) {
-    res.status(400).send({ message: "Invalid session token." });
-    return;
-  }
+  const { identifier, token, appId } = req.body;
 
   const data = await verifyVerificationToken(identifier, token);
   if (!data) {
@@ -101,9 +91,9 @@ async function Login(req: Request, res: Response) {
     return;
   }
 
-  let account = await getAccountByEmail(data.identifier, req.session.appId);
+  let account = await getAccountByEmail(identifier, appId);
   if (!account) {
-    account = await createAccount(data.identifier, req.session.appId);
+    account = await createAccount(identifier, appId);
   }
 
   if (!account) {
@@ -111,19 +101,20 @@ async function Login(req: Request, res: Response) {
     return;
   }
 
-  req.session.userId = account.id;
-  req.session.save();
+  const jwt = await generateToken({
+    sub: account.id,
+    aud: appId,
+  });
 
-  res.status(200).send({ data: account });
+  res.status(200).send({
+    data: {
+      account,
+      token: jwt,
+      expires: dayjs().add(CONFIG.JWT_EXPIRATION, "seconds").unix(),
+    },
+  });
 }
 
 async function Logout(req: Request, res: Response) {
-  req.session.destroy((err) => {
-    if (err) {
-      res.status(500).send({ message: "Unable to logout." });
-      return;
-    }
-  });
-
   res.status(204).send();
 }

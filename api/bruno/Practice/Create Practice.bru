@@ -7,14 +7,18 @@ meta {
 post {
   url: {{BASE_URI}}/practice
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYjljMDA3Ny1lZWYxLTRkNmYtYTkwNy0wNGUwODhlODlkZGMiLCJpYXQiOjE3MzI1MjEyNjMsImV4cCI6MTc2NDA1NzI2M30.jWqqzl-Q2dvq3qR3jPBSZqghA9dXBiH_j1YOkdACSYM
 }
 
 body:json {
   {
     "type": "Guitar",
     "duration": 1200,
-    "data": 120,
+    "data": 130,
     "notes": "Scale practice: C",
     "rating": 4
   }

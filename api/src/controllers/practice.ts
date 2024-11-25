@@ -33,7 +33,7 @@ practiceRouter.put(
 practiceRouter.delete(`/practice/:id`, authHandler, DeletePractice);
 
 async function CreatePractice(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const data = req.body;
 
   const practice = await createPractice(userId, data);
@@ -46,7 +46,7 @@ async function CreatePractice(req: Request, res: Response) {
 }
 
 async function GetPractices(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const page = req.query.page ? parseInt(req.query.page as string) : 1;
   const size = req.query.size
     ? parseInt(req.query.size as string)
@@ -57,7 +57,7 @@ async function GetPractices(req: Request, res: Response) {
 }
 
 async function GetPractice(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const id = req.params.id;
 
   const practice = await getPractice(userId, id);
@@ -65,7 +65,7 @@ async function GetPractice(req: Request, res: Response) {
 }
 
 async function UpdatePractice(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const id = req.params.id;
   const data = req.body;
 
@@ -79,7 +79,7 @@ async function UpdatePractice(req: Request, res: Response) {
 }
 
 async function DeletePractice(req: Request, res: Response) {
-  const userId = req.session.userId!!;
+  const userId = req.user.id;
   const id = req.params.id;
 
   const success = await deletePractice(userId, id);
