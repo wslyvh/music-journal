@@ -1,0 +1,22 @@
+meta {
+  name: Update Practice
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{BASE_URI}}/practice/34a93b4b-0603-4f60-9eb5-bc9d096aeaea
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "type": "Guitar",
+    "duration": 1400,
+    "data": 180,
+    "notes": "Scale practice: C",
+    "rating": 5,  
+    "visibility": 0
+  }
+}

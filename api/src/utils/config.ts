@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+export const DEFAULTS = {
+  PAGE_SIZE: 20,
+};
+
 export const CONFIG = {
   PORT: process.env.PORT || 3000,
   NODE_ENV: process.env.NODE_ENV || "development",

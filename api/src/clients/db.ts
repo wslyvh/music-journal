@@ -45,6 +45,7 @@ export async function initDbTables() {
     await client.query(createVerificationTokenTable);
     await client.query(createAccountsTable);
     await client.query(createSessionsTable);
+    await client.query(createPracticeTable);
     await client.query("COMMIT");
     console.log("Tables created successfully");
   } catch (err) {
@@ -65,13 +66,12 @@ const createVerificationTokenTable = `
 
 const createAccountsTable = `
   CREATE TABLE IF NOT EXISTS accounts (
-    id SERIAL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL,
     "appId" VARCHAR(255),
     type VARCHAR(255),
     "createdAt" TIMESTAMPTZ NOT NULL,
     "updatedAt" TIMESTAMPTZ,
-    PRIMARY KEY (id),
     UNIQUE (email, "appId")
   );
 
@@ -86,4 +86,22 @@ const createSessionsTable = `
   );
 
   CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON sessions ("expire");
+`;
+
+const createPracticeTable = `
+  CREATE TABLE IF NOT EXISTS practices (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "accountId" UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+    type VARCHAR(50) NOT NULL,
+    duration INTEGER NOT NULL,
+    data INTEGER,
+    notes TEXT,
+    rating SMALLINT,
+    visibility SMALLINT NOT NULL DEFAULT 0,
+    timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  );
+
+  CREATE INDEX IF NOT EXISTS practice_account_id_idx ON practices("accountId");
+  CREATE INDEX IF NOT EXISTS practice_timestamp_idx ON practices(timestamp);
+  CREATE INDEX IF NOT EXISTS practice_type_idx ON practices(type);
 `;

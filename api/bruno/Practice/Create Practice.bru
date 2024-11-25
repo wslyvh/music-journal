@@ -1,0 +1,21 @@
+meta {
+  name: Create Practice
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASE_URI}}/practice
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "type": "Guitar",
+    "duration": 1200,
+    "data": 120,
+    "notes": "Scale practice: C",
+    "rating": 4
+  }
+}

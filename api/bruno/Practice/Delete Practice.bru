@@ -1,0 +1,21 @@
+meta {
+  name: Delete Practice
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{BASE_URI}}/practice/34a93b4b-0603-4f60-9eb5-bc9d096aeaea
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "type": "Guitar",
+    "duration": 1200,
+    "data": 120,
+    "notes": "Scale practice: C",
+    "rating": 5
+  }
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get Practices paging
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{BASE_URI}}/practice?page=2&size=2
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 2
+  size: 2
+}

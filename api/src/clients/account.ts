@@ -19,7 +19,7 @@ export async function createAccount(email: string, appId?: string) {
   }
 }
 
-export async function getAccount(userId: number) {
+export async function getAccount(userId: string) {
   const pool = getDbPool();
   const client = await pool.connect();
 
@@ -72,7 +72,7 @@ export async function updateAccount(account: Account) {
   }
 }
 
-export async function deleteAccount(userId: number) {
+export async function deleteAccount(userId: string) {
   const pool = getDbPool();
   const client = await pool.connect();
 
