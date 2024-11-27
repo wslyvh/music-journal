@@ -6,7 +6,7 @@ interface Props {
   score: number;
   size?: number;
   className?: string;
-  onScore: (value: number) => void;
+  onScore?: (value: number) => void;
 }
 
 export function StarRating(props: Props) {
@@ -20,7 +20,7 @@ export function StarRating(props: Props) {
       {[1, 2, 3, 4, 5].map((value) => (
         <Pressable
           key={value}
-          onPress={() => props.onScore(value === props.score ? 0 : value)}
+          onPress={() => props.onScore?.(value === props.score ? 0 : value)}
           className="p-2"
         >
           <Ionicons

@@ -19,3 +19,22 @@ export function formatTime(seconds: number) {
 
   return d.format("mm:ss");
 }
+
+export function formatDuration(
+  duration: number,
+  asMinutes?: boolean,
+  label?: boolean
+) {
+  if (duration >= 7200 && !asMinutes) {
+    return `${Math.round(dayjs.duration(duration, "seconds").asHours())}${
+      label ? " hrs" : ""
+    }`;
+  }
+
+  if (duration >= 60)
+    return `${Math.round(dayjs.duration(duration, "seconds").asMinutes())}${
+      label ? " mins" : ""
+    }`;
+
+  return `<1${label ? " min" : ""}`;
+}

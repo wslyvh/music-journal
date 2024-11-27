@@ -1,15 +1,18 @@
 import { Stack } from "expo-router";
-import { AuthProvider } from "@/context/auth";
+import DataProvider from "@/context/data";
+import RecordingProvider from "@/context/recording";
 import "@/assets/global.css";
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </AuthProvider>
+    <DataProvider>
+      <RecordingProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </RecordingProvider>
+    </DataProvider>
   );
 }

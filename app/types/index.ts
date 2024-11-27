@@ -1,4 +1,4 @@
-export interface Account {
+export interface Account extends AccountProfileData {
   id: number;
   email: string;
   createdAt: number;
@@ -7,8 +7,28 @@ export interface Account {
   onboarded?: boolean;
 }
 
+export interface AccountProfileData {
+  username: string;
+  instruments: string[];
+}
+
 export interface VerificationToken {
   identifier: string;
   token: number;
   expires: number;
+}
+
+export interface Practice extends PracticeData {
+  id: string;
+  accountId: string;
+  timestamp: number;
+}
+
+export interface PracticeData {
+  type: string;
+  duration: number;
+  data?: number;
+  notes?: string;
+  rating?: number;
+  visibility?: number;
 }

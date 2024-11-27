@@ -1,5 +1,5 @@
 export const CONFIG = {
-  API_URL: "https://music-journal.onrender.com", // "http://localhost:4000" // ""https://music-journal.onrender.com
+  API_URL: "http://localhost:4000", // "https://music-journal.onrender.com"
 
   APP_EMOJI: "🎵",
   APP_ID: "music-journal",

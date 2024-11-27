@@ -8,7 +8,7 @@ import { CONFIG } from "@/utils/config";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Settings() {
-  const { logout } = useAuth();
+  const { account, logoutMutation } = useAuth();
 
   const appItems = [
     {
@@ -24,57 +24,52 @@ export default function Settings() {
     {
       title: "Sign Out",
       icon: "exit-outline",
-      action: logout,
+      action: () => logoutMutation.mutate(),
     },
   ];
 
   const navigationItems = [
-    {
-      title: "Rate App",
-      href: `${CONFIG.APP_URL}/rate`,
-    },
+    // {
+    //   title: "Rate App",
+    //   href: `${CONFIG.APP_URL}/rate`,
+    // },
+    { title: "Website", href: `${CONFIG.APP_URL}` },
     { title: "Support & Feedback", href: `mailto:${CONFIG.APP_CONTACT}` },
-    {
-      title: "Terms of Service",
-      href: `${CONFIG.APP_URL}/terms`,
-    },
-    {
-      title: "Privacy Policy",
-      href: `${CONFIG.APP_URL}/privacy`,
-    },
+    { title: "Terms of Service", href: `${CONFIG.APP_URL}/terms` },
+    { title: "Privacy Policy", href: `${CONFIG.APP_URL}/privacy` },
   ];
 
   return (
     <ScreenLayout title="Settings">
       <AccountBanner />
 
-      <View className="flex gap-2 mt-8">
-        <Text className="text-xl font-bold text-base-content">
-          App Settings
-        </Text>
-        {appItems.map((item, index) => (
-          <TouchableOpacity
-            key={`app-${index}`}
-            onPress={item.action}
-            className="flex-row items-center p-4 border-b border-base-300"
-          >
-            <Ionicons
-              name={item.icon as any}
-              size={20}
-              className="text-base-content"
-            />
-            <Text className="text-base-content ml-4">{item.title}</Text>
-            <Ionicons
-              name="chevron-forward"
-              size={24}
-              className="text-base-content ml-auto"
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
+      {account && (
+        <View className="flex gap-2 mt-8">
+          <Text className="text-xl font-bold text-base-content">Settings</Text>
+          {appItems.map((item, index) => (
+            <TouchableOpacity
+              key={`app-${index}`}
+              onPress={item.action}
+              className="flex-row items-center p-4 border-b border-base-300"
+            >
+              <Ionicons
+                name={item.icon as any}
+                size={20}
+                className="text-base-content"
+              />
+              <Text className="text-base-content ml-4">{item.title}</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={24}
+                className="text-base-content ml-auto"
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
 
       <View className="flex gap-2 my-8">
-        <Text className="text-xl font-bold text-base-content">Other</Text>
+        <Text className="text-xl font-bold text-base-content">Application</Text>
 
         <View className="flex-row items-center py-4 border-b border-base-300">
           <Text className="text-base-content">App version</Text>

@@ -21,7 +21,7 @@ export function Alert(props: Props) {
   return (
     <View className={className}>
       <Ionicons className="mr-2" name={iconName as any} size={24} />
-      <Text className="text-sm">{props.text}</Text>
+      <Text className="leading-normal">{props.text}</Text>
     </View>
   );
 }

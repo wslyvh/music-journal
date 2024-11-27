@@ -22,10 +22,20 @@ const loginValidation = [
   body("token").isNumeric().trim().isLength({ min: 6, max: 6 }),
   body("appId").optional().isString().trim(),
 ];
+const profile = [
+  body("username").optional().isString().trim(),
+  body("instruments").optional().isArray().trim(),
+];
 
 export const accountRouter = Router();
 accountRouter.get(`/account`, authHandler, GetAccount);
 accountRouter.put(`/account`, authHandler, UpdateAccount);
+accountRouter.put(
+  `/account/profile`,
+  authHandler,
+  validate(profile),
+  UpdateAccountProfile
+);
 accountRouter.delete(`/account`, authHandler, DeleteAccount);
 accountRouter.post(`/account/token`, validate(tokenValidation), Token);
 accountRouter.post(`/account/login`, validate(loginValidation), Login);
@@ -50,6 +60,29 @@ async function UpdateAccount(req: Request, res: Response) {
   const account = await updateAccount(userId, data);
   if (!account) {
     res.status(500).send({ message: "Unable to update account." });
+    return;
+  }
+
+  res.status(200).send({ data: account });
+}
+
+async function UpdateAccountProfile(req: Request, res: Response) {
+  const userId = req.user.id;
+  const data = req.body;
+
+  let account = await getAccount(userId);
+  if (!account) {
+    res.status(404).send({ message: "Account not found." });
+    return;
+  }
+
+  const updateData = account;
+  if (data.username) updateData.username = data.username;
+  if (data.instruments) updateData.instruments = data.instruments;
+
+  account = await updateAccount(userId, updateData);
+  if (!account) {
+    res.status(500).send({ message: "Unable to update account profile." });
     return;
   }
 
@@ -93,7 +126,7 @@ async function Login(req: Request, res: Response) {
 
   let account = await getAccountByEmail(identifier, appId);
   if (!account) {
-    account = await createAccount(identifier, appId);
+    account = await createAccount(identifier, "", appId);
   }
 
   if (!account) {

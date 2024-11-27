@@ -1,14 +1,26 @@
 import { getDbPool } from "@/clients/db";
 import { Account, VerificationToken } from "@/types";
 
-export async function createAccount(email: string, appId?: string) {
+export async function createAccount(
+  email: string,
+  username?: string,
+  appId?: string,
+  instrument?: string
+) {
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
     const result = await client.query(
-      'INSERT INTO accounts (email, "appId", type, "createdAt") VALUES ($1, $2, $3, NOW()) RETURNING *',
-      [email, appId, "user"]
+      `INSERT INTO accounts (email, username, "appId", type, instruments, "createdAt")
+      VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
+      [
+        email,
+        username ?? email.split("@")[0],
+        appId,
+        "user",
+        instrument ?? "My Instrument",
+      ] // TODO: Check instruments array type
     );
 
     return result.rows[0] as Account;

@@ -10,19 +10,26 @@ declare global {
   }
 }
 
-export interface PagedResult<T> {
-  total: number;
-  currentPage: number;
-  items: Array<T>;
-}
-
-export interface Account {
+export interface Account extends Profile {
   id: string;
   email: string;
   createdAt: number;
   updatedAt: number;
   appId?: string;
 }
+
+export interface Profile {
+  username: string;
+  instruments: string[];
+}
+
+export type CreateAccountData = {
+  email: "";
+  type: "user";
+  username: "";
+  instrument: ["My Instrument"];
+  appId: "";
+};
 
 export interface VerificationToken {
   identifier: string;

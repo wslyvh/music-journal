@@ -6,7 +6,7 @@ import {
   createPractice,
   deletePractice,
   getPractice,
-  getPracticeByAccountId,
+  getPracticesByAccountId,
   updatePractice,
 } from "@/clients/practice";
 import { DEFAULTS } from "@/utils/config";
@@ -47,12 +47,18 @@ async function CreatePractice(req: Request, res: Response) {
 
 async function GetPractices(req: Request, res: Response) {
   const userId = req.user.id;
+  const instrument = (req.query.instrument as string) ?? "";
   const page = req.query.page ? parseInt(req.query.page as string) : 1;
   const size = req.query.size
     ? parseInt(req.query.size as string)
     : DEFAULTS.PAGE_SIZE;
 
-  const practices = await getPracticeByAccountId(userId, page, size);
+  const practices = await getPracticesByAccountId(
+    userId,
+    instrument,
+    page,
+    size
+  );
   res.status(200).send({ data: practices });
 }
 

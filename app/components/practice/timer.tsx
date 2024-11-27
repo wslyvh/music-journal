@@ -32,7 +32,6 @@ export function PracticeTimer() {
   };
 
   const onEndPractice = () => {
-    console.log("End practice. Save to db, reset and navigate to home.");
     setTime(0);
     setIsRunning(false);
     setIsStopping(false);

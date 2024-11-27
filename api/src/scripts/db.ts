@@ -1,4 +1,7 @@
+import { createAccount } from "@/clients/account";
 import { initDbTables } from "@/clients/db";
+
+const seed = true;
 
 async function main() {
   await initDbTables();

@@ -3,6 +3,8 @@ import { View, Text, TextInput } from "react-native";
 import { Button } from "../button";
 import { StarRating } from "./rating";
 import { formatTime } from "@/utils/format";
+import { usePractice } from "@/hooks/usePractice";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   time: number;
@@ -11,8 +13,22 @@ interface Props {
 }
 
 export function ConfirmPractice(props: Props) {
+  const { account } = useAuth();
+  const { createPracticeMutation } = usePractice();
   const [notes, setNotes] = useState("");
-  const [score, setScore] = useState(0);
+  const [rating, setRating] = useState(0);
+
+  async function submitPractice() {
+    createPracticeMutation.mutate({
+      type: account?.instruments?.[0] ?? "My Instrument",
+      duration: props.time,
+      notes: notes,
+      rating: rating,
+      visibility: 1,
+    });
+
+    props.onEndPractice();
+  }
 
   return (
     <View className="flex-col">
@@ -20,6 +36,7 @@ export function ConfirmPractice(props: Props) {
         <View className="flex-row justify-between border-b border-base-300 pb-4">
           <Text className="text-base-content font-bold">Category</Text>
           <Text className="text-base-content">default</Text>
+          {/* // TODO: Select Dropbox with my Instruments  */}
         </View>
         <View className="flex-row justify-between border-b border-base-300 pb-4">
           <Text className="text-base-content font-bold">Practice Time</Text>
@@ -44,12 +61,12 @@ export function ConfirmPractice(props: Props) {
 
       <View className="mt-4">
         <Text className="text-base-content font-bold">How did it go?</Text>
-        <StarRating className="mt-4" score={score} onScore={setScore} />
+        <StarRating className="mt-4" score={rating} onScore={setRating} />
       </View>
 
       <View className="flex-row space-between space-x-4 mt-8">
         <Button
-          onPress={props.onEndPractice}
+          onPress={submitPractice}
           text="End Session"
           type="primary"
           className="flex-1"

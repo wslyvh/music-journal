@@ -1,10 +1,16 @@
+import { Join } from "@/components/account/banner";
+import { PracticeOverview } from "@/components/practice/overview";
 import { ScreenLayout } from "@/components/screen-layout";
-import { StartActivityBanner } from "@/components/start-activity";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Index() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <ScreenLayout title="Music Journal">
-      <StartActivityBanner />
+      {!isAuthenticated && <Join />}
+
+      <PracticeOverview />
     </ScreenLayout>
   );
 }

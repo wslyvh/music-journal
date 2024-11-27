@@ -68,8 +68,10 @@ const createAccountsTable = `
   CREATE TABLE IF NOT EXISTS accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
     "appId" VARCHAR(255),
     type VARCHAR(255),
+    // instruments[]
     "createdAt" TIMESTAMPTZ NOT NULL,
     "updatedAt" TIMESTAMPTZ,
     UNIQUE (email, "appId")

@@ -4,14 +4,17 @@ import { useAuth } from "@/hooks/useAuth";
 import { formatDate } from "@/utils/format";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { Alert } from "@/components/alert";
 
 export default function Index() {
-  const { account, error, isLoading, requestToken, login, logout } = useAuth();
+  const { account, requestCodeMutation, loginMutation, profileMutation } =
+    useAuth();
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
-  const [tokenSent, setTokenSent] = useState(false);
+  const [onboard, setOnboard] = useState(false);
+  const [username, setUsername] = useState("");
+  const [instrument, setInstrument] = useState("");
   const [userError, setUserError] = useState("");
 
   async function handleRequestToken() {
@@ -21,9 +24,11 @@ export default function Index() {
       return;
     }
 
-    setUserError("");
-    const success = await requestToken(email);
-    setTokenSent(success);
+    requestCodeMutation.mutate(email, {
+      onSuccess: () => {
+        setUserError("");
+      },
+    });
   }
 
   async function handleLogin() {
@@ -33,14 +38,33 @@ export default function Index() {
     }
 
     setUserError("");
-    const account = await login(email, token);
-    if (account) {
-      setUserError("");
-      setTokenSent(!!account);
-      router.replace("/settings");
-    } else {
-      setUserError("Invalid token. Unable to login.");
-    }
+    loginMutation.mutate(
+      { email, token },
+      {
+        onSuccess: (data) => {
+          if (data?.username && data?.instruments) {
+            setUserError("");
+            router.replace("/settings");
+          }
+
+          setOnboard(true);
+        },
+      }
+    );
+  }
+
+  async function handleProfileUpdate() {
+    if (!username || !instrument) return;
+
+    profileMutation.mutate(
+      { username, instruments: [instrument] },
+      {
+        onSuccess: () => {
+          setUserError("");
+          router.replace("/settings");
+        },
+      }
+    );
   }
 
   if (account) {
@@ -53,7 +77,7 @@ export default function Index() {
     );
   }
 
-  if (tokenSent) {
+  if (!!requestCodeMutation.data) {
     return (
       <ScreenLayout title="Confirm token 🔑">
         <Text className="text-base-content">
@@ -72,7 +96,55 @@ export default function Index() {
           onSubmitEditing={handleLogin}
         />
         <Button onPress={handleLogin} text="Continue" />
-        {error && <Alert className="my-4" type="error" text={error} />}
+        {loginMutation.error && (
+          <Alert className="my-4" type="error" text="Failed to login" />
+        )}
+        {userError && (
+          <Alert className="my-4" type="warning" text={userError} />
+        )}
+      </ScreenLayout>
+    );
+  }
+
+  if (onboard) {
+    return (
+      <ScreenLayout title="Onboarding 👋">
+        <View className="flex">
+          <Text className="text-base-content">How should we call you?</Text>
+          <TextInput
+            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
+            ${username ? "" : "text-muted"}`}
+            placeholder="Enter your (user) name"
+            value={username}
+            onChangeText={setUsername}
+            returnKeyType="go"
+            autoCorrect={false}
+          />
+
+          <Text className="text-base-content">
+            What's the primary instrument that you're currently playing?
+          </Text>
+          <TextInput
+            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
+            ${instrument ? "" : "text-muted"}`}
+            placeholder="Select your instrument"
+            value={instrument}
+            onChangeText={setInstrument}
+            keyboardType="numeric"
+            returnKeyType="go"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+
+        <Button onPress={handleProfileUpdate} text="Continue" />
+        {profileMutation.error && (
+          <Alert
+            className="my-4"
+            type="error"
+            text="Failed to update account profile"
+          />
+        )}
         {userError && (
           <Alert className="my-4" type="warning" text={userError} />
         )}
@@ -98,7 +170,9 @@ export default function Index() {
         autoFocus
       />
       <Button onPress={handleRequestToken} text="Continue" />
-      {error && <Alert className="my-4" type="error" text={error} />}
+      {requestCodeMutation.error && (
+        <Alert className="my-4" type="error" text="Failed to send code" />
+      )}
       {userError && <Alert className="my-4" type="warning" text={userError} />}
     </ScreenLayout>
   );

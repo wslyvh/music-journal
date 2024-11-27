@@ -26,14 +26,30 @@ export function AccountBanner() {
       </View>
     );
   }
+
   return (
-    <View className="flex bg-base-200 rounded-xl p-8 gap-2">
-      <Text className="text-xl font-bold text-base-content">
-        Join the community
+    <Join description="Register to record, track your progress and manage your profile." />
+  );
+}
+
+interface JoinProps {
+  title?: string;
+  description?: string;
+  className?: string;
+}
+
+export function Join(props: JoinProps) {
+  let className = "flex bg-base-200 rounded-xl p-8 gap-2";
+  if (props.className) className += ` ${props.className}`;
+
+  return (
+    <View className={className}>
+      <Text className="text-2xl font-bold text-base-content">
+        {props.title ?? "Join the community"}
       </Text>
-      <Text className="mb-2 text-base-content">
-        Register to stay motivated! Record, reflect, and improve your musical
-        journey with our community.
+      <Text className="mb-2 text-base-content leading-loose">
+        {props.description ??
+          "Register to stay motivated! Record, reflect, and improve your musical journey together with the community."}
       </Text>
 
       <Button text="Register" onPress={() => router.push("/login")} />
