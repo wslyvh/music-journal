@@ -81,7 +81,24 @@ export function useAuth() {
   const logoutMutation = useMutation({
     mutationFn: async () => {
       await removeToken();
-      queryClient.clear(); // Clear all queries
+      queryClient.clear();
+      return true;
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      const token = await getToken();
+      if (!token) return;
+
+      const res = await fetch(`${CONFIG.API_URL}/account`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to delete account");
+
+      await removeToken();
+      queryClient.clear();
       return true;
     },
   });
@@ -94,5 +111,6 @@ export function useAuth() {
     loginMutation,
     profileMutation,
     logoutMutation,
+    deleteMutation,
   };
 }

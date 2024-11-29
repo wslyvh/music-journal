@@ -67,12 +67,39 @@ export default function Index() {
     );
   }
 
-  if (account) {
+  if (onboard) {
     return (
-      <ScreenLayout title="Welcome back 👋">
-        <Text className="text-base-content">
-          {account.email} since {formatDate(account.createdAt)}
-        </Text>
+      <ScreenLayout title="Onboarding 👋">
+        <View className="flex">
+          <Text className="text-base-content">How should we call you?</Text>
+
+          <Text className="text-base-content">
+            What's the primary instrument that you're currently playing?
+          </Text>
+          <TextInput
+            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
+            ${instrument ? "" : "text-muted"}`}
+            placeholder="Select your instrument"
+            value={instrument}
+            onChangeText={setInstrument}
+            keyboardType="numeric"
+            returnKeyType="go"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+
+        <Button onPress={handleProfileUpdate} text="Continue" />
+        {profileMutation.error && (
+          <Alert
+            className="my-4"
+            type="error"
+            text="Failed to update account profile"
+          />
+        )}
+        {userError && (
+          <Alert className="my-4" type="warning" text={userError} />
+        )}
       </ScreenLayout>
     );
   }
@@ -98,52 +125,6 @@ export default function Index() {
         <Button onPress={handleLogin} text="Continue" />
         {loginMutation.error && (
           <Alert className="my-4" type="error" text="Failed to login" />
-        )}
-        {userError && (
-          <Alert className="my-4" type="warning" text={userError} />
-        )}
-      </ScreenLayout>
-    );
-  }
-
-  if (onboard) {
-    return (
-      <ScreenLayout title="Onboarding 👋">
-        <View className="flex">
-          <Text className="text-base-content">How should we call you?</Text>
-          <TextInput
-            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
-            ${username ? "" : "text-muted"}`}
-            placeholder="Enter your (user) name"
-            value={username}
-            onChangeText={setUsername}
-            returnKeyType="go"
-            autoCorrect={false}
-          />
-
-          <Text className="text-base-content">
-            What's the primary instrument that you're currently playing?
-          </Text>
-          <TextInput
-            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
-            ${instrument ? "" : "text-muted"}`}
-            placeholder="Select your instrument"
-            value={instrument}
-            onChangeText={setInstrument}
-            keyboardType="numeric"
-            returnKeyType="go"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-        </View>
-
-        <Button onPress={handleProfileUpdate} text="Continue" />
-        {profileMutation.error && (
-          <Alert
-            className="my-4"
-            type="error"
-            text="Failed to update account profile"
-          />
         )}
         {userError && (
           <Alert className="my-4" type="warning" text={userError} />

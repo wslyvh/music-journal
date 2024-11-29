@@ -12,11 +12,13 @@ async function main() {
   client = await pool.connect();
 
   const result = await Promise.all([
+    createAccount("test@w5.gg", "W5", "music-journal", "Ukulele"),
+
     createAccount("guitar-1@mj.fm", "W", "TEST", "Guitar"),
     createAccount("guitar-2@mj.fm", "Peter", "TEST", "Guitar"),
-    createAccount("guitar-3@mj.fm", "Slash", "TEST", "Guitar"),
-    createAccount("guitar-4@mj.fm", "Rob1", "TEST", "Guitar"),
-    createAccount("guitar-5@mj.fm", "AliciaK", "TEST", "Guitar"),
+    createAccount("guitar-3@mj.fm", "Slash1", "TEST", "Guitar"),
+    createAccount("guitar-4@mj.fm", "Rob0ne", "TEST", "Guitar"),
+    createAccount("guitar-5@mj.fm", "Alicia K", "TEST", "Guitar"),
   ]);
 
   for (const acc of result) {
@@ -29,25 +31,21 @@ async function Randomize(acc: Account) {
     console.error("No client connection..");
     return;
   }
-  const nrOfPractices = Math.floor(Math.random() * (9 - 10)) + 10;
+  const nrOfPractices = Math.floor(Math.random() * (3 - 10)) + 10;
   console.log("Seed Account practices", acc.email, nrOfPractices);
   for (let i = 0; i <= nrOfPractices; i++) {
     const duration = Math.floor(Math.random() * (120 - 3200)) + 3200;
     const offset = Math.floor(Math.random() * (1 - 4) + 4);
+    const timestamp = dayjs().subtract(i * offset, "day");
 
     try {
       await client.query(
         'INSERT INTO practices ("accountId", type, duration, visibility, timestamp) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [acc.id, "Guitar", duration, 1, dayjs().subtract(i * offset, "day")]
+        [acc.id, acc.instruments[0] ?? "My Instrument", duration, 1, timestamp]
       );
     } catch (err) {
       console.error("Error creating practice", err);
     }
-
-    await createPractice(acc.id, {
-      type: "Guitar",
-      duration: duration,
-    });
   }
 }
 

@@ -23,7 +23,7 @@ export function PracticeOverview(props: Props) {
   let className = "flex-col mt-4";
   if (props.className) className += ` ${props.className}`;
 
-  if (!data || data?.items?.length === 0) {
+  if (!data || !data?.items || data?.items?.length === 0) {
     return (
       <View className={className}>
         <StartActivityBanner />

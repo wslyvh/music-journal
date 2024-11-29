@@ -68,6 +68,18 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="settings/profile"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="settings/delete"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

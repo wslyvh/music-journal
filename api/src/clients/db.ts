@@ -71,7 +71,7 @@ const createAccountsTable = `
     username VARCHAR(255) NOT NULL,
     "appId" VARCHAR(255),
     type VARCHAR(255),
-    // instruments[]
+    instruments VARCHAR(255)[] DEFAULT ARRAY[]::VARCHAR[],
     "createdAt" TIMESTAMPTZ NOT NULL,
     "updatedAt" TIMESTAMPTZ,
     UNIQUE (email, "appId")

@@ -14,12 +14,12 @@ export default function Settings() {
     {
       title: "Manage Profile",
       icon: "person",
-      action: () => router.push("/settings"),
+      action: () => router.push("/settings/profile"),
     },
     {
       title: "Delete Account",
       icon: "trash",
-      action: () => router.push("/settings"),
+      action: () => router.push("/settings/delete"),
     },
     {
       title: "Sign Out",

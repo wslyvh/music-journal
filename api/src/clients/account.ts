@@ -19,8 +19,8 @@ export async function createAccount(
         username ?? email.split("@")[0],
         appId,
         "user",
-        instrument ?? "My Instrument",
-      ] // TODO: Check instruments array type
+        [instrument ?? "My Instrument"],
+      ]
     );
 
     return result.rows[0] as Account;
@@ -72,8 +72,8 @@ export async function updateAccount(userId: string, account: Account) {
 
   try {
     const result = await client.query(
-      'UPDATE accounts SET email = $1, "updatedAt" = NOW() WHERE id = $2 RETURNING *',
-      [account.email, userId]
+      'UPDATE accounts SET email = $1, username = $2, instruments = $3, "updatedAt" = NOW() WHERE id = $4 RETURNING *',
+      [account.email, account.username, account.instruments, userId]
     );
 
     return result.rows[0] as Account;
