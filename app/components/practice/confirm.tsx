@@ -71,7 +71,7 @@ export function ConfirmPractice(props: Props) {
         <Button
           onPress={() => recorder.resume()}
           text="Resume Practice"
-          type="secondary"
+          type="neutral"
           className="flex-1"
         />
       </View>

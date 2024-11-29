@@ -72,7 +72,7 @@ export function PracticeOverview(props: Props) {
               >
                 <View className="w-full max-w-4 h-32 justify-end">
                   {count.length === 0 && (
-                    <View className="bg-secondary rounded h-2"></View>
+                    <View className="bg-neutral rounded h-2"></View>
                   )}
                   {count.length > 0 && (
                     <View className="bg-primary rounded h-32"></View>

@@ -45,7 +45,7 @@ export function PracticeTimer() {
                 <Button
                   onPress={() => recorder.stop()}
                   text="Finish session"
-                  type="secondary"
+                  type="neutral"
                   className="flex-1"
                 />
               </>
