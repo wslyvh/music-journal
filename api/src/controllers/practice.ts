@@ -16,7 +16,7 @@ const data = [
   body("duration").isNumeric().trim(),
   body("data").optional().isNumeric().trim(),
   body("notes").optional().isString().trim(),
-  body("rating").optional().isNumeric().trim().isLength({ min: 1, max: 5 }),
+  body("rating").optional().isNumeric().trim().isLength({ min: 0, max: 5 }),
   body("visibility").optional().isNumeric().trim().isLength({ min: 0, max: 5 }),
 ];
 

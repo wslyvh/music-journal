@@ -53,97 +53,42 @@ export async function getPracticesByAccountId(
   page: number = 1,
   size: number = DEFAULTS.PAGE_SIZE
 ) {
-  return {
-    total: 25,
-    totalDuration: 782000,
-    currentPage: 1,
-    items: [
-      {
-        id: 1,
-        accountId: 1,
-        type: "Guitar",
-        duration: 12,
-        notes: "C Scale",
-        rating: 3,
-        visibility: 1,
-        timestamp: dayjs().subtract(1, "hour"),
-      },
-      {
-        id: 2,
-        accountId: 1,
-        type: "Guitar",
-        duration: 900,
-        notes: "C Scale",
-        rating: 4,
-        visibility: 1,
-        timestamp: dayjs().subtract(12, "hour"),
-      },
-      {
-        id: 3,
-        accountId: 1,
-        type: "Guitar",
-        duration: 1400,
-        notes: "C Scale",
-        data: 140,
-        rating: 5,
-        visibility: 1,
-        timestamp: dayjs().subtract(1, "day"),
-      },
-      {
-        id: 4,
-        accountId: 1,
-        type: "Guitar",
-        duration: 240,
-        notes: "C Scale",
-        rating: 2,
-        visibility: 1,
-        timestamp: dayjs().subtract(3, "day"),
-      },
-      {
-        id: 5,
-        accountId: 1,
-        type: "Guitar",
-        duration: 1200,
-        notes: "C Scale",
-        rating: 3,
-        visibility: 1,
-        timestamp: dayjs().subtract(6, "day"),
-      },
-    ],
-  };
-
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
+    const params = instrument
+      ? [accountId, size, (page - 1) * size, instrument]
+      : [accountId, size, (page - 1) * size];
+
     const result = await client.query(
-      // TODO: Sum duration
       `WITH total AS (
-        SELECT COUNT(*) AS count 
+        SELECT COUNT(*) AS count,
+        SUM(duration) AS total_duration
         FROM practices 
         WHERE "accountId" = $1
-        ${instrument ? "AND type = $2" : ""}
+        ${instrument ? "AND type = $4" : ""}
       )
-      SELECT p.*, total.count
+      SELECT p.*, total.count, total.total_duration
       FROM practices p, total
       WHERE p."accountId" = $1
-      ${instrument ? "AND type = $2" : ""}
+      ${instrument ? "AND type = $4" : ""}
       ORDER BY p.timestamp DESC
-      LIMIT $3 OFFSET $4`,
-      [accountId, instrument, size, (page - 1) * size]
+      LIMIT $2 OFFSET $3`,
+      params
     );
 
     const total = parseInt(result.rows[0]?.count ?? "0");
-    const duration = parseInt(result.rows[0]?.duration ?? "0");
+    const totalDuration = parseInt(result.rows[0]?.total_duration ?? "0");
 
     return {
       total,
-      totalDuration: duration,
+      totalDuration,
       currentPage: page,
       items: result.rows.map((row) => ({
         ...row,
         count: undefined,
-        duration: undefined,
+        total_duration: undefined,
       })) as Practice[],
     };
   } catch (err) {

@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import { Text, View, ScrollView } from "react-native";
+import { ActiveTimer } from "./active-timer";
 
 interface Props extends PropsWithChildren {
   title: string;
@@ -17,6 +18,7 @@ export function ScreenLayout(props: Props) {
       <Text className="text-xl text-base-content font-bold my-4">
         {props.title}
       </Text>
+      <ActiveTimer />
       {props.children}
     </>
   );
