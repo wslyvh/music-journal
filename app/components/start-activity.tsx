@@ -1,6 +1,7 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Button } from "@/components/button";
 import { router } from "expo-router";
+import { Text } from "@/components/text";
 
 export function StartActivityBanner() {
   return (

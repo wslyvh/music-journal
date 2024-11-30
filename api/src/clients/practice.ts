@@ -153,86 +153,58 @@ export async function deletePractice(userId: string, id: string) {
 
 export async function getLeaderboard(
   instrument: string,
-  period: number = 30, // week, month, year
+  period: number = 30,
   page: number = 1,
   size: number = DEFAULTS.PAGE_SIZE
 ) {
-  // const pool = getDbPool();
-  // const client = await pool.connect();
+  const pool = getDbPool();
+  const client = await pool.connect();
 
   try {
-    console.log("Fetch leaderboard stats", instrument, page, size);
+    console.log("Get leaderboard", instrument, period, page, size);
+
+    const result = await client.query(
+      `WITH stats AS (
+        SELECT 
+          a.id,
+          a.username,
+          COUNT(*) as practices,
+          SUM(p.duration) as duration
+        FROM practices p
+        JOIN accounts a ON p."accountId" = a.id
+        WHERE p.type = $1
+          AND p.timestamp >= NOW() - INTERVAL '1 day' * $2
+          AND p.visibility = 1
+        GROUP BY a.id, a.username
+      ),
+      total AS (
+        SELECT COUNT(*) as count FROM stats
+      )
+      SELECT s.*, total.count
+      FROM stats s, total
+      ORDER BY duration DESC
+      LIMIT $3 OFFSET $4`,
+      [instrument, period, size, (page - 1) * size]
+    );
+
+    const total = parseInt(result.rows[0]?.count ?? "0");
+
+    console.log("Get leaderboard", total);
     return {
-      total: 25,
-      currentPage: 1,
-      items: [
-        {
-          id: "1",
-          username: "Kurt Cobain",
-          practices: 12,
-          duration: 900 * period,
-        },
-        {
-          id: "2",
-          username: "Jimi Hendrix",
-          practices: 9,
-          duration: 800 * period,
-        },
-        {
-          id: "3",
-          username: "Eric Clapton",
-          practices: 8,
-          duration: 600 * period,
-        },
-        {
-          id: "4",
-          username: "Slash",
-          practices: 5,
-          duration: 500 * period,
-        },
-        {
-          id: "5",
-          username: "James Hetfield",
-          practices: 3,
-          duration: 400 * period,
-        },
-        {
-          id: "6",
-          username: "Anonymous",
-          practices: 3,
-          duration: 300 * period,
-        },
-        {
-          id: "7",
-          username: "Marc Knopfler",
-          practices: 3,
-          duration: 300 * period,
-        },
-        {
-          id: "8",
-          username: "Van Morrison",
-          practices: 3,
-          duration: 200 * period,
-        },
-        {
-          id: "9",
-          username: "Bob Marley",
-          practices: 2,
-          duration: 150 * period,
-        },
-        {
-          id: "9",
-          username: "Douwe Bob",
-          practices: 2,
-          duration: 100 * period,
-        },
-      ],
+      total,
+      currentPage: page,
+      items: result.rows.map((row) => ({
+        ...row,
+        count: undefined,
+      })),
     };
   } catch (err) {
     console.error("Error getting leaderboard stats", err);
-  } finally {
-    // client.release();
+    client.release();
+    return {
+      total: 0,
+      currentPage: page,
+      items: [],
+    };
   }
-
-  return [];
 }

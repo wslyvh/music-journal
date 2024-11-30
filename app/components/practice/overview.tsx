@@ -1,6 +1,7 @@
 import React from "react";
 import { usePractice } from "@/hooks/usePractice";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/components/text";
 import { Practice } from "@/types";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -95,9 +96,8 @@ export function PracticeOverview(props: Props) {
           >
             <View className="shrink-0 w-12 mr-4">
               <View className="bg-accent w-full h-full rounded-xl items-center justify-center">
-                {/* // TODO: Change Icon to instrument type (or default) */}
                 <Ionicons
-                  name="star"
+                  name="stats-chart"
                   size={18}
                   className="color-accent-content"
                 />
@@ -119,9 +119,9 @@ export function PracticeOverview(props: Props) {
                     size={18}
                     className="text-muted"
                   />
-                  <View className="text-muted ml-2">
+                  <Text className="text-muted ml-2">
                     {formatDuration(practice.duration, false, true)}
-                  </View>
+                  </Text>
                 </View>
                 <View className="flex flex-row shrink-0 ml-2">
                   {Array.from(Array(practice.rating ?? 0).keys()).map((i) => (

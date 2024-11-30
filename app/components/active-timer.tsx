@@ -2,7 +2,7 @@ import { useRecorder } from "@/context/recording";
 import { formatTime } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
-import { Link, router, useRouter } from "expo-router";
+import { Link, router } from "expo-router";
 import { View } from "react-native";
 
 interface Props {

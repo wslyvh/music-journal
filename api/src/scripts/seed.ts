@@ -37,11 +37,19 @@ async function Randomize(acc: Account) {
     const duration = Math.floor(Math.random() * (120 - 3200)) + 3200;
     const offset = Math.floor(Math.random() * (1 - 4) + 4);
     const timestamp = dayjs().subtract(i * offset, "day");
+    const rating = Math.floor(Math.random() * 5) + 1;
 
     try {
       await client.query(
-        'INSERT INTO practices ("accountId", type, duration, visibility, timestamp) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [acc.id, acc.instruments[0] ?? "My Instrument", duration, 1, timestamp]
+        'INSERT INTO practices ("accountId", type, duration, visibility, timestamp, rating) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [
+          acc.id,
+          acc.instruments[0] ?? "My Instrument",
+          duration,
+          1,
+          timestamp,
+          rating,
+        ]
       );
     } catch (err) {
       console.error("Error creating practice", err);

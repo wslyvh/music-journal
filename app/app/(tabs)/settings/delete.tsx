@@ -2,6 +2,7 @@ import { AccountBanner } from "@/components/account/banner";
 import { ScreenLayout } from "@/components/screen-layout";
 import { router } from "expo-router";
 import { View, TextInput } from "react-native";
+import { Text } from "@/components/text";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { Button } from "@/components/button";
@@ -15,17 +16,17 @@ export default function Settings() {
       <AccountBanner />
 
       <View className="text-base-content">
-        <View className="mt-4">
+        <Text className="mt-4">
           Are you sure you want to delete your account? This action cannot be
           undone and will remove all of your data immediately.
-        </View>
-        <View className="flex flex-row gap-2 mt-4">
+        </Text>
+        <Text className="flex flex-row gap-2 mt-4">
           Write{" "}
-          <View className="font-bold text-destructive text-primary">
+          <Text className="font-bold text-destructive text-primary">
             sudo delete
-          </View>{" "}
+          </Text>{" "}
           to confirm.
-        </View>
+        </Text>
       </View>
 
       <View className="mt-4">
@@ -44,7 +45,9 @@ export default function Settings() {
           onPress={async () => {
             console.log("Delete Account");
             if (confirmText === "sudo delete") {
-              deleteMutation.mutate({}, { onSuccess: () => router.push("/") });
+              deleteMutation.mutate(undefined, {
+                onSuccess: () => router.push("/"),
+              });
             }
           }}
           text="Delete Account"

@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import { ActiveTimer } from "./active-timer";
+import { Text } from "@/components/text";
 
 interface Props extends PropsWithChildren {
   title: string;

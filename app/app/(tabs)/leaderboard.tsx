@@ -1,6 +1,7 @@
 import { ScreenLayout } from "@/components/screen-layout";
 import { useState } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Text } from "@/components/text";
 import { useQuery } from "@tanstack/react-query";
 import { CONFIG } from "@/utils/config";
 import { formatDuration } from "@/utils/format";
@@ -13,7 +14,8 @@ export default function Index() {
   const [period, setPeriod] = useState(7);
 
   const { data } = useQuery({
-    queryKey: ["leaderboard", instrument, period],
+    queryKey: ["leaderboard", selectedInstrument, period],
+    enabled: !!selectedInstrument && !!period,
     queryFn: async () => {
       const res = await fetch(
         `${CONFIG.API_URL}/leaderboard/${selectedInstrument}?period=${period}page=1&size=10`
@@ -30,27 +32,27 @@ export default function Index() {
     <ScreenLayout title="Leaderboard 👋">
       <InstrumentPicker
         className="text-base-content mb-4"
-        selected={selectedInstrument}
+        selected={selectedInstrument ?? ""}
         onSelect={setSelectedInstrument}
       />
 
       <View className="flex flex-row rounded bg-base-200 text-base-content text-sm p-1 mb-4">
-        <View
-          onTouchStart={() => setPeriod(7)}
-          className={`flex-1 rounded items-center py-1 ${
+        <TouchableOpacity
+          onPress={() => setPeriod(7)}
+          className={`flex-1 rounded items-center py-1 cursor-pointer ${
             period === 7 ? "bg-base-300" : ""
           }`}
         >
-          Week
-        </View>
-        <View
-          onTouchStart={() => setPeriod(30)}
-          className={`flex-1 rounded items-center py-1 ${
+          <Text>Week</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setPeriod(30)}
+          className={`flex-1 rounded items-center py-1 cursor-pointer ${
             period === 30 ? "bg-base-300" : ""
           }`}
         >
-          Month
-        </View>
+          <Text>Month</Text>
+        </TouchableOpacity>
       </View>
 
       <View className="flex flex-col">
@@ -61,11 +63,11 @@ export default function Index() {
               className={`flex flex-row text-base-content p-2
                 ${index % 2 ? "bg-base-200 rounded" : ""}`}
             >
-              <View className="w-8 shrink-0 items-center">{index + 1}</View>
-              <View className="flex-1">{i.username}</View>
-              <View className="shrink-0">
+              <Text className="w-8 shrink-0 items-center">{index + 1}</Text>
+              <Text className="flex-1">{i.username}</Text>
+              <Text className="shrink-0">
                 {formatDuration(i.duration, true, true)}
-              </View>
+              </Text>
             </View>
           );
         })}

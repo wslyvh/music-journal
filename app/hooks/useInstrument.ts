@@ -1,6 +1,13 @@
 import { useAuth } from "./useAuth";
+import { useEffect, useState } from "react";
 
 export function useInstrument() {
   const { account } = useAuth();
-  return account?.instruments?.[0] ?? "My Instrument";
+  const [instrument, setInstrument] = useState(account?.instruments?.[0]);
+
+  useEffect(() => {
+    setInstrument(account?.instruments?.[0] ?? "My Instrument");
+  }, [account]);
+
+  return instrument;
 }
