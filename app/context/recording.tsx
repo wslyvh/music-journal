@@ -9,6 +9,9 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Audio } from "expo-av";
+import { Platform } from "react-native";
+import * as FileSystem from "expo-file-system";
 
 interface RecordingContext {
   state: string;
@@ -49,6 +52,8 @@ export default function RecordingProvider(props: PropsWithChildren) {
   const [state, setState] = useState("");
   const [timer, setTimer] = useState(0);
   const [current, setCurrent] = useState<PracticeData>(defaultState);
+  const [recording, setRecording] = useState<Audio.Recording>();
+  const [permissionResponse, requestPermission] = Audio.usePermissions();
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -70,35 +75,114 @@ export default function RecordingProvider(props: PropsWithChildren) {
 
   function start() {
     setState("RUNNING");
+
+    startRecording();
   }
 
-  function pause() {
+  async function pause() {
     setState("PAUSED");
+
+    await recording?.pauseAsync();
   }
 
-  function resume() {
+  async function resume() {
     setState("RUNNING");
+
+    await recording?.startAsync();
   }
 
-  function stop() {
+  async function stop() {
     setState("STOPPED");
+
+    await recording?.pauseAsync();
   }
 
-  function submit() {
-    createPracticeMutation.mutate({
-      ...current,
-      duration: timer,
-    });
+  async function submit() {
+    const uri = await stopRecording();
 
-    setState("");
-    setTimer(0);
-    setCurrent(defaultState);
-    router.replace("/");
+    const formData = new FormData();
+    Object.entries(current).forEach(([key, value]) => {
+      formData.append(key, value?.toString() || "");
+    });
+    formData.set("duration", timer.toString());
+
+    if (uri) {
+      if (Platform.OS === "web") {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        formData.append("recording", blob, `practice-${Date.now()}.webm`);
+      } else {
+        const fileInfo = await FileSystem.getInfoAsync(uri);
+        formData.append("recording", {
+          uri: uri,
+          type: "audio/m4a",
+          name: `practice-${Date.now()}.m4a`,
+          size: fileInfo.exists ? fileInfo.size : 0,
+        } as any);
+      }
+    }
+
+    createPracticeMutation.mutate(formData, {
+      onSuccess: () => {
+        setState("");
+        setTimer(0);
+        setCurrent(defaultState);
+        router.replace("/");
+      },
+      onError: (error) => {
+        console.error("Upload failed:", error);
+      },
+    });
   }
 
   function clear() {
     setState("");
     setCurrent(defaultState);
+  }
+
+  async function startRecording() {
+    try {
+      if (permissionResponse?.status !== "granted") {
+        console.log("Requesting permission..");
+        await requestPermission();
+      }
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      console.log("Starting recording..");
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+
+      setRecording(recording);
+      console.log("Recording started");
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
+  }
+
+  async function stopRecording() {
+    console.log("Stopping recording..");
+
+    try {
+      await recording?.stopAndUnloadAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+      });
+
+      const uri = recording?.getURI();
+      if (!uri) {
+        console.error("No recording URI found");
+        return;
+      }
+
+      return uri;
+    } catch (error) {
+      console.error("Failed to stop recording", error);
+      setRecording(undefined);
+    }
   }
 
   return (

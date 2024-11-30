@@ -6,6 +6,11 @@ declare global {
         appId: string;
         [key: string]: string;
       };
+      file?: {
+        buffer: Buffer;
+        originalname: string;
+        mimetype: string;
+      };
     }
   }
 }
@@ -50,4 +55,5 @@ export interface PracticeData {
   notes?: string;
   rating?: number;
   visibility?: number;
+  recordingKey?: string;
 }

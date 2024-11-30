@@ -10,6 +10,8 @@ import {
   updatePractice,
 } from "@/clients/practice";
 import { DEFAULTS } from "@/utils/config";
+import { uploadHandler } from "@/middleware/upload";
+import { uploadToStorage } from "@/clients/storage";
 
 const data = [
   body("type").isString().trim(),
@@ -21,7 +23,12 @@ const data = [
 ];
 
 export const practiceRouter = Router();
-practiceRouter.post(`/practice`, authHandler, validate(data), CreatePractice);
+practiceRouter.post(
+  `/practice`,
+  authHandler,
+  uploadHandler("recording"),
+  CreatePractice
+);
 practiceRouter.get(`/practice`, authHandler, GetPractices);
 practiceRouter.get(`/practice/:id`, authHandler, GetPractice);
 practiceRouter.put(
@@ -35,6 +42,18 @@ practiceRouter.delete(`/practice/:id`, authHandler, DeletePractice);
 async function CreatePractice(req: Request, res: Response) {
   const userId = req.user.id;
   const data = req.body;
+
+  let recordingKey = null;
+  if (req.file) {
+    const fileName = `${userId}/${req.file.originalname}`;
+    recordingKey = await uploadToStorage(
+      req.file.buffer,
+      fileName,
+      req.file.mimetype
+    );
+
+    data.recordingKey = recordingKey;
+  }
 
   const practice = await createPractice(userId, data);
   if (!practice) {

@@ -9,7 +9,7 @@ export async function createPractice(accountId: string, data: PracticeData) {
 
   try {
     const result = await client.query(
-      'INSERT INTO practices ("accountId", type, duration, data, notes, rating, visibility, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *',
+      'INSERT INTO practices ("accountId", type, duration, data, notes, rating, visibility, "recordingKey", timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *',
       [
         accountId,
         data.type,
@@ -18,6 +18,7 @@ export async function createPractice(accountId: string, data: PracticeData) {
         data.notes,
         data.rating,
         data.visibility ?? 1, // public by default
+        data.recordingKey,
       ]
     );
 

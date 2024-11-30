@@ -100,10 +100,12 @@ const createPracticeTable = `
     notes TEXT,
     rating SMALLINT,
     visibility SMALLINT NOT NULL DEFAULT 0,
+    "recordingKey" VARCHAR(255),
     timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW()
   );
 
   CREATE INDEX IF NOT EXISTS practice_account_id_idx ON practices("accountId");
   CREATE INDEX IF NOT EXISTS practice_timestamp_idx ON practices(timestamp);
   CREATE INDEX IF NOT EXISTS practice_type_idx ON practices(type);
+  CREATE INDEX IF NOT EXISTS practice_recording_idx ON practices("recordingKey");
 `;

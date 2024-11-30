@@ -1,6 +1,5 @@
 import { createAccount } from "@/clients/account";
 import { getDbPool } from "@/clients/db";
-import { createPractice } from "@/clients/practice";
 import { Account } from "@/types";
 import dayjs from "dayjs";
 import { PoolClient } from "pg";
@@ -31,6 +30,7 @@ async function Randomize(acc: Account) {
     console.error("No client connection..");
     return;
   }
+
   const nrOfPractices = Math.floor(Math.random() * (3 - 10)) + 10;
   console.log("Seed Account practices", acc.email, nrOfPractices);
   for (let i = 0; i <= nrOfPractices; i++) {
@@ -41,7 +41,9 @@ async function Randomize(acc: Account) {
 
     try {
       await client.query(
-        'INSERT INTO practices ("accountId", type, duration, visibility, timestamp, rating) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        `INSERT INTO practices 
+        ("accountId", type, duration, visibility, timestamp, rating, "recordingKey")
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
         [
           acc.id,
           acc.instruments[0] ?? "My Instrument",
@@ -49,6 +51,7 @@ async function Randomize(acc: Account) {
           1,
           timestamp,
           rating,
+          "test.mp3",
         ]
       );
     } catch (err) {

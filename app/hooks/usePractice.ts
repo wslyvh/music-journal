@@ -25,17 +25,16 @@ export function usePractice() {
 
   const createPracticeMutation = useMutation({
     mutationKey: ["practice"],
-    mutationFn: async (practice: PracticeData) => {
+    mutationFn: async (formData: FormData) => {
       const token = await getToken();
-      if (!token) return [];
+      if (!token) throw new Error("No authentication token");
 
       const res = await fetch(`${CONFIG.API_URL}/practice`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(practice),
+        body: formData,
       });
 
       if (!res.ok) throw new Error("Failed to create practice");
