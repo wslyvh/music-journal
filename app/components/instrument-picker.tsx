@@ -1,20 +1,39 @@
-import { useInstrument } from "@/hooks/useInstrument";
-import { View } from "react-native";
-import { Text } from "@/components/text";
+import { useAuth } from "@/hooks/useAuth";
+import { Picker } from "@react-native-picker/picker";
+
 interface Props {
   selected: string;
   onSelect: (value: string) => void;
   className?: string;
 }
-export function InstrumentPicker(props: Props) {
-  const instrument = useInstrument();
 
-  let className = "flex";
+export function InstrumentPicker(props: Props) {
+  const { account } = useAuth();
+  let { className: _, ...rest } = props;
+  let className =
+    "bg-base-300 text-base-content rounded-md px-3 py-3 overflow-hidden";
+
   if (props.className) className += ` ${props.className}`;
 
   return (
-    <View className={className}>
-      <Text>Instrument Picker: {instrument}</Text>
-    </View>
+    <>
+      <Picker
+        selectedValue={props.selected}
+        onValueChange={props.onSelect}
+        className={className}
+        {...rest}
+      >
+        {!account?.instruments.length && (
+          <Picker.Item
+            key={props.selected}
+            label={props.selected}
+            value={props.selected}
+          />
+        )}
+        {account?.instruments.map((instrument) => (
+          <Picker.Item key={instrument} label={instrument} value={instrument} />
+        ))}
+      </Picker>
+    </>
   );
 }

@@ -1,5 +1,4 @@
 import { useAuth } from "@/hooks/useAuth";
-import { usePractice } from "@/hooks/usePractice";
 import { PracticeData } from "@/types";
 import { router } from "expo-router";
 import {
@@ -12,6 +11,7 @@ import {
 import { Audio } from "expo-av";
 import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system";
+import { usePracticeMutations } from "@/hooks/usePracticeMutations";
 
 interface RecordingContext {
   state: string;
@@ -41,7 +41,7 @@ export const useRecorder = () => {
 
 export default function RecordingProvider(props: PropsWithChildren) {
   const { account } = useAuth();
-  const { createPracticeMutation } = usePractice();
+  const { createPractice } = usePracticeMutations();
   const defaultState = {
     type: account?.instruments?.[0] ?? "My Instrument",
     duration: 0,
@@ -122,7 +122,7 @@ export default function RecordingProvider(props: PropsWithChildren) {
       }
     }
 
-    createPracticeMutation.mutate(formData, {
+    createPractice.mutate(formData, {
       onSuccess: () => {
         setState("");
         setTimer(0);
@@ -146,15 +146,15 @@ export default function RecordingProvider(props: PropsWithChildren) {
         console.log("Requesting permission..");
         await requestPermission();
       }
+
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
 
-      console.log("Starting recording..");
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
+      const { recording } = await Audio.Recording.createAsync({
+        ...Audio.RecordingOptionsPresets.HIGH_QUALITY,
+      });
 
       setRecording(recording);
       console.log("Recording started");

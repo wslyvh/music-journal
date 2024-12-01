@@ -31,4 +31,5 @@ export interface PracticeData {
   notes?: string;
   rating?: number;
   visibility?: number;
+  recordingUrl?: string;
 }

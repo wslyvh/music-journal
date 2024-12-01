@@ -4,6 +4,8 @@ import { Button } from "../button";
 import { StarRating } from "./rating";
 import { formatTime } from "@/utils/format";
 import { useRecorder } from "@/context/recording";
+import { Input } from "../input";
+import { InstrumentPicker } from "../instrument-picker";
 
 interface Props {
   className?: string;
@@ -18,11 +20,12 @@ export function ConfirmPractice(props: Props) {
   return (
     <View className={className}>
       <View className="space-y-4">
-        <View className="flex-row justify-between border-b border-base-300 pb-4">
-          <Text className="text-base-content font-bold">Category</Text>
-          <Text className="text-base-content">default</Text>
-          {/* // TODO: Select Dropbox with my Instruments  */}
-        </View>
+        <InstrumentPicker
+          selected={recorder.current?.type ?? "My Instrument"}
+          onSelect={(value) =>
+            recorder.setPractice({ ...recorder.current, type: value })
+          }
+        />
         <View className="flex-row justify-between border-b border-base-300 pb-4">
           <Text className="text-base-content font-bold">Practice Time</Text>
           <Text className="text-base-content">
@@ -35,7 +38,7 @@ export function ConfirmPractice(props: Props) {
         <Text className="text-base-content font-bold">
           What did you practice today?
         </Text>
-        <TextInput
+        <Input
           className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
             recorder.current.notes?.length && recorder.current.notes?.length > 0
               ? "text-base-content"

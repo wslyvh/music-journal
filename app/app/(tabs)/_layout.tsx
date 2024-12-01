@@ -80,6 +80,12 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="practice/[id]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

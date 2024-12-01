@@ -1,16 +1,20 @@
 import { getDbPool } from "@/clients/db";
 import { Practice, PracticeData } from "@/types";
 import { DEFAULTS } from "@/utils/config";
-import dayjs from "dayjs";
 
-export async function createPractice(accountId: string, data: PracticeData) {
+export async function createPractice(
+  id: string,
+  accountId: string,
+  data: PracticeData
+) {
   const pool = getDbPool();
   const client = await pool.connect();
 
   try {
     const result = await client.query(
-      'INSERT INTO practices ("accountId", type, duration, data, notes, rating, visibility, "recordingKey", timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *',
+      'INSERT INTO practices (id, "accountId", type, duration, data, notes, rating, visibility, "recordingKey", timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW()) RETURNING *',
       [
+        id,
         accountId,
         data.type,
         data.duration,

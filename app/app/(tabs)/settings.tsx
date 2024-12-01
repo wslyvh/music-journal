@@ -54,7 +54,7 @@ export default function Settings() {
             >
               <Ionicons
                 name={item.icon as any}
-                size={20}
+                size={21}
                 className="text-base-content"
               />
               <Text className="text-base-content ml-4">{item.title}</Text>

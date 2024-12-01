@@ -1,10 +1,13 @@
 import { PropsWithChildren } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Button } from "react-native";
 import { ActiveTimer } from "./active-timer";
 import { Text } from "@/components/text";
+import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 interface Props extends PropsWithChildren {
   title: string;
+  goBack?: boolean;
   className?: string;
   scrollable?: boolean;
 }
@@ -16,8 +19,16 @@ export function ScreenLayout(props: Props) {
 
   const Content = (
     <>
-      <Text className="text-xl text-base-content font-bold my-4">
-        {props.title}
+      <Text className="flex flex-row text-xl text-base-content font-bold items-center my-4">
+        {props.goBack && (
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            onPress={() => router.back()}
+            className="mr-4 cursor-pointer text-base-content"
+          />
+        )}
+        <Text>{props.title}</Text>
       </Text>
       <ActiveTimer />
       {props.children}

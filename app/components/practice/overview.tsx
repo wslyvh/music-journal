@@ -9,6 +9,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Ionicons } from "@expo/vector-icons";
 import { StartActivityBanner } from "../start-activity";
 import { formatDuration } from "@/utils/format";
+import { Link } from "expo-router";
+import { usePractices } from "@/hooks/usePractices";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -18,8 +20,8 @@ interface Props {
 }
 
 export function PracticeOverview(props: Props) {
-  const { practicesQuery } = usePractice();
-  const data = practicesQuery.data;
+  const practices = usePractices();
+  const data = practices.data;
 
   let className = "flex-col mt-4";
   if (props.className) className += ` ${props.className}`;
@@ -90,9 +92,13 @@ export function PracticeOverview(props: Props) {
 
       {data.items.splice(0, 5).map((practice: Practice) => {
         return (
-          <View
+          <Link
             key={practice.id}
-            className="flex-row py-2 border-b border-base-300"
+            className="flex flex-row py-2 border-b border-base-300"
+            href={{
+              pathname: "/practice/[id]",
+              params: { id: practice.id },
+            }}
           >
             <View className="shrink-0 w-12 mr-4">
               <View className="bg-accent w-full h-full rounded-xl items-center justify-center">
@@ -135,7 +141,7 @@ export function PracticeOverview(props: Props) {
                 </View>
               </View>
             </View>
-          </View>
+          </Link>
         );
       })}
     </View>

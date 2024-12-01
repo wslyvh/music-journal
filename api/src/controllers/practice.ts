@@ -11,7 +11,8 @@ import {
 } from "@/clients/practice";
 import { DEFAULTS } from "@/utils/config";
 import { uploadHandler } from "@/middleware/upload";
-import { uploadToStorage } from "@/clients/storage";
+import { getFromStorage, uploadToStorage } from "@/clients/storage";
+import crypto from "crypto";
 
 const data = [
   body("type").isString().trim(),
@@ -42,10 +43,11 @@ practiceRouter.delete(`/practice/:id`, authHandler, DeletePractice);
 async function CreatePractice(req: Request, res: Response) {
   const userId = req.user.id;
   const data = req.body;
-
+  const id = crypto.randomUUID();
   let recordingKey = null;
+
   if (req.file) {
-    const fileName = `${userId}/${req.file.originalname}`;
+    const fileName = `${userId}/${id}`;
     recordingKey = await uploadToStorage(
       req.file.buffer,
       fileName,
@@ -55,7 +57,7 @@ async function CreatePractice(req: Request, res: Response) {
     data.recordingKey = recordingKey;
   }
 
-  const practice = await createPractice(userId, data);
+  const practice = await createPractice(id, userId, data);
   if (!practice) {
     res.status(500).send({ message: "Unable to create practice." });
     return;
@@ -85,8 +87,21 @@ async function GetPractice(req: Request, res: Response) {
   const userId = req.user.id;
   const id = req.params.id;
 
+  const fileName = `${userId}/${id}`;
+  const recordingUrl = await getFromStorage(fileName);
   const practice = await getPractice(userId, id);
-  res.status(200).send({ data: practice });
+
+  if (!practice) {
+    res.status(404).send({ message: "Practice not found." });
+    return;
+  }
+
+  res.status(200).send({
+    data: {
+      ...practice,
+      recordingUrl,
+    },
+  });
 }
 
 async function UpdatePractice(req: Request, res: Response) {
