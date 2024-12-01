@@ -1,5 +1,4 @@
 import React from "react";
-import { usePractice } from "@/hooks/usePractice";
 import { View } from "react-native";
 import { Text } from "@/components/text";
 import { Practice } from "@/types";
@@ -11,6 +10,7 @@ import { StartActivityBanner } from "../start-activity";
 import { formatDuration } from "@/utils/format";
 import { Link } from "expo-router";
 import { usePractices } from "@/hooks/usePractices";
+import { Button } from "@/components/button";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -28,9 +28,20 @@ export function PracticeOverview(props: Props) {
 
   if (!data || !data?.items || data?.items?.length === 0) {
     return (
-      <View className={className}>
-        <StartActivityBanner />
-      </View>
+      <>
+        <View className={className}>
+          <StartActivityBanner />
+        </View>
+
+        <View className="flex flex-col items-center justify-center mt-4">
+          <Text>No practices found</Text>
+          <Button
+            className="mt-4"
+            text="Retry"
+            onPress={() => practices.refetch()}
+          />
+        </View>
+      </>
     );
   }
 
@@ -101,11 +112,11 @@ export function PracticeOverview(props: Props) {
             }}
           >
             <View className="shrink-0 w-12 mr-4">
-              <View className="bg-accent w-full h-full rounded-xl items-center justify-center">
+              <View className="bg-secondary w-full h-full rounded-xl items-center justify-center">
                 <Ionicons
                   name="stats-chart"
                   size={18}
-                  className="color-accent-content"
+                  className="color-secondary-content"
                 />
               </View>
             </View>

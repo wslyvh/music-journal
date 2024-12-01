@@ -1,15 +1,15 @@
 import { Button } from "@/components/button";
 import { ScreenLayout } from "@/components/screen-layout";
 import { useAuth } from "@/hooks/useAuth";
-import { formatDate } from "@/utils/format";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { View } from "react-native";
 import { Alert } from "@/components/alert";
+import { Input } from "@/components/input";
+import { Text } from "@/components/text";
 
 export default function Index() {
-  const { account, requestCodeMutation, loginMutation, profileMutation } =
-    useAuth();
+  const { requestCodeMutation, loginMutation, profileMutation } = useAuth();
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [onboard, setOnboard] = useState(false);
@@ -71,21 +71,22 @@ export default function Index() {
     return (
       <ScreenLayout title="Onboarding 👋">
         <View className="flex">
-          <Text className="text-base-content">How should we call you?</Text>
+          <Text>How should we call you?</Text>
+          <Input
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Enter your name"
+            className="my-4"
+          />
 
-          <Text className="text-base-content">
+          <Text>
             What's the primary instrument that you're currently playing?
           </Text>
-          <TextInput
-            className={`bg-base-300 text-base-content rounded-md px-4 py-3 my-4
-            ${instrument ? "" : "text-muted"}`}
-            placeholder="Select your instrument"
+          <Input
             value={instrument}
             onChangeText={setInstrument}
-            keyboardType="numeric"
-            returnKeyType="go"
-            autoCapitalize="none"
-            autoCorrect={false}
+            placeholder="Select your instrument"
+            className="my-4"
           />
         </View>
 
@@ -107,16 +108,15 @@ export default function Index() {
   if (!!requestCodeMutation.data) {
     return (
       <ScreenLayout title="Confirm token 🔑">
-        <Text className="text-base-content">
-          Enter the 6-digit token we sent you via email.
-        </Text>
-        <TextInput
-          className="bg-base-300 text-base-content rounded-md px-4 py-3 my-4"
+        <Text>Enter the 6-digit token we sent you via email.</Text>
+        <Input
+          className="my-4"
           placeholder="Enter your token"
           value={token}
           onChangeText={setToken}
-          keyboardType="numeric"
+          keyboardType="number-pad"
           returnKeyType="go"
+          maxLength={6}
           autoCapitalize="none"
           autoCorrect={false}
           autoFocus
@@ -135,12 +135,12 @@ export default function Index() {
 
   return (
     <ScreenLayout title="Hello 👋">
-      <Text className="text-base-content">
+      <Text>
         Please enter your email to continue. We will send you a 6-digit token to
         verify your email address.
       </Text>
-      <TextInput
-        className="bg-base-300 text-base-content rounded-md px-4 py-3 my-4"
+      <Input
+        className="my-4"
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}

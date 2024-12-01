@@ -2,16 +2,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getToken, removeToken, setToken } from "@/utils/token";
 import { CONFIG } from "@/utils/config";
 import { Account, AccountProfileData } from "@/types";
+import { useAuthToken } from "./useToken";
 
 export function useAuth() {
   const queryClient = useQueryClient();
+  const { data: token } = useAuthToken();
 
   const accountQuery = useQuery({
-    queryKey: ["account"],
+    queryKey: ["account", token],
+    enabled: !!token,
     queryFn: async () => {
-      const token = await getToken();
-      if (!token) return null;
-
       const res = await fetch(`${CONFIG.API_URL}/account`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -20,7 +20,6 @@ export function useAuth() {
       const { data } = await res.json();
       return data as Account;
     },
-    retry: false,
   });
 
   const requestCodeMutation = useMutation({
@@ -50,6 +49,7 @@ export function useAuth() {
       if (!res.ok) throw new Error("Login failed");
       const { data } = await res.json();
       await setToken(data.token);
+      queryClient.setQueryData(["auth-token"], data.token);
       return data.account;
     },
     onSuccess: (data) => {

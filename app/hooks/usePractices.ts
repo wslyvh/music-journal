@@ -1,14 +1,14 @@
 import { CONFIG } from "@/utils/config";
-import { getToken } from "@/utils/token";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthToken } from "./useToken";
 
 export function usePractices() {
-  return useQuery({
-    queryKey: ["practice"],
-    queryFn: async () => {
-      const token = await getToken();
-      if (!token) return [];
+  const { data: token } = useAuthToken();
 
+  return useQuery({
+    queryKey: ["practice", token],
+    enabled: !!token,
+    queryFn: async () => {
       const res = await fetch(`${CONFIG.API_URL}/practice`, {
         headers: { Authorization: `Bearer ${token}` },
       });
