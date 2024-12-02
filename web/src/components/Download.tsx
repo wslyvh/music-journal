@@ -1,8 +1,5 @@
-import appstoreImg from "@/assets/images/logo/appstore.png";
-import playstoreImg from "@/assets/images/logo/playstore.png";
-import { CONFIG } from "@/utils/config";
 import { Button } from "react-daisyui";
-import { Input, Join } from "react-daisyui";
+import { Input } from "react-daisyui";
 
 export const Download = () => {
   return (

@@ -1,16 +1,7 @@
 import bgGradientImg from "@/assets/images/landing/bg-gradient.png";
-import appstoreImg from "@/assets/images/logo/appstore.png";
-import playstoreImg from "@/assets/images/logo/playstore.png";
 import mobile1Img from "@/assets/images/landing/mobile-1.png";
 import avatar1Img from "@/assets/images/avatar/1.png";
-import {
-  ArrowDownToLineIcon,
-  SparkleIcon,
-  StarIcon,
-  TrendingUpIcon,
-  UsersIcon,
-  ZapIcon,
-} from "lucide-react";
+import { StarIcon, ZapIcon } from "lucide-react";
 import { Button, Card } from "react-daisyui";
 import { CONFIG } from "@/utils/config";
 
@@ -34,7 +25,7 @@ export const Hero = () => {
             {/* <div className="mt-16 flex justify-center gap-4 sm:justify-start">
               <a href="#">
                 <img src={appstoreImg} alt="App Store" />
-              </a>
+              </a>  
               <a href="#">
                 <img src={playstoreImg} alt="Play Store" />
               </a>

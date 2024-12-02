@@ -1,13 +1,3 @@
-import { Button, Input, Join } from "react-daisyui";
-import {
-  DribbbleIcon,
-  FacebookIcon,
-  GithubIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  MailIcon,
-  TwitterIcon,
-} from "lucide-react";
 import { CONFIG } from "@/utils/config";
 
 export const Footer = () => {
