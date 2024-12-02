@@ -11,6 +11,7 @@ import { formatDuration } from "@/utils/format";
 import { Link } from "expo-router";
 import { usePractices } from "@/hooks/usePractices";
 import { Button } from "@/components/button";
+import { THEME_COLORS } from "@/utils/theme";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -104,19 +105,16 @@ export function PracticeOverview(props: Props) {
       {data.items.splice(0, 5).map((practice: Practice) => {
         return (
           <Link
+            href={`/practice/${practice.id}`}
             key={practice.id}
             className="flex flex-row py-2 border-b border-base-300"
-            href={{
-              pathname: "/practice/[id]",
-              params: { id: practice.id },
-            }}
           >
             <View className="shrink-0 w-12 mr-4">
-              <View className="bg-secondary w-full h-full rounded-xl items-center justify-center">
+              <View className="bg-secondary h-full rounded-xl items-center justify-center">
                 <Ionicons
                   name="stats-chart"
                   size={18}
-                  className="color-secondary-content"
+                  color={THEME_COLORS["secondary-content"]}
                 />
               </View>
             </View>
@@ -134,7 +132,7 @@ export function PracticeOverview(props: Props) {
                   <Ionicons
                     name="time-outline"
                     size={18}
-                    className="text-muted"
+                    color={THEME_COLORS.muted}
                   />
                   <Text className="text-muted ml-2">
                     {formatDuration(practice.duration, false, true)}
