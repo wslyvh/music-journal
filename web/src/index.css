@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;1000&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    @apply scroll-smooth
+}
+
+body {
+    @apply overflow-x-hidden bg-base-100 font-body text-sm text-base-content antialiased
+}
+
+
+.text-brand-gradient {
+    background: linear-gradient(to right, #FC766A 0%, #cc3c08 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bg-brand-gradient {
+    background: linear-gradient(to right, #ee4d14 0%, #c03604 100%);
+}
+
+.bounce-animation {
+    -webkit-animation: bounce 2s infinite alternate;
+    animation: bounce 2s infinite alternate
+}
+
+
+@keyframes bounce {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+    to {
+        -webkit-transform: translateY(-8px);
+        transform: translateY(-8px)
+    }
+}
