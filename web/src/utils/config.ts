@@ -4,7 +4,7 @@ export const CONFIG = {
   SITE_NAME: "Music Journal",
   SITE_TAGLINE: "Record, reflect and improve your music practice",
   SITE_DESCRIPTION:
-    "Music Journal helps helps you transform your music practice. Like Strava/Duolingo for music practice.",
+    "Music Journal helps helps you transform your music practice. Like Strava for your music practice.",
   SITE_CONTACT: "support@musicjournal.fm",
   SITE_URL: "https://www.musicjournal.fm",
 
