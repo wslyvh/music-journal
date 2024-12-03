@@ -80,6 +80,7 @@ async function GetPractices(req: Request, res: Response) {
     page,
     size
   );
+
   res.status(200).send({ data: practices });
 }
 
