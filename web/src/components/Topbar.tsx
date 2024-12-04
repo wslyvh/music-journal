@@ -32,7 +32,7 @@ export const Topbar = () => {
                     <Menu className="min-h-full w-80 gap-2 bg-base-100 p-4 text-base-content">
                       <Menu.Item className="font-medium">
                         <a
-                          href="index.html"
+                          href="/"
                           className="text-brand-gradient text-2xl font-bold tracking-tighter"
                         >
                           {CONFIG.SITE_NAME}
@@ -51,18 +51,6 @@ export const Topbar = () => {
                       >
                         <a href="#features">Features</a>
                       </Menu.Item>
-                      {/* <Menu.Item
-                        className="font-medium"
-                        onClick={() => setDrawerOpened(false)}
-                      >
-                        <a href="#organize">Organize</a>
-                      </Menu.Item>
-                      <Menu.Item className="font-medium" onClick={() => setDrawerOpened(false)}>
-                        <a href="#testimonial">Testimonial</a>
-                      </Menu.Item>
-                      <Menu.Item className="font-medium" onClick={() => setDrawerOpened(false)}>
-                        <a href="#faq">FAQ</a>
-                      </Menu.Item> */}
                       <a
                         href="#download"
                         onClick={() => setDrawerOpened(false)}
@@ -85,8 +73,8 @@ export const Topbar = () => {
               </div>
 
               <a
-                href="#"
-                className="text-brand-gradient text-2xl font-bold tracking-tighter"
+                href="/"
+                className="text-brand-gradient text-2xl font-bold tracking-tighter whitespace-nowrap"
               >
                 {CONFIG.SITE_NAME}
               </a>
@@ -95,33 +83,16 @@ export const Topbar = () => {
             <Navbar.End className="hidden lg:flex w-full">
               <Menu horizontal size="sm" className="gap-2 px-1 items-center">
                 <Menu.Item className="font-medium">
-                  <a href="#home">Home</a>
+                  <a href="/">Home</a>
                 </Menu.Item>
                 <Menu.Item className="font-medium">
-                  <a href="#features">Features</a>
+                  <a href="/#features">Features</a>
                 </Menu.Item>
-                {/* <Menu.Item className="font-medium">
-                  <a href="#organize">Organize</a>
-                </Menu.Item> */}
-                <a href="#download">
+                <a href="/#download">
                   <Button size={"sm"} color={"primary"}>
                     Coming Soon
                   </Button>
                 </a>
-                {/* <Menu.Item className="font-medium">
-                  <a href="#testimonial">Testimonial</a>
-                </Menu.Item>
-                <Menu.Item className="font-medium">
-                  <a href="#faq">FAQ</a>
-                </Menu.Item>
-                <a
-                  href="https://daisyui.lemonsqueezy.com/checkout/buy/71f032e3-1a23-4b79-b74e-130ada4899f2"
-                  target="_blank"
-                >
-                  <Button size={"sm"} color={"primary"}>
-                    Purchase Now
-                  </Button>
-                </a> */}
               </Menu>
             </Navbar.End>
           </Navbar>

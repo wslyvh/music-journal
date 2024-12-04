@@ -7,7 +7,23 @@ export const Footer = () => {
       data-theme="dark"
     >
       <div className="container py-12">
-        <p className="text-2xl font-bold">{CONFIG.SITE_NAME}</p>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end">
+          <div>
+            <p className="text-2xl font-bold">{CONFIG.SITE_NAME}</p>
+            <p className="text-sm mt-2">
+              {CONFIG.SITE_EMOJI}{" "}
+              <span className="ml-2">{CONFIG.SITE_TAGLINE}</span>
+            </p>
+          </div>
+          <nav className="mt-6 sm:mt-0 flex flex-col sm:flex-row gap-4 text-sm">
+            <a href="/privacy" className="link-hover link">
+              Privacy Policy
+            </a>
+            <a href="/terms" className="link-hover link">
+              Terms of Service
+            </a>
+          </nav>
+        </div>
       </div>
 
       <div className="border-t border-white/10 px-8 py-4 text-center lg:px-40">

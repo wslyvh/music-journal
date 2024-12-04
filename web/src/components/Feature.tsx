@@ -9,7 +9,7 @@ export const Feature = () => {
           <Card className="border border-base-content/10">
             <div className="p-6">
               <ListMusic className="text-primary" size={32} />
-              <p className="mt-2 text-xl font-semibold">Log Practice</p>
+              <p className="mt-2 text-xl font-semibold">Record your Practice</p>
               <p className="mt-2 text-base-content/90">
                 Easily record and track your practice sessions, including audio
                 recordings, to monitor your progress and identify areas for

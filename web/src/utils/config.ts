@@ -10,4 +10,5 @@ export const CONFIG = {
 
   SOCIAL_TWITTER: "wslyvh",
   SOCIAL_GITHUB: "wslyvh/music-journal",
+  CONTACT_EMAIL: "support@musicjournal.fm",
 };

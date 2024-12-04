@@ -1,15 +1,17 @@
 {
-  "name": "saas-react",
+  "name": "musicjournal-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "generate": "tsr generate",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.85.5",
     "card3d": "^2.6.5",
     "daisyui": "^4.4.19",
     "lucide-react": "^0.294.0",
@@ -19,6 +21,9 @@
     "swiper": "^11.0.6"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
+    "@tanstack/router-devtools": "^1.85.5",
+    "@tanstack/router-plugin": "^1.85.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
