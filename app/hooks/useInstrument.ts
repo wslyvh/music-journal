@@ -6,7 +6,7 @@ export function useInstrument() {
   const [instrument, setInstrument] = useState(account?.instruments?.[0]);
 
   useEffect(() => {
-    setInstrument(account?.instruments?.[0] ?? "My Instrument");
+    setInstrument(account?.instruments?.[0]);
   }, [account]);
 
   return instrument;

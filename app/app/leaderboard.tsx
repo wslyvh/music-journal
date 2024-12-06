@@ -36,7 +36,7 @@ export default function Index() {
         onSelect={setSelectedInstrument}
       />
 
-      <View className="flex flex-row rounded bg-base-200 text-base-content text-sm p-1 mb-4">
+      <View className="flex flex-row rounded bg-base-200 text-base-content text-sm p-1 mb-4 mt-4">
         <TouchableOpacity
           onPress={() => setPeriod(7)}
           className={`flex-1 rounded items-center py-1 cursor-pointer ${

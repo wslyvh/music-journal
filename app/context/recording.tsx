@@ -43,7 +43,7 @@ export default function RecordingProvider(props: PropsWithChildren) {
   const { account } = useAuth();
   const { createPractice } = usePracticeMutations();
   const defaultState = {
-    type: account?.instruments?.[0] ?? "My Instrument",
+    type: account?.instruments?.[0] ?? "",
     duration: 0,
     notes: "",
     rating: 0,

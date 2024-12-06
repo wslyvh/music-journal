@@ -6,6 +6,7 @@ import { formatTime } from "@/utils/format";
 import { useRecorder } from "@/context/recording";
 import { Input } from "../input";
 import { InstrumentPicker } from "../instrument-picker";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   className?: string;
@@ -13,6 +14,7 @@ interface Props {
 
 export function ConfirmPractice(props: Props) {
   const recorder = useRecorder();
+  const { account } = useAuth();
 
   let className = "flex-col";
   if (props.className) className += ` ${props.className}`;
@@ -21,12 +23,12 @@ export function ConfirmPractice(props: Props) {
     <View className={className}>
       <View className="space-y-4">
         <InstrumentPicker
-          selected={recorder.current?.type ?? "My Instrument"}
+          selected={account?.instruments[0] ?? ""}
           onSelect={(value) =>
             recorder.setPractice({ ...recorder.current, type: value })
           }
         />
-        <View className="flex-row justify-between border-b border-base-300 pb-4">
+        <View className="flex-row justify-between border-b border-base-300 pb-4 mt-4">
           <Text className="text-base-content font-bold">Practice Time</Text>
           <Text className="text-base-content">
             {formatTime(recorder.timer)}
@@ -64,18 +66,16 @@ export function ConfirmPractice(props: Props) {
         />
       </View>
 
-      <View className="flex-row space-between space-x-4 mt-8">
-        <Button
-          onPress={() => recorder.submit()}
-          text="End Session"
-          type="primary"
-          className="flex-1"
-        />
+      <View className="flex flex-col space-between mt-8 gap-4">
         <Button
           onPress={() => recorder.resume()}
           text="Resume Practice"
           type="neutral"
-          className="flex-1"
+        />
+        <Button
+          onPress={() => recorder.submit()}
+          text="End Session"
+          type="primary"
         />
       </View>
     </View>

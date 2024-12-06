@@ -6,6 +6,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Constants from "expo-constants";
 import { CONFIG } from "@/utils/config";
 import { useAuth } from "@/hooks/useAuth";
+import { THEME_COLORS } from "@/utils/theme";
 
 export default function Settings() {
   const { account, logoutMutation } = useAuth();
@@ -55,12 +56,14 @@ export default function Settings() {
               <Ionicons
                 name={item.icon as any}
                 size={21}
+                color={THEME_COLORS["base-content"]}
                 className="text-base-content"
               />
               <Text className="text-base-content ml-4">{item.title}</Text>
               <Ionicons
                 name="chevron-forward"
                 size={24}
+                color={THEME_COLORS["base-content"]}
                 className="text-base-content ml-auto"
               />
             </TouchableOpacity>

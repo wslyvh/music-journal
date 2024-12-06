@@ -109,7 +109,7 @@ export function PracticeOverview(props: Props) {
             key={practice.id}
             className="flex flex-row py-2 border-b border-base-300"
           >
-            <View className="shrink-0 w-12 mr-4">
+            <View className="flex shrink-0 w-12 ">
               <View className="bg-secondary h-full rounded-xl items-center justify-center">
                 <Ionicons
                   name="stats-chart"
@@ -118,7 +118,8 @@ export function PracticeOverview(props: Props) {
                 />
               </View>
             </View>
-            <View className="flex-1">
+
+            <View className="flex flex-1">
               <View className="flex flex-row items-center">
                 <Text className="text-lg font-bold text-base-content w-full">
                   {dayjs(practice.timestamp).format("ddd, MMM DD")}
@@ -127,6 +128,7 @@ export function PracticeOverview(props: Props) {
                   {dayjs(practice.timestamp).fromNow()}
                 </Text>
               </View>
+
               <View className="flex-row items-center">
                 <View className="flex flex-row flex-1 items-center">
                   <Ionicons
@@ -138,7 +140,7 @@ export function PracticeOverview(props: Props) {
                     {formatDuration(practice.duration, false, true)}
                   </Text>
                 </View>
-                <View className="flex flex-row shrink-0 ml-2">
+                <View className="flex flex-row ml-2">
                   {Array.from(Array(practice.rating ?? 0).keys()).map((i) => (
                     <Ionicons
                       key={`${practice.id}_rating_${i}`}

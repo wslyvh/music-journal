@@ -21,13 +21,9 @@ export function PracticeTimer() {
             </View>
           </View>
 
-          <View className="flex-row justify-center space-between space-x-4 mt-8">
+          <View className="flex flex-col justify-center space-between mt-8 gap-4">
             {recorder.state === "" && (
-              <Button
-                onPress={() => recorder.start()}
-                text="Start Practice"
-                className="flex-1"
-              />
+              <Button onPress={() => recorder.start()} text="Start Practice" />
             )}
 
             {recorder.state !== "" && (
@@ -39,14 +35,12 @@ export function PracticeTimer() {
                       : () => recorder.resume()
                   }
                   text={recorder.state === "RUNNING" ? "Pause" : "Resume"}
-                  type="primary"
-                  className="flex-1"
+                  type="neutral"
                 />
                 <Button
                   onPress={() => recorder.stop()}
                   text="Finish session"
-                  type="neutral"
-                  className="flex-1"
+                  type="primary"
                 />
               </>
             )}
