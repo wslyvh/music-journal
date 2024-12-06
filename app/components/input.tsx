@@ -1,3 +1,4 @@
+import { THEME_COLORS } from "@/utils/theme";
 import { TextInput, TextInputProps } from "react-native";
 
 interface Props extends TextInputProps {
@@ -11,5 +12,11 @@ export function Input(props: Props) {
   if (props.value) className += " text-base-content";
   if (props.className) className += ` ${props.className}`;
 
-  return <TextInput className={className} {...rest} />;
+  return (
+    <TextInput
+      className={className}
+      placeholderTextColor={THEME_COLORS.muted}
+      {...rest}
+    />
+  );
 }

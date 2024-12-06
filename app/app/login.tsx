@@ -113,14 +113,14 @@ export default function Index() {
           className="my-4"
           placeholder="Enter your token"
           value={token}
-          onChangeText={setToken}
-          keyboardType="number-pad"
+          onChangeText={(text) => setToken(text.replace(/[^0-9]/g, ""))}
+          onSubmitEditing={handleLogin}
+          inputMode="numeric"
           returnKeyType="go"
           maxLength={6}
           autoCapitalize="none"
           autoCorrect={false}
           autoFocus
-          onSubmitEditing={handleLogin}
         />
         <Button onPress={handleLogin} text="Continue" />
         {loginMutation.error && (
@@ -144,6 +144,7 @@ export default function Index() {
         placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
+        onSubmitEditing={handleRequestToken}
         keyboardType="email-address"
         returnKeyType="go"
         autoCapitalize="none"

@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DataProvider from "@/context/data";
 import RecordingProvider from "@/context/recording";
@@ -51,7 +51,8 @@ export default function RootLayout() {
   return (
     <DataProvider>
       <RecordingProvider>
-        <View className="flex-1 items-center bg-base-100">
+        <StatusBar translucent={true} backgroundColor="transparent" />
+        <View className="flex-1 items-center bg-base-100 pt-8">
           <View className="flex-1 w-full max-w-4xl">
             <Stack>
               {pages.map((page) => (
