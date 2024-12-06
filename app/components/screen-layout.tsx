@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { View, ScrollView, Button } from "react-native";
+import { View, ScrollView } from "react-native";
 import { ActiveTimer } from "./active-timer";
 import { Text } from "@/components/text";
 import { router } from "expo-router";
@@ -13,7 +13,7 @@ interface Props extends PropsWithChildren {
 }
 
 export function ScreenLayout(props: Props) {
-  let containerClassName = "flex flex-1 bg-base-100";
+  let containerClassName = "flex flex-1 bg-base-100 flex-1 pb-20";
   let contentClassName = "p-4";
   if (props.className) contentClassName += ` ${props.className}`;
 

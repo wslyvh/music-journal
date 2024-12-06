@@ -21,12 +21,10 @@ export default function Settings() {
   async function handleProfileUpdate() {
     if (!username || !instrument) return;
 
-    console.log("MUTATING", { username, instruments: [instrument] });
     profileMutation.mutate(
       { username, instruments: [instrument] },
       {
         onSuccess: (data) => {
-          console.log("SUCCESS", data);
           setUserError("");
           router.replace("/settings");
         },
