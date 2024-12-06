@@ -5,5 +5,5 @@
       "destination": "/index.html"
     }
   ],
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./web/"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./app/"
 }
