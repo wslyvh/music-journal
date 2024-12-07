@@ -110,7 +110,7 @@ export function PracticeOverview(props: Props) {
             className="flex flex-row py-2 border-b border-base-300"
           >
             <View className="flex shrink-0 w-12 ">
-              <View className="bg-secondary h-full rounded-xl items-center justify-center">
+              <View className="bg-secondary h-full rounded-xl items-center justify-center mr-4">
                 <Ionicons
                   name="stats-chart"
                   size={18}
