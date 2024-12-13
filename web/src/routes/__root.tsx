@@ -10,6 +10,7 @@ import { Home } from "@/routes/home";
 import { Terms } from "@/routes/terms";
 import { Privacy } from "@/routes/privacy";
 import { Footer } from "@/components/Footer";
+import { ResourcesGuide } from "./resources/guide";
 
 function RootLayout() {
   const { theme } = useTheme();
@@ -44,7 +45,18 @@ const termsRoute = createRoute({
   component: Terms,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, privacyRoute, termsRoute]);
+const resourcesGuide = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/resources/music-practice-journal",
+  component: ResourcesGuide,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  privacyRoute,
+  termsRoute,
+  resourcesGuide,
+]);
 
 export const router = createRouter({ routeTree });
 

@@ -1,5 +1,5 @@
 import { Button, Drawer, Menu, Navbar } from "react-daisyui";
-import { Menu as MenuIcon } from "lucide-react";
+import { Menu as MenuIcon, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CONFIG } from "@/utils/config";
 
@@ -51,6 +51,28 @@ export const Topbar = () => {
                       >
                         <a href="#features">Features</a>
                       </Menu.Item>
+
+                      <Menu.Item className="font-medium">
+                        <details
+                          className="w-full [&>summary::marker]:text-base-content [&>summary::marker]:float-right"
+                          open
+                        >
+                          <summary className="flex justify-between items-center">
+                            Resources
+                          </summary>
+                          <ul className="p-2 mt-2">
+                            <li>
+                              <a
+                                href="/resources/music-practice-journal"
+                                onClick={() => setDrawerOpened(false)}
+                              >
+                                Music Practice Journal
+                              </a>
+                            </li>
+                          </ul>
+                        </details>
+                      </Menu.Item>
+
                       <a
                         href="#download"
                         onClick={() => setDrawerOpened(false)}
@@ -88,6 +110,24 @@ export const Topbar = () => {
                 <Menu.Item className="font-medium">
                   <a href="/#features">Features</a>
                 </Menu.Item>
+                <div className="dropdown dropdown-hover dropdown-end">
+                  <Menu.Item className="font-medium" tabIndex={0}>
+                    <span className="flex items-center gap-1">
+                      Resources
+                      <ChevronDown size={16} />
+                    </span>
+                  </Menu.Item>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <a href="/resources/music-practice-journal">
+                        Music Practice Journal
+                      </a>
+                    </li>
+                  </ul>
+                </div>
                 <a href="/#download">
                   <Button size={"sm"} color={"primary"}>
                     Coming Soon

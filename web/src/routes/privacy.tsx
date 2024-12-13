@@ -21,9 +21,8 @@ export function Privacy() {
             collect, use, and disclose your information when you interact with
             our products and services, including our website and any other
             services we offer. This policy applies to all products built and
-            maintained by
-            <strong>westech</strong>, including this website and any other
-            services we offer.
+            maintained by <strong>westech</strong>, including this website and
+            any other services we offer.
           </p>
           <h3>Data Collection</h3>
           <p>

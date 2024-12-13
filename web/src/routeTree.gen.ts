@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as TermsImport } from './routes/terms'
 import { Route as PrivacyImport } from './routes/privacy'
 import { Route as HomeImport } from './routes/home'
+import { Route as ResourcesGuideImport } from './routes/resources/guide'
 
 // Create/Update Routes
 
@@ -32,6 +33,12 @@ const PrivacyRoute = PrivacyImport.update({
 const HomeRoute = HomeImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResourcesGuideRoute = ResourcesGuideImport.update({
+  id: '/resources/guide',
+  path: '/resources/guide',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsImport
       parentRoute: typeof rootRoute
     }
+    '/resources/guide': {
+      id: '/resources/guide'
+      path: '/resources/guide'
+      fullPath: '/resources/guide'
+      preLoaderRoute: typeof ResourcesGuideImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/guide': typeof ResourcesGuideRoute
 }
 
 export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/guide': typeof ResourcesGuideRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,15 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/guide': typeof ResourcesGuideRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/home' | '/privacy' | '/terms'
+  fullPaths: '/home' | '/privacy' | '/terms' | '/resources/guide'
   fileRoutesByTo: FileRoutesByTo
-  to: '/home' | '/privacy' | '/terms'
-  id: '__root__' | '/home' | '/privacy' | '/terms'
+  to: '/home' | '/privacy' | '/terms' | '/resources/guide'
+  id: '__root__' | '/home' | '/privacy' | '/terms' | '/resources/guide'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +114,14 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  ResourcesGuideRoute: typeof ResourcesGuideRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  ResourcesGuideRoute: ResourcesGuideRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/home",
         "/privacy",
-        "/terms"
+        "/terms",
+        "/resources/guide"
       ]
     },
     "/home": {
@@ -128,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/terms": {
       "filePath": "terms.tsx"
+    },
+    "/resources/guide": {
+      "filePath": "resources/guide.tsx"
     }
   }
 }
