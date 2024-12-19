@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { View, TouchableOpacity, StatusBar } from "react-native";
+import { View, TouchableOpacity, StatusBar, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DataProvider from "@/context/data";
 import RecordingProvider from "@/context/recording";
@@ -66,14 +66,17 @@ export default function RootLayout() {
 
             {/* Bottom Gradient */}
             <View
-              className="absolute bottom-0 inset-x-0 w-screen"
+              className="absolute bottom-0 left-0 right-0"
               style={{
-                height: 120,
+                height: 80,
                 overflow: "hidden",
+                width: Dimensions.get("window").width,
+                marginLeft: "50%",
+                transform: [{ translateX: "-50%" }],
               }}
             >
               <LinearGradient
-                colors={["transparent", "rgba(0,0,0,0.6)", "rgba(0,0,0,1.0)"]}
+                colors={["transparent", "rgba(0,0,0,0.4)", "rgba(0,0,0,1.0)"]}
                 className="absolute inset-0"
                 start={{ x: 0.5, y: 0 }}
                 end={{ x: 0.5, y: 1 }}
