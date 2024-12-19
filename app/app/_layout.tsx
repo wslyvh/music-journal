@@ -66,14 +66,14 @@ export default function RootLayout() {
 
             {/* Bottom Gradient */}
             <View
-              className="fixed bottom-0 inset-x-0 w-screen"
+              className="absolute bottom-0 inset-x-0 w-screen"
               style={{
                 height: 120,
                 overflow: "hidden",
               }}
             >
               <LinearGradient
-                colors={["transparent", "rgba(0,0,0,0.2)", "rgba(0,0,0,0.6)"]}
+                colors={["transparent", "rgba(0,0,0,0.6)", "rgba(0,0,0,1.0)"]}
                 className="absolute inset-0"
                 start={{ x: 0.5, y: 0 }}
                 end={{ x: 0.5, y: 1 }}

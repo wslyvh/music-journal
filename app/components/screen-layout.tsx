@@ -13,8 +13,8 @@ interface Props extends PropsWithChildren {
 }
 
 export function ScreenLayout(props: Props) {
-  let containerClassName = "flex flex-1 bg-base-100 flex-1 pb-20";
-  let contentClassName = "p-4";
+  let containerClassName = "flex-1 bg-base-100";
+  let contentClassName = "flex-1 p-4 pb-20";
   if (props.className) contentClassName += ` ${props.className}`;
 
   const Content = (

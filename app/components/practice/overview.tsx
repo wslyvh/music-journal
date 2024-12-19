@@ -104,51 +104,50 @@ export function PracticeOverview(props: Props) {
 
       {data.items.splice(0, 5).map((practice: Practice) => {
         return (
-          <Link
-            href={`/practice/${practice.id}`}
-            key={practice.id}
-            className="flex flex-row py-2 border-b border-base-300"
-          >
-            <View className="flex shrink-0 w-12 ">
-              <View className="bg-secondary h-full rounded-xl items-center justify-center mr-4">
-                <Ionicons
-                  name="stats-chart"
-                  size={18}
-                  color={THEME_COLORS["secondary-content"]}
-                />
-              </View>
-            </View>
-
-            <View className="flex flex-1">
-              <View className="flex flex-row items-center">
-                <Text className="text-lg font-bold text-base-content w-full">
-                  {dayjs(practice.timestamp).format("ddd, MMM DD")}
-                </Text>
-                <Text className="text-xs text-muted ml-2 shrink-0">
-                  {dayjs(practice.timestamp).fromNow()}
-                </Text>
-              </View>
-
-              <View className="flex-row items-center">
-                <View className="flex flex-row flex-1 items-center">
+          <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
+            <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">
+              <View className="w-12 h-12 mr-4">
+                <View className="bg-secondary rounded-lg w-full h-full items-center justify-center">
                   <Ionicons
-                    name="time-outline"
+                    name="stats-chart"
                     size={18}
-                    color={THEME_COLORS.muted}
+                    color={THEME_COLORS["secondary-content"]}
                   />
-                  <Text className="text-muted ml-2">
-                    {formatDuration(practice.duration, false, true)}
+                </View>
+              </View>
+
+              <View className="flex-1">
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-base font-bold text-base-content flex-shrink">
+                    {dayjs(practice.timestamp).format("ddd, MMM DD")}
+                  </Text>
+                  <Text className="text-xs text-muted ml-2">
+                    {dayjs(practice.timestamp).fromNow()}
                   </Text>
                 </View>
-                <View className="flex flex-row ml-2">
-                  {Array.from(Array(practice.rating ?? 0).keys()).map((i) => (
+
+                <View className="flex-row items-center mt-2">
+                  <View className="flex-row items-center flex-1">
                     <Ionicons
-                      key={`${practice.id}_rating_${i}`}
-                      name="star"
-                      size={12}
-                      color="#a0acb7"
+                      name="time-outline"
+                      size={16}
+                      color={THEME_COLORS.muted}
                     />
-                  ))}
+                    <Text className="text-muted text-sm ml-2">
+                      {formatDuration(practice.duration, false, true)}
+                    </Text>
+                  </View>
+                  <View className="flex-row">
+                    {Array.from(Array(practice.rating ?? 0).keys()).map((i) => (
+                      <Ionicons
+                        key={`${practice.id}_rating_${i}`}
+                        name="star"
+                        size={12}
+                        color="#a0acb7"
+                        style={{ marginLeft: 2 }}
+                      />
+                    ))}
+                  </View>
                 </View>
               </View>
             </View>
