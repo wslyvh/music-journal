@@ -1,5 +1,6 @@
 import { useRecorder } from "@/context/recording";
 import { formatTime } from "@/utils/format";
+import { THEME_COLORS } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { Link, router } from "expo-router";
@@ -25,21 +26,21 @@ export function ActiveTimer(props: Props) {
         <Link href="/start" className="text-primary font-bold">
           Recording {formatTime(recorder.timer)}
         </Link>
-        <View className="flex-row gap-2">
+        <View className="flex-row gap-4">
           {recorder.state === "RUNNING" && (
             <Ionicons
               onPress={() => recorder.pause()}
-              className="color-primary"
               name="pause"
-              size={18}
+              size={21}
+              color={THEME_COLORS["primary"]}
             />
           )}
           {recorder.state === "PAUSED" && (
             <Ionicons
               onPress={() => recorder.resume()}
-              className="color-primary"
               name="play"
-              size={18}
+              size={21}
+              color={THEME_COLORS["primary"]}
             />
           )}
 
@@ -48,9 +49,9 @@ export function ActiveTimer(props: Props) {
               recorder.stop();
               router.navigate("/start");
             }}
-            className="color-primary"
             name="stop"
-            size={18}
+            size={21}
+            color={THEME_COLORS["primary"]}
           />
         </View>
       </View>

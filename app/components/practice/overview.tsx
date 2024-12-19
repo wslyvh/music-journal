@@ -102,7 +102,7 @@ export function PracticeOverview(props: Props) {
         </View>
       </View>
 
-      {data.items.splice(0, 5).map((practice: Practice) => {
+      {data.items.slice(0, 5).map((practice: Practice) => {
         return (
           <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
             <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">
@@ -131,7 +131,7 @@ export function PracticeOverview(props: Props) {
                     <Ionicons
                       name="time-outline"
                       size={16}
-                      color={THEME_COLORS.muted}
+                      color={THEME_COLORS["muted"]}
                     />
                     <Text className="text-muted text-sm ml-2">
                       {formatDuration(practice.duration, false, true)}
@@ -143,7 +143,7 @@ export function PracticeOverview(props: Props) {
                         key={`${practice.id}_rating_${i}`}
                         name="star"
                         size={12}
-                        color="#a0acb7"
+                        color={THEME_COLORS["muted"]}
                         style={{ marginLeft: 2 }}
                       />
                     ))}

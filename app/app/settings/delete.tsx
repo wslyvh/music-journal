@@ -1,11 +1,12 @@
 import { AccountBanner } from "@/components/account/banner";
 import { ScreenLayout } from "@/components/screen-layout";
 import { router } from "expo-router";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { Text } from "@/components/text";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 
 export default function Settings() {
   const { deleteMutation } = useAuth();
@@ -30,20 +31,21 @@ export default function Settings() {
       </View>
 
       <View className="mt-4">
-        <TextInput
-          className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
-            confirmText ? "text-base-content" : "text-muted"
-          }`}
+        <Input
           placeholder="sudo delete"
           value={confirmText}
           onChangeText={setConfirmText}
         />
       </View>
 
-      <View className="flex-row space-between space-x-4 mt-8">
+      <View className="flex flex-col justify-center space-between mt-8 gap-4">
+        <Button
+          onPress={() => router.push("/settings")}
+          text="Cancel"
+          type="neutral"
+        />
         <Button
           onPress={async () => {
-            console.log("Delete Account");
             if (confirmText === "sudo delete") {
               deleteMutation.mutate(undefined, {
                 onSuccess: () => router.push("/"),
@@ -52,13 +54,6 @@ export default function Settings() {
           }}
           text="Delete Account"
           type="primary"
-          className="flex-1"
-        />
-        <Button
-          onPress={() => router.push("/settings")}
-          text="Cancel"
-          type="neutral"
-          className="flex-1"
         />
       </View>
     </ScreenLayout>

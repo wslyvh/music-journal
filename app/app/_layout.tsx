@@ -108,11 +108,13 @@ export default function RootLayout() {
                     <TouchableOpacity
                       key={tab.name}
                       className="flex-1 h-full items-center justify-center"
-                      onPress={() =>
-                        router.replace(
-                          (tab.name === "index" ? "/" : `/${tab.name}`) as any
-                        )
-                      }
+                      onPress={() => {
+                        const targetPath =
+                          tab.name === "index" ? "/" : `/${tab.name}`;
+                        if (pathname !== targetPath) {
+                          router.replace(targetPath as any);
+                        }
+                      }}
                     >
                       <Ionicons
                         name={tab.icon(focused)}

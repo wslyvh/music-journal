@@ -52,18 +52,16 @@ export default function Settings() {
         />
       </View>
 
-      <View className="flex-row space-between space-x-4 mt-8">
-        <Button
-          onPress={handleProfileUpdate}
-          text="Update Profile"
-          type="primary"
-          className="flex-1"
-        />
+      <View className="flex flex-col justify-center space-between mt-8 gap-4">
         <Button
           onPress={() => router.push("/settings")}
           text="Cancel"
           type="neutral"
-          className="flex-1"
+        />
+        <Button
+          onPress={handleProfileUpdate}
+          text="Update Profile"
+          type="primary"
         />
       </View>
     </ScreenLayout>
