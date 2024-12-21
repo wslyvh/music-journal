@@ -137,6 +137,7 @@ export default function RecordingProvider(props: PropsWithChildren) {
 
   function clear() {
     setState("");
+    setTimer(0);
     setCurrent(defaultState);
   }
 

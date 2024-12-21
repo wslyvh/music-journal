@@ -13,7 +13,7 @@ export default function Settings() {
   const [confirmText, setConfirmText] = useState("");
 
   return (
-    <ScreenLayout title="Delete Account">
+    <ScreenLayout title="Delete Account" goBack>
       <AccountBanner />
 
       <View className="text-base-content">

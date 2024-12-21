@@ -33,7 +33,7 @@ export default function Settings() {
   }
 
   return (
-    <ScreenLayout title="Update Profile">
+    <ScreenLayout title="Update Profile" goBack>
       <AccountBanner />
 
       <View className="text-base-content">

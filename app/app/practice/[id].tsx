@@ -11,6 +11,7 @@ import { Input } from "@/components/input";
 import { Text } from "@/components/text";
 import dayjs from "dayjs";
 import { AudioPlayer } from "@/components/audio-player";
+import { CONFIG } from "@/utils/config";
 
 export default function PracticeDetails() {
   const { id } = useLocalSearchParams();
@@ -39,6 +40,13 @@ export default function PracticeDetails() {
     <ScreenLayout
       title={dayjs(updatedPractice.timestamp).format("ddd, MMM DD")}
       goBack
+      shareData={{
+        title: "Check out my practice session!",
+        message: `I practiced ${formatTime(
+          updatedPractice.duration
+        )} on ${dayjs(updatedPractice.timestamp).format("MMM DD, YYYY")}`,
+        url: `${CONFIG.APP_URL}/practice/${id}`,
+      }}
     >
       <View className="">
         <View className="gap-4 mb-2">
