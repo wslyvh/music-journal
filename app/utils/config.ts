@@ -17,7 +17,8 @@ export const CONFIG = {
   APP_DESCRIPTION:
     "Music Journal helps helps you transform your music practice. Like Strava for your music practice.",
   APP_CONTACT: "support@musicjournal.fm",
-  APP_URL: "https://www.musicjournal.fm",
+  APP_URL: "https://app.musicjournal.fm",
+  WEBSITE_URL: "https://www.musicjournal.fm",
 
   SOCIAL_TWITTER: "wslyvh",
   SOCIAL_GITHUB: "wslyvh/music-journal",

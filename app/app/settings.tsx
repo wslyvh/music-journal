@@ -34,10 +34,10 @@ export default function Settings() {
     //   title: "Rate App",
     //   href: `${CONFIG.APP_URL}/rate`,
     // },
-    { title: "Website", href: `${CONFIG.APP_URL}` },
+    { title: "Website", href: `${CONFIG.WEBSITE_URL}` },
     { title: "Support & Feedback", href: `mailto:${CONFIG.APP_CONTACT}` },
-    { title: "Terms of Service", href: `${CONFIG.APP_URL}/terms` },
-    { title: "Privacy Policy", href: `${CONFIG.APP_URL}/privacy` },
+    { title: "Terms of Service", href: `${CONFIG.WEBSITE_URL}/terms` },
+    { title: "Privacy Policy", href: `${CONFIG.WEBSITE_URL}/privacy` },
   ];
 
   return (
