@@ -21,7 +21,7 @@ export function ConfirmPractice(props: Props) {
 
   return (
     <View className={className}>
-      <View className="space-y-4">
+      <View className="gap-4">
         <InstrumentPicker
           selected={account?.instruments[0] ?? ""}
           onSelect={(value) =>

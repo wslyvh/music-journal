@@ -41,7 +41,7 @@ export default function PracticeDetails() {
       goBack
     >
       <View className="">
-        <View className="space-y-4 mb-2">
+        <View className="gap-4 mb-2">
           <InstrumentPicker
             selected={updatedPractice.type}
             onSelect={(value) => {

@@ -8,7 +8,7 @@ export function PracticeTimer() {
   const recorder = useRecorder();
 
   return (
-    <View className="space-y-6">
+    <View className="gap-4">
       {recorder.state === "STOPPED" && <ConfirmPractice />}
 
       {recorder.state !== "STOPPED" && (

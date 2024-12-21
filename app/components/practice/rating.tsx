@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function StarRating(props: Props) {
-  let className = "flex-row justify-center space-x-2";
+  let className = "flex-row justify-center gap-2";
   if (props.className) {
     className += ` ${props.className}`;
   }
