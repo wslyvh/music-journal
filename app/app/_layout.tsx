@@ -72,7 +72,7 @@ export default function RootLayout() {
                 overflow: "hidden",
                 width: Dimensions.get("window").width,
                 marginLeft: "50%",
-                transform: [{ translateX: "-50%" }],
+                transform: [{ translateX: -50 }],
               }}
             >
               <LinearGradient
