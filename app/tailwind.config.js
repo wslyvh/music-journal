@@ -9,7 +9,7 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     colors: {
-      primary: "#FC766A",
+      primary: "#ff5533",
       "primary-hover": "#403538",
       "primary-content": "#ffffff",
       secondary: "#6A5FDB",
