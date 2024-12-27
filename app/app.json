@@ -5,6 +5,7 @@
     "slug": "music-journal-app",
     "version": "0.1.0",
     "githubUrl": "https://github.com/wslyvh/music-journal",
+    "owner": "wslyvh",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
     "scheme": "music-journal",
@@ -41,7 +42,6 @@
       "eas": {
         "projectId": "08fd2b10-f6bb-40fc-98ec-18fe1fbb61d0"
       }
-    },
-    "owner": "expow5"
+    }
   }
 }

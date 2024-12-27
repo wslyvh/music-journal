@@ -15,6 +15,16 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "allowedPackages": [
+          "tailwindcss",
+          "nativewind"
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
