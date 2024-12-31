@@ -8,7 +8,7 @@ const DEV_API_URL =
 const PROD_API_URL = "https://api.musicjournal.fm";
 
 export const CONFIG = {
-  API_URL: __DEV__ ? DEV_API_URL : PROD_API_URL,
+  API_URL: PROD_API_URL,
 
   APP_EMOJI: "🎵",
   APP_ID: "music-journal",
