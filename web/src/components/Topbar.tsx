@@ -2,7 +2,7 @@ import { Button, Drawer, Menu, Navbar } from "react-daisyui";
 import { Menu as MenuIcon, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CONFIG } from "@/utils/config";
-
+import logo from "@/assets/logo.png";
 export const Topbar = () => {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [atTop, setAtTop] = useState(true);
@@ -31,11 +31,12 @@ export const Topbar = () => {
                   side={
                     <Menu className="min-h-full w-80 gap-2 bg-base-100 p-4 text-base-content">
                       <Menu.Item className="font-medium">
-                        <a
-                          href="/"
-                          className="text-brand-gradient text-2xl font-bold tracking-tighter"
-                        >
-                          {CONFIG.SITE_NAME}
+                        <a href="/">
+                          <img
+                            src={logo}
+                            alt="Music Journal Logo"
+                            className="h-8"
+                          />
                         </a>
                       </Menu.Item>
 
@@ -94,11 +95,8 @@ export const Topbar = () => {
                 </Drawer>
               </div>
 
-              <a
-                href="/"
-                className="text-brand-gradient text-2xl font-bold tracking-tighter whitespace-nowrap"
-              >
-                {CONFIG.SITE_NAME}
+              <a href="/">
+                <img src={logo} alt="Music Journal Logo" className="h-8" />
               </a>
             </Navbar.Start>
 

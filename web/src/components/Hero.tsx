@@ -2,7 +2,7 @@ import bgGradientImg from "@/assets/images/landing/bg-gradient.png";
 import mobile1Img from "@/assets/images/landing/mobile-1.png";
 import avatar1Img from "@/assets/images/avatar/1.png";
 import { StarIcon, ZapIcon } from "lucide-react";
-import { Button, Card } from "react-daisyui";
+import { Button, Card, Input } from "react-daisyui";
 import { CONFIG } from "@/utils/config";
 
 export const Hero = () => {
@@ -31,9 +31,26 @@ export const Hero = () => {
               </a>
             </div> */}
             <div className="mt-8 flex justify-center gap-4 sm:justify-start">
-              <a href="#download">
-                <Button color="primary">Coming Soon</Button>
-              </a>
+              <form
+                className="join inline-flex"
+                target="_blank"
+                method="post"
+                action="https://login.sendpulse.com/forms/simple/u/eyJ1c2VyX2lkIjo4Mzk2NTA3LCJhZGRyZXNzX2Jvb2tfaWQiOjEwMDgwNDQsImxhbmciOiJlbiJ9"
+              >
+                <Input
+                  autoComplete="email"
+                  id="email"
+                  className="input join-item input-bordered w-full lg:max-w-xs"
+                  placeholder="hello@musicjournal.fm"
+                  type="email"
+                  name="email"
+                  required
+                />
+                <input type="hidden" name="sender" value="d2VzbGV5QHc1Lmdn" />
+                <Button color="primary" className="join-item">
+                  Join waitlist
+                </Button>
+              </form>
             </div>
           </div>
 

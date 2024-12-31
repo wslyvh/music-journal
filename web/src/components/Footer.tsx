@@ -35,6 +35,14 @@ export const Footer = () => {
         >
           wslyvh
         </a>
+        . Code on{" "}
+        <a
+          className="link-hover link"
+          href="https://github.com/wslyvh/music-journal"
+          target="_blank"
+        >
+          GitHub
+        </a>
       </div>
     </footer>
   );

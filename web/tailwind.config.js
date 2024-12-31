@@ -35,7 +35,7 @@ export default {
       {
         light: {
           ...require("daisyui/src/theming/themes").light,
-          primary: "#FC766A",
+          primary: "#FF5533",
           "primary-content": "#ffffff",
           secondary: "#494949",
           neutral: "#03131a",
@@ -48,7 +48,7 @@ export default {
         },
         dark: {
           ...require("daisyui/src/theming/themes").dark,
-          primary: "#FC766A",
+          primary: "#FF5533",
           "primary-content": "#ffffff",
           secondary: "#494949",
           neutral: "#03131a",
