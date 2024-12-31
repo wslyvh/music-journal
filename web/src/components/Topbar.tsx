@@ -1,8 +1,8 @@
 import { Button, Drawer, Menu, Navbar } from "react-daisyui";
 import { Menu as MenuIcon, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { CONFIG } from "@/utils/config";
 import logo from "@/assets/logo.png";
+
 export const Topbar = () => {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [atTop, setAtTop] = useState(true);
