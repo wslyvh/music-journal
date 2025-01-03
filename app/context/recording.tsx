@@ -54,16 +54,28 @@ export default function RecordingProvider(props: PropsWithChildren) {
   const [current, setCurrent] = useState<PracticeData>(defaultState);
   const [recording, setRecording] = useState<Audio.Recording>();
   const [permissionResponse, requestPermission] = Audio.usePermissions();
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [pausedTime, setPausedTime] = useState<number>(0);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
+
     if (state === "RUNNING") {
+      setStartTime((prev) => prev || Date.now() - timer * 1000);
       interval = setInterval(() => {
-        setTimer((prevTime) => prevTime + 1);
+        if (startTime) {
+          const elapsed =
+            Math.floor((Date.now() - startTime) / 1000) + pausedTime;
+          setTimer(elapsed);
+        }
       }, 1000);
+    } else if (state === "PAUSED") {
+      setPausedTime(timer);
+      setStartTime(null);
     }
+
     return () => clearInterval(interval);
-  }, [state]);
+  }, [state, startTime]);
 
   function setPractice(data: PracticeData) {
     setCurrent({
@@ -151,6 +163,8 @@ export default function RecordingProvider(props: PropsWithChildren) {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
+        shouldDuckAndroid: true,
       });
 
       const { recording } = await Audio.Recording.createAsync({
