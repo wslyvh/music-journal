@@ -1,8 +1,8 @@
-import { ConfigContext, ExpoConfig } from "expo/config";
-import { withForegroundService } from "./manifest.plugin";
+import { ConfigContext } from "expo/config";
+const withForegroundService = require("./manifest.plugin");
 
-const config = (ctx: ConfigContext): ExpoConfig => {
-  return ctx.config as ExpoConfig;
-};
-
-export default withForegroundService(config({} as ConfigContext));
+module.exports = withForegroundService(({ config }: ConfigContext) => {
+  return {
+    ...config,
+  };
+});

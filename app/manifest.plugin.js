@@ -1,7 +1,6 @@
-import { ExpoConfig } from "expo/config";
-import { withAndroidManifest, AndroidConfig } from "@expo/config-plugins";
+const { withAndroidManifest, AndroidConfig } = require("@expo/config-plugins");
 
-export function withForegroundService(config: ExpoConfig) {
+const withForegroundService = (config) => {
   return withAndroidManifest(config, async (config) => {
     const manifest = config.modResults;
 
@@ -17,11 +16,11 @@ export function withForegroundService(config: ExpoConfig) {
       $: {
         "android:name": "app.notifee.core.ForegroundService",
         "android:foregroundServiceType": "microphone",
-        // @ts-ignore
         "tools:replace": "android:foregroundServiceType",
       },
     });
-
     return config;
   });
-}
+};
+
+module.exports = withForegroundService;
