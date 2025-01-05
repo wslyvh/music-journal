@@ -6,7 +6,14 @@ import RecordingProvider from "@/context/recording";
 import { useRouter, usePathname } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { THEME_COLORS } from "@/utils/theme";
+import notifee from "@notifee/react-native";
 import "@/assets/global.css";
+
+notifee.registerForegroundService(() => {
+  return new Promise(() => {
+    console.log("Foreground service started");
+  });
+});
 
 export default function RootLayout() {
   const router = useRouter();
