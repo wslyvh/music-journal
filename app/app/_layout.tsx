@@ -10,6 +10,7 @@ import notifee from "@notifee/react-native";
 import "@/assets/global.css";
 
 notifee.registerForegroundService(() => {
+  console.log("Registering foreground service");
   return new Promise(() => {
     console.log("Foreground service started");
   });

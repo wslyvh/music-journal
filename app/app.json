@@ -15,10 +15,13 @@
       "backgroundColor": "#ff5533"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
     },
     "android": {
-      "package": "wslyvh.musicjournal",
+      "package": "wslyvh.musicjournal.fm",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",

@@ -164,10 +164,10 @@ export default function RecordingProvider(props: PropsWithChildren) {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
-        interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
         shouldDuckAndroid: true,
         playThroughEarpieceAndroid: false,
-        interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
         staysActiveInBackground: true,
       });
 
@@ -175,11 +175,13 @@ export default function RecordingProvider(props: PropsWithChildren) {
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
 
+      console.log("Creating channel");
       const channelId = await notifee.createChannel({
         id: "recording",
         name: "Recording",
       });
 
+      console.log("Displaying recording notification");
       await notifee.displayNotification({
         title: "Music Journal Recording",
         body: "Recording in progress...",
