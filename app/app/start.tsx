@@ -4,7 +4,6 @@ import { Join } from "@/components/account/banner";
 import { useAuth } from "@/hooks/useAuth";
 import { useRecorder } from "@/context/recording";
 import { Text } from "@/components/text";
-import { useAudioPermissions } from "@/hooks/usePermissions";
 import { Permissions } from "@/components/permissions";
 
 export default function Start() {

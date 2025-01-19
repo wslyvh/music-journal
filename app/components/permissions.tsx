@@ -1,7 +1,6 @@
 import { Button } from "@/components/button";
 import { Text } from "@/components/text";
-import { useAudioPermissions } from "@/hooks/usePermissions";
-import { router } from "expo-router";
+import { useAudioPermissions } from "@/hooks/useAudioPermissions";
 import { View } from "react-native";
 
 interface Props {

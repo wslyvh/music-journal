@@ -13,9 +13,8 @@ export const CONFIG = {
   APP_EMOJI: "🎵",
   APP_ID: "music-journal",
   APP_NAME: "Music Journal",
-  APP_TAGLINE: "Record, reflect and improve your music practice",
   APP_DESCRIPTION:
-    "Music Journal helps helps you transform your music practice. Like Strava for your music practice.",
+    "Music Journal helps helps you transform your music practice. Record, reflect and improve!",
   APP_CONTACT: "support@musicjournal.fm",
   APP_URL: "https://app.musicjournal.fm",
   WEBSITE_URL: "https://www.musicjournal.fm",

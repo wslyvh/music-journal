@@ -27,19 +27,14 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ff5533"
       },
-      "permissions": [
-        "RECORD_AUDIO",
-        "FOREGROUND_SERVICE",
-        "WAKE_LOCK",
-        "FOREGROUND_SERVICE_MICROPHONE"
-      ]
+      "permissions": ["RECORD_AUDIO", "FOREGROUND_SERVICE", "WAKE_LOCK"]
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": ["expo-router", "expo-font", "expo-notifications"],
     "experiments": {
       "typedRoutes": true
     },

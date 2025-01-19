@@ -1,5 +1,10 @@
 import { Stack } from "expo-router";
-import { View, TouchableOpacity, StatusBar, Dimensions } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StatusBar,
+  useWindowDimensions,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DataProvider from "@/context/data";
 import RecordingProvider from "@/context/recording";
@@ -19,11 +24,14 @@ notifee.registerForegroundService(() => {
 export default function RootLayout() {
   const router = useRouter();
   const pathname = usePathname();
+  const { width } = useWindowDimensions();
+  console.log("Screen width", width);
 
   const pages = [
     "index",
     "start",
     "leaderboard",
+    "onboarding",
     "login",
     "settings",
     "settings/profile",
@@ -31,6 +39,9 @@ export default function RootLayout() {
     "practice/[id]",
     "+not-found",
   ];
+
+  const fullscreen = ["onboarding", "+not-found"];
+  const showTabs = !fullscreen.some((route) => pathname === `/${route}`);
 
   const tabs = [
     {
@@ -61,7 +72,7 @@ export default function RootLayout() {
       <RecordingProvider>
         <StatusBar translucent={true} backgroundColor="transparent" />
         <View className="flex-1 items-center bg-base-100 pt-8">
-          <View className="flex-1 w-full max-w-4xl">
+          <View className="flex-1 w-full">
             <Stack>
               {pages.map((page) => (
                 <Stack.Screen
@@ -74,13 +85,14 @@ export default function RootLayout() {
 
             {/* Bottom Gradient */}
             <View
-              className="absolute bottom-0 left-0 right-0"
               style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                width: width,
                 height: 80,
                 overflow: "hidden",
-                width: Dimensions.get("window").width,
-                marginLeft: "50%",
-                transform: [{ translateX: -50 }],
               }}
             >
               <LinearGradient
@@ -96,48 +108,50 @@ export default function RootLayout() {
             </View>
 
             {/* Floating Tab Bar */}
-            <View className="absolute bottom-4 left-2 right-2">
-              <View
-                className="flex-row rounded-full h-[60px] items-center justify-around mx-2 bg-base-300"
-                style={{
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.25,
-                  shadowRadius: 8,
-                  elevation: 5,
-                }}
-              >
-                {tabs.map((tab) => {
-                  const focused =
-                    pathname === `/${tab.name}` ||
-                    (tab.name === "index" && pathname === "/");
+            {showTabs && (
+              <View className="absolute bottom-4 left-2 right-2">
+                <View
+                  className="flex-row rounded-full h-[60px] items-center justify-around mx-2 bg-base-300"
+                  style={{
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  }}
+                >
+                  {tabs.map((tab) => {
+                    const focused =
+                      pathname === `/${tab.name}` ||
+                      (tab.name === "index" && pathname === "/");
 
-                  return (
-                    <TouchableOpacity
-                      key={tab.name}
-                      className="flex-1 h-full items-center justify-center"
-                      onPress={() => {
-                        const targetPath =
-                          tab.name === "index" ? "/" : `/${tab.name}`;
-                        if (pathname !== targetPath) {
-                          router.replace(targetPath as any);
-                        }
-                      }}
-                    >
-                      <Ionicons
-                        name={tab.icon(focused)}
-                        color={
-                          focused
-                            ? THEME_COLORS["primary"]
-                            : THEME_COLORS["muted"]
-                        }
-                        size={24}
-                      />
-                    </TouchableOpacity>
-                  );
-                })}
+                    return (
+                      <TouchableOpacity
+                        key={tab.name}
+                        className="flex-1 h-full items-center justify-center"
+                        onPress={() => {
+                          const targetPath =
+                            tab.name === "index" ? "/" : `/${tab.name}`;
+                          if (pathname !== targetPath) {
+                            router.replace(targetPath as any);
+                          }
+                        }}
+                      >
+                        <Ionicons
+                          name={tab.icon(focused)}
+                          color={
+                            focused
+                              ? THEME_COLORS["primary"]
+                              : THEME_COLORS["muted"]
+                          }
+                          size={24}
+                        />
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
+            )}
           </View>
         </View>
       </RecordingProvider>

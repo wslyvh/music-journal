@@ -18,8 +18,9 @@ import { Badge } from "./badge";
 import { useRecorder } from "@/context/recording";
 
 interface Props extends PropsWithChildren {
-  title: string;
+  title?: string;
   goBack?: boolean;
+  backAction?: () => void;
   cancelable?: boolean;
   rightIcon?: {
     name: keyof typeof Ionicons.glyphMap;
@@ -138,15 +139,18 @@ function Header(props: Props) {
   return (
     <View className="flex flex-row items-center justify-between h-16 mb-2">
       <View className="w-12 items-start">
-        {props.goBack && (
-          <TouchableOpacity onPress={() => router.back()} className="p-2 -ml-2">
+        {props.goBack || props.backAction ? (
+          <TouchableOpacity
+            onPress={props.backAction || (() => router.back())}
+            className="p-2 -ml-2"
+          >
             <Ionicons
               name="arrow-back"
               size={24}
               color={THEME_COLORS["base-content"]}
             />
           </TouchableOpacity>
-        )}
+        ) : null}
       </View>
 
       <View className="flex-1 items-center">
