@@ -126,12 +126,11 @@ function Header(props: Props) {
     if (Platform.OS === "web") {
       if (window.confirm("Are you sure you want to cancel?")) {
         recorder.clear();
-        router.back();
       }
     } else {
       Alert.alert("Cancel", "Are you sure you want to cancel?", [
         { text: "No", style: "cancel" },
-        { text: "Yes", style: "destructive", onPress: () => router.back() },
+        { text: "Yes", style: "destructive", onPress: () => recorder.clear() },
       ]);
     }
   };

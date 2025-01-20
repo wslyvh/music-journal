@@ -27,7 +27,6 @@ export default function RootLayout() {
   const router = useRouter();
   const pathname = usePathname();
   const { width } = useWindowDimensions();
-  console.log("Screen width", width);
 
   const pages = [
     "index",

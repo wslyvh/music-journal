@@ -1,6 +1,7 @@
-import { View, Text } from "react-native";
-import { Button } from "../button";
-import { ConfirmPractice } from "./confirm";
+import { View } from "react-native";
+import { Button } from "@/components/button";
+import { Text } from "@/components/text";
+import { ConfirmPractice } from "@/components/practice/confirm";
 import { formatTime } from "@/utils/format";
 import { useRecorder } from "@/context/recording";
 
@@ -15,7 +16,7 @@ export function PracticeTimer() {
         <>
           <View className="items-center justify-center my-8">
             <View className="w-48 h-48 rounded-full border-2 border-base-300 items-center justify-center border-2">
-              <Text className="text-4xl font-bold text-base-content">
+              <Text className="text-4xl font-bold">
                 {formatTime(recorder.timer)}
               </Text>
             </View>

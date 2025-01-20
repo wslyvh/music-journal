@@ -62,15 +62,16 @@ export default function RecordingProvider(props: PropsWithChildren) {
     let interval: ReturnType<typeof setInterval>;
 
     if (state === "RUNNING") {
-      setStartTime((prev) => prev || Date.now() - timer * 1000);
+      if (!startTime) {
+        setStartTime(Date.now());
+      }
+
       interval = setInterval(() => {
         if (startTime) {
-          const elapsed =
-            Math.floor((Date.now() - startTime) / 1000) + pausedTime;
-          setTimer(elapsed);
+          setTimer(pausedTime + Math.floor((Date.now() - startTime) / 1000));
         }
       }, 1000);
-    } else if (state === "PAUSED") {
+    } else {
       setPausedTime(timer);
       setStartTime(null);
     }
@@ -151,6 +152,8 @@ export default function RecordingProvider(props: PropsWithChildren) {
   function clear() {
     setState("");
     setTimer(0);
+    setStartTime(null);
+    setPausedTime(0);
     setCurrent(defaultState);
   }
 
