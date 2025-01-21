@@ -12,7 +12,6 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { usePracticeMutations } from "@/hooks/usePracticeMutations";
-import notifee from "@notifee/react-native";
 
 interface RecordingContext {
   state: string;
@@ -177,22 +176,6 @@ export default function RecordingProvider(props: PropsWithChildren) {
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
-
-      console.log("Creating channel");
-      const channelId = await notifee.createChannel({
-        id: "recording",
-        name: "Recording",
-      });
-
-      console.log("Displaying recording notification");
-      await notifee.displayNotification({
-        title: "Music Journal Recording",
-        body: "Recording in progress...",
-        android: {
-          channelId,
-          asForegroundService: true,
-        },
-      });
 
       setRecording(recording);
       console.log("Recording started");

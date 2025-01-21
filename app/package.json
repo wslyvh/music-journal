@@ -29,7 +29,6 @@
     "@expo/config-plugins": "^9.0.12",
     "@expo/vector-icons": "^14.0.4",
     "@gorhom/bottom-sheet": "^5.0.6",
-    "@notifee/react-native": "^9.1.8",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/slider": "4.5.5",
     "@react-native-picker/picker": "2.9.0",

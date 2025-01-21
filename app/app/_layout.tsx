@@ -13,15 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { THEME_COLORS } from "@/utils/theme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import notifee from "@notifee/react-native";
 import "@/assets/global.css";
-
-notifee.registerForegroundService(() => {
-  console.log("Registering foreground service");
-  return new Promise(() => {
-    console.log("Foreground service started");
-  });
-});
 
 export default function RootLayout() {
   const router = useRouter();
