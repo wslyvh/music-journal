@@ -22,3 +22,26 @@ export const CONFIG = {
   SOCIAL_TWITTER: "wslyvh",
   SOCIAL_GITHUB: "wslyvh/music-journal",
 };
+
+export const INSTRUMENTS = [
+  "Bass",
+  "Cello",
+  "Clarinet",
+  "Drums",
+  "Flute",
+  "Guitar",
+  "Harmonica",
+  "Keyboard",
+  "Oboe",
+  "Percussion",
+  "Piano",
+  "Saxophone",
+  "Trombone",
+  "Trumpet",
+  "Tuba",
+  "Ukulele",
+  "Violin",
+  "Voice",
+  "Vocals",
+  "Other",
+];

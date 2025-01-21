@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "../button";
 import { StarRating } from "./rating";
 import { formatTime } from "@/utils/format";
@@ -23,6 +23,7 @@ export function ConfirmPractice(props: Props) {
     <View className={className}>
       <View className="gap-4">
         <InstrumentPicker
+          items={account?.instruments ?? []}
           selected={account?.instruments[0] ?? ""}
           onSelect={(value) =>
             recorder.setPractice({ ...recorder.current, type: value })

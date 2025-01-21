@@ -1,15 +1,14 @@
-import { useAuth } from "@/hooks/useAuth";
 import { THEME_COLORS } from "@/utils/theme";
 import { Picker } from "@react-native-picker/picker";
 
 interface Props {
   selected: string;
+  items: string[];
   onSelect: (value: string) => void;
   className?: string;
 }
 
 export function InstrumentPicker(props: Props) {
-  const { account } = useAuth();
   let { className: _, ...rest } = props;
   let className =
     "bg-base-300 text-base-content rounded-md px-3 py-3 overflow-hidden";
@@ -28,14 +27,7 @@ export function InstrumentPicker(props: Props) {
       }}
       {...rest}
     >
-      {!account?.instruments.length && (
-        <Picker.Item
-          key={props.selected}
-          label={props.selected}
-          value={props.selected}
-        />
-      )}
-      {account?.instruments.map((instrument) => (
+      {props.items.map((instrument: string) => (
         <Picker.Item key={instrument} label={instrument} value={instrument} />
       ))}
     </Picker>

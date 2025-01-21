@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Text } from "@/components/text";
 import { useQuery } from "@tanstack/react-query";
-import { CONFIG } from "@/utils/config";
+import { CONFIG, INSTRUMENTS } from "@/utils/config";
 import { formatDuration } from "@/utils/format";
 import { useInstrument } from "@/hooks/useInstrument";
 import { InstrumentPicker } from "@/components/instrument-picker";
@@ -32,6 +32,7 @@ export default function Index() {
     <ScreenLayout title="Leaderboard 👋">
       <InstrumentPicker
         className="text-base-content mb-4"
+        items={INSTRUMENTS}
         selected={selectedInstrument ?? ""}
         onSelect={setSelectedInstrument}
       />

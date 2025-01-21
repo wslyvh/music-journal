@@ -51,6 +51,7 @@ export default function PracticeDetails() {
       <View className="">
         <View className="gap-4 mb-2">
           <InstrumentPicker
+            items={[updatedPractice.type]}
             selected={updatedPractice.type}
             onSelect={(value) => {
               setUpdatedPractice({ ...updatedPractice, type: value });
