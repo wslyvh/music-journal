@@ -1,15 +1,15 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, Text } from "react-native";
-import { useAuth } from "@/hooks/useAuth";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { router } from "expo-router";
 import { formatDate } from "@/utils/format";
+import { useProfile } from "@/hooks/profile/useProfile";
 
 export function AccountBanner() {
-  const { account } = useAuth();
+  const { data: profile } = useProfile();
 
-  if (account) {
+  if (profile) {
     return (
       <View className="flex flex-row items-center bg-base-200 rounded-xl p-8 gap-4">
         <View className="bg-primary w-12 h-12 rounded-full flex items-center justify-center">
@@ -17,10 +17,10 @@ export function AccountBanner() {
         </View>
         <View className="flex gap-1">
           <Text className="text-xl font-bold text-base-content">
-            {account.email}
+            {profile.username}
           </Text>
           <Text className="flex text-base-content items-center gap-1">
-            {formatDate(account.createdAt)} <Badge text="early adopter" />
+            {formatDate(profile.createdAt)} <Badge text="early adopter" />
           </Text>
         </View>
       </View>

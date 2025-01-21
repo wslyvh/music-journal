@@ -5,28 +5,25 @@ import { Link, router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import Constants from "expo-constants";
 import { CONFIG } from "@/utils/config";
-import { useAuth } from "@/hooks/useAuth";
 import { THEME_COLORS } from "@/utils/theme";
 
 export default function Settings() {
-  const { account, logoutMutation } = useAuth();
-
   const appItems = [
     {
       title: "Manage Profile",
       icon: "person",
       action: () => router.push("/settings/profile"),
     },
-    {
-      title: "Delete Account",
-      icon: "trash",
-      action: () => router.push("/settings/delete"),
-    },
-    {
-      title: "Sign Out",
-      icon: "exit-outline",
-      action: () => logoutMutation.mutate(),
-    },
+    // {
+    //   title: "Delete Account",
+    //   icon: "trash",
+    //   action: () => router.push("/settings/delete"),
+    // },
+    // {
+    //   title: "Sign Out",
+    //   icon: "exit-outline",
+    //   action: () => logoutMutation.mutate(),
+    // },
   ];
 
   const navigationItems = [
@@ -44,32 +41,30 @@ export default function Settings() {
     <ScreenLayout title="Settings">
       <AccountBanner />
 
-      {account && (
-        <View className="flex gap-2 mt-8">
-          <Text className="text-xl font-bold text-base-content">Settings</Text>
-          {appItems.map((item, index) => (
-            <TouchableOpacity
-              key={`app-${index}`}
-              onPress={item.action}
-              className="flex-row items-center p-4 border-b border-base-300"
-            >
-              <Ionicons
-                name={item.icon as any}
-                size={21}
-                color={THEME_COLORS["base-content"]}
-                className="text-base-content"
-              />
-              <Text className="text-base-content ml-4">{item.title}</Text>
-              <Ionicons
-                name="chevron-forward"
-                size={24}
-                color={THEME_COLORS["base-content"]}
-                className="text-base-content ml-auto"
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-      )}
+      <View className="flex gap-2 mt-8">
+        <Text className="text-xl font-bold text-base-content">Settings</Text>
+        {appItems.map((item, index) => (
+          <TouchableOpacity
+            key={`app-${index}`}
+            onPress={item.action}
+            className="flex-row items-center p-4 border-b border-base-300"
+          >
+            <Ionicons
+              name={item.icon as any}
+              size={21}
+              color={THEME_COLORS["base-content"]}
+              className="text-base-content"
+            />
+            <Text className="text-base-content ml-4">{item.title}</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={THEME_COLORS["base-content"]}
+              className="text-base-content ml-auto"
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
 
       <View className="flex gap-2 my-8">
         <Text className="text-xl font-bold text-base-content">Application</Text>

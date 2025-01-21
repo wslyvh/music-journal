@@ -1,9 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { QueryClient } from "@tanstack/react-query";
-
-export const queryClient = new QueryClient();
+import { randomUUID } from "expo-crypto";
 
 export interface Profile {
+  id?: string;
   username: string;
   instrument: string;
   yearsOfExperience: number;
@@ -15,6 +14,7 @@ export interface Profile {
 
 export async function getProfile() {
   console.log("getProfile");
+
   const profile = await AsyncStorage.getItem("profile");
   if (profile) {
     console.log("getProfile", profile);
@@ -23,12 +23,24 @@ export async function getProfile() {
 }
 
 export async function setProfile(profile: Profile) {
-  console.log("setProfile", profile);
-  queryClient.setQueryData(["profile"], profile);
-  await AsyncStorage.setItem("profile", JSON.stringify(profile));
+  const id = profile.id ?? randomUUID();
+  console.log("setProfile", id, profile);
+  await AsyncStorage.setItem(
+    "profile",
+    JSON.stringify({
+      ...profile,
+      id,
+    })
+  );
+
+  return {
+    ...profile,
+    id,
+  };
 }
 
 export async function removeProfile() {
   console.log("removeProfile");
+
   await AsyncStorage.removeItem("profile");
 }

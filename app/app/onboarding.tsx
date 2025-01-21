@@ -15,7 +15,7 @@ import { useProfileMutation } from "@/hooks/profile/useProfileMutation";
 export default function Index() {
   const profileMutation = useProfileMutation();
   const [step, setStep] = useState(1);
-  const [profile, setProfile] = useState({
+  const [profileData, setProfileData] = useState({
     username: "",
     instrument: "",
     yearsOfExperience: "",
@@ -33,20 +33,20 @@ export default function Index() {
 
   async function handleProfileUpdate() {
     if (
-      !profile.username ||
-      !profile.instrument ||
-      !profile.yearsOfExperience ||
-      !profile.practiceFrequency ||
-      !profile.goals
+      !profileData.username ||
+      !profileData.instrument ||
+      !profileData.yearsOfExperience ||
+      !profileData.practiceFrequency ||
+      !profileData.goals
     ) {
       setUserError("Please complete all fields");
       return;
     }
 
     profileMutation.mutate({
-      ...profile,
-      yearsOfExperience: Number(profile.yearsOfExperience ?? 0),
-      practiceFrequency: Number(profile.practiceFrequency ?? 0),
+      ...profileData,
+      yearsOfExperience: Number(profileData.yearsOfExperience ?? 0),
+      practiceFrequency: Number(profileData.practiceFrequency ?? 0),
     });
     setUserError("");
     setStep(3);
@@ -102,9 +102,9 @@ export default function Index() {
         <View className="flex">
           <Text>How should we call you?</Text>
           <Input
-            value={profile.username}
+            value={profileData.username}
             onChangeText={(value) =>
-              setProfile({ ...profile, username: value })
+              setProfileData({ ...profileData, username: value })
             }
             placeholder="Enter your (user) name"
             className="my-4"
@@ -114,17 +114,19 @@ export default function Index() {
           <InstrumentPicker
             className="my-4"
             items={INSTRUMENTS}
-            selected={profile.instrument}
-            onSelect={(value) => setProfile({ ...profile, instrument: value })}
+            selected={profileData.instrument}
+            onSelect={(value) =>
+              setProfileData({ ...profileData, instrument: value })
+            }
           />
 
           <Text>How many years have you been playing?</Text>
           <Input
-            value={profile.yearsOfExperience}
+            value={profileData.yearsOfExperience}
             onChangeText={(value) => {
               const numericValue = value.replace(/[^0-9]/g, "");
-              setProfile({
-                ...profile,
+              setProfileData({
+                ...profileData,
                 yearsOfExperience: numericValue,
               });
             }}
@@ -135,11 +137,11 @@ export default function Index() {
 
           <Text>How often a week do you practice?</Text>
           <Input
-            value={profile.practiceFrequency.toString()}
+            value={profileData.practiceFrequency.toString()}
             onChangeText={(value) => {
               const numericValue = value.replace(/[^0-9]/g, "");
-              setProfile({
-                ...profile,
+              setProfileData({
+                ...profileData,
                 practiceFrequency: numericValue,
               });
             }}
@@ -150,8 +152,10 @@ export default function Index() {
 
           <Text>What is your goal?</Text>
           <Input
-            value={profile.goals}
-            onChangeText={(value) => setProfile({ ...profile, goals: value })}
+            value={profileData.goals}
+            onChangeText={(value) =>
+              setProfileData({ ...profileData, goals: value })
+            }
             placeholder="E.g. Learn a new song or play in a band."
             className="my-4"
             multiline

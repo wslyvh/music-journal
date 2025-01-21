@@ -2,29 +2,58 @@ import { AccountBanner } from "@/components/account/banner";
 import { ScreenLayout } from "@/components/screen-layout";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/input";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/button";
+import { useProfileMutation } from "@/hooks/profile/useProfileMutation";
+import { useProfile } from "@/hooks/profile/useProfile";
+import { InstrumentPicker } from "@/components/instrument-picker";
+import { INSTRUMENTS } from "@/utils/config";
 
 export default function Settings() {
-  const { account, profileMutation } = useAuth();
-  const [username, setUsername] = useState(account?.username);
-  const [instrument, setInstrument] = useState(account?.instruments[0]);
+  const { data: profile } = useProfile();
+  const profileMutation = useProfileMutation();
+  const [profileData, setProfileData] = useState(
+    profile ?? {
+      username: "",
+      instrument: "",
+      yearsOfExperience: "",
+      practiceFrequency: "",
+      goals: "",
+      createdAt: Date.now(),
+    }
+  );
   const [userError, setUserError] = useState("");
 
   useEffect(() => {
-    setUsername(account?.username);
-    setInstrument(account?.instruments[0]);
-  }, [account]);
+    console.log("profile", profile);
+    if (profile) {
+      setProfileData(profile);
+    }
+  }, [profile]);
 
   async function handleProfileUpdate() {
-    if (!username || !instrument) return;
+    if (!profileData) return;
+
+    if (
+      !profileData.username ||
+      !profileData.instrument ||
+      !profileData.yearsOfExperience ||
+      !profileData.practiceFrequency ||
+      !profileData.goals
+    ) {
+      setUserError("Please complete all fields");
+      return;
+    }
 
     profileMutation.mutate(
-      { username, instruments: [instrument] },
       {
-        onSuccess: (data) => {
+        ...profileData,
+        yearsOfExperience: Number(profileData.yearsOfExperience ?? 0),
+        practiceFrequency: Number(profileData.practiceFrequency ?? 0),
+      },
+      {
+        onSuccess: () => {
           setUserError("");
           router.replace("/settings");
         },
@@ -40,15 +69,19 @@ export default function Settings() {
         <Input
           className="mt-4"
           placeholder="Enter your (user) name"
-          value={username}
-          onChangeText={setUsername}
+          value={profileData?.username ?? ""}
+          onChangeText={(value) =>
+            setProfileData({ ...profileData, username: value })
+          }
         />
 
-        <Input
-          className="mt-4"
-          placeholder="Select your instrument"
-          value={instrument}
-          onChangeText={setInstrument}
+        <InstrumentPicker
+          className="my-4"
+          items={INSTRUMENTS}
+          selected={profileData?.instrument ?? ""}
+          onSelect={(value) =>
+            setProfileData({ ...profileData, instrument: value })
+          }
         />
       </View>
 
