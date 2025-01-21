@@ -1,25 +1,27 @@
 import { Button } from "@/components/button";
 import { ScreenLayout } from "@/components/screen-layout";
-import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, Image } from "react-native";
 import { Alert } from "@/components/alert";
 import { Input } from "@/components/input";
 import { Text } from "@/components/text";
-import { CONFIG } from "@/utils/config";
+import { CONFIG, INSTRUMENTS } from "@/utils/config";
 import { useNotificationPermissions } from "@/hooks/useNotificationPermissions";
 import { useAudioPermissions } from "@/hooks/useAudioPermissions";
+import { InstrumentPicker } from "@/components/instrument-picker";
+import { useProfileMutation } from "@/hooks/profile/useProfileMutation";
 
 export default function Index() {
-  const { profileMutation } = useAuth();
+  const profileMutation = useProfileMutation();
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState({
     username: "",
     instrument: "",
-    practiceTime: "",
+    yearsOfExperience: "",
     practiceFrequency: "",
-    goal: "",
+    goals: "",
+    createdAt: Date.now(),
   });
   const [userError, setUserError] = useState("");
   const {
@@ -33,15 +35,19 @@ export default function Index() {
     if (
       !profile.username ||
       !profile.instrument ||
-      !profile.practiceTime ||
+      !profile.yearsOfExperience ||
       !profile.practiceFrequency ||
-      !profile.goal
+      !profile.goals
     ) {
       setUserError("Please complete all fields");
       return;
     }
 
-    // TODO: Add profile update
+    profileMutation.mutate({
+      ...profile,
+      yearsOfExperience: Number(profile.yearsOfExperience ?? 0),
+      practiceFrequency: Number(profile.practiceFrequency ?? 0),
+    });
     setUserError("");
     setStep(3);
   }
@@ -100,26 +106,27 @@ export default function Index() {
             onChangeText={(value) =>
               setProfile({ ...profile, username: value })
             }
-            placeholder="Enter your name"
+            placeholder="Enter your (user) name"
             className="my-4"
           />
 
           <Text>What's the primary instrument that you're playing?</Text>
-          <Input
-            value={profile.instrument}
-            onChangeText={(value) =>
-              setProfile({ ...profile, instrument: value })
-            }
-            placeholder="Select your instrument"
+          <InstrumentPicker
             className="my-4"
+            items={INSTRUMENTS}
+            selected={profile.instrument}
+            onSelect={(value) => setProfile({ ...profile, instrument: value })}
           />
 
           <Text>How many years have you been playing?</Text>
           <Input
-            value={profile.practiceTime}
+            value={profile.yearsOfExperience}
             onChangeText={(value) => {
               const numericValue = value.replace(/[^0-9]/g, "");
-              setProfile({ ...profile, practiceTime: numericValue });
+              setProfile({
+                ...profile,
+                yearsOfExperience: numericValue,
+              });
             }}
             placeholder="2"
             keyboardType="numeric"
@@ -128,10 +135,13 @@ export default function Index() {
 
           <Text>How often a week do you practice?</Text>
           <Input
-            value={profile.practiceFrequency}
+            value={profile.practiceFrequency.toString()}
             onChangeText={(value) => {
               const numericValue = value.replace(/[^0-9]/g, "");
-              setProfile({ ...profile, practiceFrequency: numericValue });
+              setProfile({
+                ...profile,
+                practiceFrequency: numericValue,
+              });
             }}
             placeholder="4"
             keyboardType="numeric"
@@ -140,8 +150,8 @@ export default function Index() {
 
           <Text>What is your goal?</Text>
           <Input
-            value={profile.goal}
-            onChangeText={(value) => setProfile({ ...profile, goal: value })}
+            value={profile.goals}
+            onChangeText={(value) => setProfile({ ...profile, goals: value })}
             placeholder="E.g. Learn a new song or play in a band."
             className="my-4"
             multiline

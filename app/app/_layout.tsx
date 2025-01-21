@@ -6,8 +6,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import DataProvider from "@/context/data";
-import RecordingProvider from "@/context/recording";
+import { DataProvider, ProfileProvider, RecordingProvider } from "@/context";
 import { useRouter, usePathname } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { THEME_COLORS } from "@/utils/theme";
@@ -64,96 +63,98 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <DataProvider>
-          <RecordingProvider>
-            <StatusBar translucent={true} backgroundColor="transparent" />
-            <View className="flex-1 items-center bg-base-100 pt-8">
-              <View className="flex-1 w-full">
-                <Stack>
-                  {pages.map((page) => (
-                    <Stack.Screen
-                      key={page}
-                      name={page}
-                      options={{ headerShown: false }}
-                    />
-                  ))}
-                </Stack>
+          <ProfileProvider>
+            <RecordingProvider>
+              <StatusBar translucent={true} backgroundColor="transparent" />
+              <View className="flex-1 items-center bg-base-100 pt-8">
+                <View className="flex-1 w-full">
+                  <Stack>
+                    {pages.map((page) => (
+                      <Stack.Screen
+                        key={page}
+                        name={page}
+                        options={{ headerShown: false }}
+                      />
+                    ))}
+                  </Stack>
 
-                {/* Bottom Gradient */}
-                <View
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    width: width,
-                    height: 80,
-                    overflow: "hidden",
-                  }}
-                >
-                  <LinearGradient
-                    colors={[
-                      "transparent",
-                      "rgba(0,0,0,0.4)",
-                      "rgba(0,0,0,1.0)",
-                    ]}
-                    className="absolute inset-0"
-                    start={{ x: 0.5, y: 0 }}
-                    end={{ x: 0.5, y: 1 }}
+                  {/* Bottom Gradient */}
+                  <View
                     style={{
-                      borderTopLeftRadius: 24,
-                      borderTopRightRadius: 24,
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      width: width,
+                      height: 80,
+                      overflow: "hidden",
                     }}
-                  />
-                </View>
-
-                {/* Floating Tab Bar */}
-                {showTabs && (
-                  <View className="absolute bottom-4 left-2 right-2">
-                    <View
-                      className="flex-row rounded-full h-[60px] items-center justify-around mx-2 bg-base-300"
+                  >
+                    <LinearGradient
+                      colors={[
+                        "transparent",
+                        "rgba(0,0,0,0.4)",
+                        "rgba(0,0,0,1.0)",
+                      ]}
+                      className="absolute inset-0"
+                      start={{ x: 0.5, y: 0 }}
+                      end={{ x: 0.5, y: 1 }}
                       style={{
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 8,
-                        elevation: 5,
+                        borderTopLeftRadius: 24,
+                        borderTopRightRadius: 24,
                       }}
-                    >
-                      {tabs.map((tab) => {
-                        const focused =
-                          pathname === `/${tab.name}` ||
-                          (tab.name === "index" && pathname === "/");
-
-                        return (
-                          <TouchableOpacity
-                            key={tab.name}
-                            className="flex-1 h-full items-center justify-center"
-                            onPress={() => {
-                              const targetPath =
-                                tab.name === "index" ? "/" : `/${tab.name}`;
-                              if (pathname !== targetPath) {
-                                router.replace(targetPath as any);
-                              }
-                            }}
-                          >
-                            <Ionicons
-                              name={tab.icon(focused)}
-                              color={
-                                focused
-                                  ? THEME_COLORS["primary"]
-                                  : THEME_COLORS["muted"]
-                              }
-                              size={24}
-                            />
-                          </TouchableOpacity>
-                        );
-                      })}
-                    </View>
+                    />
                   </View>
-                )}
+
+                  {/* Floating Tab Bar */}
+                  {showTabs && (
+                    <View className="absolute bottom-4 left-2 right-2">
+                      <View
+                        className="flex-row rounded-full h-[60px] items-center justify-around mx-2 bg-base-300"
+                        style={{
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.25,
+                          shadowRadius: 8,
+                          elevation: 5,
+                        }}
+                      >
+                        {tabs.map((tab) => {
+                          const focused =
+                            pathname === `/${tab.name}` ||
+                            (tab.name === "index" && pathname === "/");
+
+                          return (
+                            <TouchableOpacity
+                              key={tab.name}
+                              className="flex-1 h-full items-center justify-center"
+                              onPress={() => {
+                                const targetPath =
+                                  tab.name === "index" ? "/" : `/${tab.name}`;
+                                if (pathname !== targetPath) {
+                                  router.replace(targetPath as any);
+                                }
+                              }}
+                            >
+                              <Ionicons
+                                name={tab.icon(focused)}
+                                color={
+                                  focused
+                                    ? THEME_COLORS["primary"]
+                                    : THEME_COLORS["muted"]
+                                }
+                                size={24}
+                              />
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  )}
+                </View>
               </View>
-            </View>
-          </RecordingProvider>
+            </RecordingProvider>
+          </ProfileProvider>
         </DataProvider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>

@@ -39,7 +39,7 @@ export const useRecorder = () => {
   return context;
 };
 
-export default function RecordingProvider(props: PropsWithChildren) {
+export function RecordingProvider(props: PropsWithChildren) {
   const { account } = useAuth();
   const { createPractice } = usePracticeMutations();
   const defaultState = {

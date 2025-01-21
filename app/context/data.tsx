@@ -25,7 +25,7 @@ queryClient.setQueryDefaults(["account"], {
   gcTime: 1000 * 60 * 60 * 24, // 1 day
 });
 
-export default function DataProvider(props: PropsWithChildren) {
+export function DataProvider(props: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       {props.children}
