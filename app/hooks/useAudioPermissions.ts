@@ -37,6 +37,9 @@ async function checkPermissions() {
 export function useAudioPermissions() {
   return useQuery({
     queryKey: ["permissions", "audio"],
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
     queryFn: checkPermissions,
   });
 }
