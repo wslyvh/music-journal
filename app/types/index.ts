@@ -1,21 +1,12 @@
-export interface Account extends AccountProfileData {
-  id: number;
-  email: string;
-  createdAt: number;
-  updatedAt: number;
-  appId?: string;
-  onboarded?: boolean;
-}
-
-export interface AccountProfileData {
+export interface Profile {
+  id?: string;
   username: string;
-  instruments: string[];
-}
+  instrument: string;
+  yearsOfExperience: number;
+  practiceFrequency: number;
+  goals: string;
 
-export interface VerificationToken {
-  identifier: string;
-  token: number;
-  expires: number;
+  createdAt: number;
 }
 
 export interface Practice extends PracticeData {
@@ -30,6 +21,4 @@ export interface PracticeData {
   data?: number;
   notes?: string;
   rating?: number;
-  visibility?: number;
-  recordingUrl?: string;
 }

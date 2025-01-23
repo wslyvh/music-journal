@@ -9,8 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StartActivityBanner } from "../start-activity";
 import { formatDuration } from "@/utils/format";
 import { Link } from "expo-router";
-import { usePractices } from "@/hooks/usePractices";
-import { Button } from "@/components/button";
+import { usePractices } from "@/hooks/practice/usePractices";
 import { THEME_COLORS } from "@/utils/theme";
 
 dayjs.extend(duration);
@@ -27,7 +26,7 @@ export function PracticeOverview(props: Props) {
   let className = "flex-col mt-4";
   if (props.className) className += ` ${props.className}`;
 
-  if (!data || !data?.items || data?.items?.length === 0) {
+  if (!data || data?.length === 0) {
     return (
       <>
         <View className={className}>
@@ -35,12 +34,12 @@ export function PracticeOverview(props: Props) {
         </View>
 
         <View className="flex flex-col items-center justify-center mt-4">
-          <Text>No practices found</Text>
-          <Button
-            className="mt-4"
-            text="Retry"
+          <Text
+            className="text-muted italic mt-4"
             onPress={() => practices.refetch()}
-          />
+          >
+            No practices found
+          </Text>
         </View>
       </>
     );
@@ -76,7 +75,7 @@ export function PracticeOverview(props: Props) {
         <View className="flex flex-row mt-4">
           {[7, 6, 5, 4, 3, 2, 1, 0].map((i) => {
             const practiceDay = dayjs().subtract(i, "day");
-            const count = data.items.filter((i: Practice) =>
+            const count = data.filter((i: Practice) =>
               practiceDay.isSame(dayjs(i.timestamp), "day")
             );
 
@@ -102,7 +101,7 @@ export function PracticeOverview(props: Props) {
         </View>
       </View>
 
-      {data.items.slice(0, 5).map((practice: Practice) => {
+      {data.slice(0, 5).map((practice: Practice) => {
         return (
           <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
             <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Profile, setProfile } from "@/utils/profile";
+import { Profile, setProfile } from "@/client/profile";
 
 export function useProfileMutation() {
   const queryClient = useQueryClient();

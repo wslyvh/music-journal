@@ -1,4 +1,3 @@
-import { useAuth } from "@/hooks/useAuth";
 import { PracticeData } from "@/types";
 import { router } from "expo-router";
 import {
@@ -8,10 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
-import { Platform } from "react-native";
-import * as FileSystem from "expo-file-system";
-import { usePracticeMutations } from "@/hooks/usePracticeMutations";
+import { usePracticeMutationCreate } from "@/hooks/practice/usePracticeMutationCreate";
+import { useInstrument } from "@/hooks/useInstrument";
 
 interface RecordingContext {
   state: string;
@@ -40,20 +37,17 @@ export const useRecorder = () => {
 };
 
 export function RecordingProvider(props: PropsWithChildren) {
-  const { account } = useAuth();
-  const { createPractice } = usePracticeMutations();
+  const createPractice = usePracticeMutationCreate();
+  const instrument = useInstrument();
   const defaultState = {
-    type: account?.instruments?.[0] ?? "",
+    type: instrument ?? "",
     duration: 0,
     notes: "",
     rating: 0,
-    visibility: 1,
   };
   const [state, setState] = useState("");
   const [timer, setTimer] = useState(0);
   const [current, setCurrent] = useState<PracticeData>(defaultState);
-  const [recording, setRecording] = useState<Audio.Recording>();
-  const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [startTime, setStartTime] = useState<number | null>(null);
   const [pausedTime, setPausedTime] = useState<number>(0);
 
@@ -88,64 +82,38 @@ export function RecordingProvider(props: PropsWithChildren) {
 
   function start() {
     setState("RUNNING");
-
-    startRecording();
   }
 
   async function pause() {
     setState("PAUSED");
-
-    await recording?.pauseAsync();
   }
 
   async function resume() {
     setState("RUNNING");
-
-    await recording?.startAsync();
   }
 
   async function stop() {
     setState("STOPPED");
-
-    await recording?.pauseAsync();
   }
 
   async function submit() {
-    const uri = await stopRecording();
-
-    const formData = new FormData();
-    Object.entries(current).forEach(([key, value]) => {
-      formData.append(key, value?.toString() || "");
-    });
-    formData.set("duration", timer.toString());
-
-    if (uri) {
-      if (Platform.OS === "web") {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        formData.append("recording", blob, `practice-${Date.now()}.webm`);
-      } else {
-        const fileInfo = await FileSystem.getInfoAsync(uri);
-        formData.append("recording", {
-          uri: uri,
-          type: "audio/m4a",
-          name: `practice-${Date.now()}.m4a`,
-          size: fileInfo.exists ? fileInfo.size : 0,
-        } as any);
+    createPractice.mutate(
+      {
+        ...current,
+        duration: timer,
+      },
+      {
+        onSuccess: () => {
+          setState("");
+          setTimer(0);
+          setCurrent(defaultState);
+          router.replace("/");
+        },
+        onError: (error) => {
+          console.error("Upload failed:", error);
+        },
       }
-    }
-
-    createPractice.mutate(formData, {
-      onSuccess: () => {
-        setState("");
-        setTimer(0);
-        setCurrent(defaultState);
-        router.replace("/");
-      },
-      onError: (error) => {
-        console.error("Upload failed:", error);
-      },
-    });
+    );
   }
 
   function clear() {
@@ -154,56 +122,6 @@ export function RecordingProvider(props: PropsWithChildren) {
     setStartTime(null);
     setPausedTime(0);
     setCurrent(defaultState);
-  }
-
-  async function startRecording() {
-    try {
-      if (permissionResponse?.status !== "granted") {
-        console.log("Requesting permission..");
-        await requestPermission();
-      }
-
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
-        shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false,
-        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-        staysActiveInBackground: true,
-      });
-
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
-
-      setRecording(recording);
-      console.log("Recording started");
-    } catch (err) {
-      console.error("Failed to start recording", err);
-    }
-  }
-
-  async function stopRecording() {
-    console.log("Stopping recording..");
-
-    try {
-      await recording?.stopAndUnloadAsync();
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-      });
-
-      const uri = recording?.getURI();
-      if (!uri) {
-        console.error("No recording URI found");
-        return;
-      }
-
-      return uri;
-    } catch (error) {
-      console.error("Failed to stop recording", error);
-      setRecording(undefined);
-    }
   }
 
   return (

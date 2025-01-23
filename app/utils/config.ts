@@ -26,22 +26,39 @@ export const CONFIG = {
 export const INSTRUMENTS = [
   "Bass",
   "Cello",
-  "Clarinet",
   "Drums",
   "Flute",
   "Guitar",
-  "Harmonica",
   "Keyboard",
-  "Oboe",
   "Percussion",
   "Piano",
   "Saxophone",
-  "Trombone",
   "Trumpet",
-  "Tuba",
   "Ukulele",
   "Violin",
   "Voice",
-  "Vocals",
   "Other",
 ];
+
+const AUDIO_CONFIG = {
+  // Mono vs Stereo
+  numberOfChannels: 1, // Mono is sufficient for:
+  // - Single instrument
+  // - Phone mic (usually mono anyway)
+  // - Practice purposes
+
+  // Sample Rate
+  sampleRate: 44100, // 44.1kHz because:
+  // - Captures up to 22kHz frequencies
+  // - Covers all instruments' ranges
+  // - Standard for audio recording
+
+  // Bit Rate
+  bitrate: 48000, // 48kbps because:
+  // - Clear enough for all instruments
+  // - Good for voice/acoustic
+  // - ~22MB per hour
+
+  format: "m4a", // Good compression, widely supported
+  audioQuality: 0.7, // Slightly higher for instruments
+};

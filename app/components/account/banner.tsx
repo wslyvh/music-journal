@@ -52,7 +52,7 @@ export function Join(props: JoinProps) {
           "Register to stay motivated! Record, reflect, and improve your musical journey together with the community."}
       </Text>
 
-      <Button text="Register" onPress={() => router.push("/login")} />
+      <Button text="Register" onPress={() => router.push("/onboarding")} />
     </View>
   );
 }

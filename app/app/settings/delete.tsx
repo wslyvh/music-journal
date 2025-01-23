@@ -3,22 +3,28 @@ import { ScreenLayout } from "@/components/screen-layout";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { Text } from "@/components/text";
-import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useProfileDelete } from "@/hooks/profile/useProfileDelete";
 
 export default function Settings() {
-  const { deleteMutation } = useAuth();
+  const deleteProfile = useProfileDelete();
   const [confirmText, setConfirmText] = useState("");
 
   return (
-    <ScreenLayout title="Delete Account" goBack>
+    <ScreenLayout title="Delete Data" goBack>
       <AccountBanner />
 
       <View className="text-base-content">
         <Text className="mt-4">
-          Are you sure you want to delete your account? This action cannot be
+          All your data is stored locally on your device. We do not collect any
+          data from your device. If you want to delete your data, you can do so
+          by deleting the app.
+        </Text>
+        <Text className="mt-4">
+          You can also clear your data to start fresh. This action cannot be
           undone and will remove all of your data immediately.
         </Text>
         <Text className="flex flex-row gap-2 mt-4">
@@ -47,9 +53,7 @@ export default function Settings() {
         <Button
           onPress={async () => {
             if (confirmText === "sudo delete") {
-              deleteMutation.mutate(undefined, {
-                onSuccess: () => router.push("/"),
-              });
+              deleteProfile.mutate(undefined);
             }
           }}
           text="Delete Account"

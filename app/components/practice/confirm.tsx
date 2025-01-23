@@ -6,7 +6,7 @@ import { formatTime } from "@/utils/format";
 import { useRecorder } from "@/context/recording";
 import { Input } from "../input";
 import { InstrumentPicker } from "../instrument-picker";
-import { useAuth } from "@/hooks/useAuth";
+import { useInstrument } from "@/hooks/useInstrument";
 
 interface Props {
   className?: string;
@@ -14,7 +14,7 @@ interface Props {
 
 export function ConfirmPractice(props: Props) {
   const recorder = useRecorder();
-  const { account } = useAuth();
+  const instrument = useInstrument();
 
   let className = "flex-col";
   if (props.className) className += ` ${props.className}`;
@@ -23,8 +23,8 @@ export function ConfirmPractice(props: Props) {
     <View className={className}>
       <View className="gap-4">
         <InstrumentPicker
-          items={account?.instruments ?? []}
-          selected={account?.instruments[0] ?? ""}
+          items={instrument ? [instrument] : []}
+          selected={instrument ?? ""}
           onSelect={(value) =>
             recorder.setPractice({ ...recorder.current, type: value })
           }

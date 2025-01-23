@@ -23,7 +23,6 @@ export default function RootLayout() {
     "index",
     "start",
     "onboarding",
-    "login",
     "settings",
     "settings/profile",
     "settings/delete",

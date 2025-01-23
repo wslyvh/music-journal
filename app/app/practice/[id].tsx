@@ -1,6 +1,6 @@
 import { ScreenLayout } from "@/components/screen-layout";
 import { router, useLocalSearchParams } from "expo-router";
-import { usePractice } from "@/hooks/usePractice";
+import { usePractice } from "@/hooks/practice/usePractice";
 import { View } from "react-native";
 import { formatTime } from "@/utils/format";
 import { StarRating } from "@/components/practice/rating";
@@ -40,13 +40,13 @@ export default function PracticeDetails() {
     <ScreenLayout
       title={dayjs(updatedPractice.timestamp).format("ddd, MMM DD")}
       goBack
-      shareData={{
-        title: "Check out my practice session!",
-        message: `I practiced ${formatTime(
-          updatedPractice.duration
-        )} on ${dayjs(updatedPractice.timestamp).format("MMM DD, YYYY")}`,
-        url: `${CONFIG.APP_URL}/practice/${id}`,
-      }}
+      // shareData={{
+      //   title: "Check out my practice session!",
+      //   message: `I practiced ${formatTime(
+      //     updatedPractice.duration
+      //   )} on ${dayjs(updatedPractice.timestamp).format("MMM DD, YYYY")}`,
+      //   url: `${CONFIG.APP_URL}/practice/${id}`,
+      // }}
     >
       <View className="">
         <View className="gap-4 mb-2">
@@ -93,7 +93,9 @@ export default function PracticeDetails() {
         <View className="my-2">
           <Text className="font-bold">Recording</Text>
           {!updatedPractice.recordingUrl && (
-            <Text className="text-muted mt-4">No recording available</Text>
+            <Text className="text-muted italic mt-4">
+              No recording available
+            </Text>
           )}
           {updatedPractice.recordingUrl && (
             <AudioPlayer url={updatedPractice.recordingUrl} className="mt-4" />

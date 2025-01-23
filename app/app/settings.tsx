@@ -14,16 +14,11 @@ export default function Settings() {
       icon: "person",
       action: () => router.push("/settings/profile"),
     },
-    // {
-    //   title: "Delete Account",
-    //   icon: "trash",
-    //   action: () => router.push("/settings/delete"),
-    // },
-    // {
-    //   title: "Sign Out",
-    //   icon: "exit-outline",
-    //   action: () => logoutMutation.mutate(),
-    // },
+    {
+      title: "Delete Data",
+      icon: "trash",
+      action: () => router.push("/settings/delete"),
+    },
   ];
 
   const navigationItems = [
