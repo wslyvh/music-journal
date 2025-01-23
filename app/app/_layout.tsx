@@ -22,7 +22,6 @@ export default function RootLayout() {
   const pages = [
     "index",
     "start",
-    "leaderboard",
     "onboarding",
     "login",
     "settings",
@@ -46,12 +45,6 @@ export default function RootLayout() {
       title: "Start",
       icon: (focused: boolean) => (focused ? "play" : "play-outline"),
     },
-    // {
-    //   name: "leaderboard",
-    //   title: "Leaderboard",
-    //   icon: (focused: boolean) =>
-    //     focused ? "stats-chart" : "stats-chart-outline",
-    // },
     {
       name: "settings",
       title: "Settings",
