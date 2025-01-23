@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ff5533"
       },
-      "permissions": ["RECORD_AUDIO", "FOREGROUND_SERVICE", "WAKE_LOCK"]
+      "permissions": ["WAKE_LOCK"]
     },
     "web": {
       "bundler": "metro",
