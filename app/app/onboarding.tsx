@@ -61,11 +61,9 @@ export default function Index() {
               <Image
                 source={require("@/assets/images/icon.png")}
                 className="w-full h-full"
-                resizeMode="cover"
                 style={{
                   width: 192,
                   height: 192,
-                  resizeMode: "cover",
                 }}
               />
             </View>

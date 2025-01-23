@@ -11,6 +11,7 @@ import { formatDuration } from "@/utils/format";
 import { Link } from "expo-router";
 import { usePractices } from "@/hooks/practice/usePractices";
 import { THEME_COLORS } from "@/utils/theme";
+import { usePracticeStats } from "@/hooks/practice/usePracticeStats";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -20,13 +21,13 @@ interface Props {
 }
 
 export function PracticeOverview(props: Props) {
-  const practices = usePractices();
-  const data = practices.data;
+  const { data: practices } = usePractices();
+  const { data: stats } = usePracticeStats();
 
   let className = "flex-col mt-4";
   if (props.className) className += ` ${props.className}`;
 
-  if (!data || data?.length === 0) {
+  if (practices?.length === 0 || !stats) {
     return (
       <>
         <View className={className}>
@@ -50,18 +51,18 @@ export function PracticeOverview(props: Props) {
       <View className="flex flex-row gap-2 justify-between mb-4">
         <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
           <Text className="text-4xl font-bold text-base-content">
-            {data.total}
+            {stats.total}
           </Text>
           <Text className="text-muted">Total sessions</Text>
         </View>
 
         <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
           <Text className="text-4xl font-bold text-base-content">
-            {formatDuration(data.totalDuration)}
+            {formatDuration(stats.totalDuration)}
           </Text>
           <Text className="text-muted">
-            {data.totalDuration < 7200 && <>Total minutes</>}
-            {data.totalDuration >= 7200 && <>Total hours</>}
+            {stats.totalDuration < 7200 && <>Total minutes</>}
+            {stats.totalDuration >= 7200 && <>Total hours</>}
           </Text>
         </View>
       </View>
@@ -75,7 +76,7 @@ export function PracticeOverview(props: Props) {
         <View className="flex flex-row mt-4">
           {[7, 6, 5, 4, 3, 2, 1, 0].map((i) => {
             const practiceDay = dayjs().subtract(i, "day");
-            const count = data.filter((i: Practice) =>
+            const count = practices.filter((i: Practice) =>
               practiceDay.isSame(dayjs(i.timestamp), "day")
             );
 
@@ -101,7 +102,7 @@ export function PracticeOverview(props: Props) {
         </View>
       </View>
 
-      {data.slice(0, 5).map((practice: Practice) => {
+      {practices.slice(0, 5).map((practice: Practice) => {
         return (
           <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
             <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">

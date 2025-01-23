@@ -16,6 +16,6 @@ export async function createRecording(recording: Recording) {
   return recording;
 }
 
-export async function removeRecording(id: string) {
-  console.log("removeRecording", id);
+export async function deleteRecording(id: string) {
+  console.log("deleteRecording", id);
 }

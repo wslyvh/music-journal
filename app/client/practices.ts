@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function getPractices() {
   console.log("getPractices");
+
   const practices = JSON.parse(
     (await AsyncStorage.getItem("practices")) || "[]"
   );
@@ -16,10 +17,31 @@ export async function getPractices() {
 
 export async function getPractice(id: string) {
   console.log("getPractice", id);
+
   const practices = await getPractices();
   const practice = practices.find((practice: Practice) => practice.id === id);
 
   return practice;
+}
+
+export async function getPracticeStats(period?: number) {
+  console.log("getPracticeStats", period);
+
+  let practices = await getPractices();
+  if (period) {
+    practices = practices.filter((practice: Practice) => {
+      return practice.timestamp > Date.now() - period * 24 * 60 * 60 * 1000;
+    });
+  }
+
+  const totalDuration = practices.reduce((acc: number, practice: Practice) => {
+    return acc + practice.duration;
+  }, 0);
+
+  return {
+    total: practices.length,
+    totalDuration,
+  };
 }
 
 export async function createPractice(practice: PracticeData) {
@@ -56,8 +78,9 @@ export async function updatePractice(practice: Practice) {
   return practice;
 }
 
-export async function removePractice(id: string) {
-  console.log("removePractice", id);
+export async function deletePractice(id: string) {
+  console.log("deletePractice", id);
+
   const practices = await getPractices();
   const index = practices.findIndex((p: Practice) => p.id === id);
   if (index === -1) {
@@ -66,4 +89,8 @@ export async function removePractice(id: string) {
 
   practices.splice(index, 1);
   await AsyncStorage.setItem("practices", JSON.stringify(practices));
+}
+
+export async function deletePractices() {
+  await AsyncStorage.removeItem("practices");
 }
