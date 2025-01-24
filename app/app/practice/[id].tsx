@@ -73,6 +73,24 @@ export default function PracticeDetails() {
         </View>
 
         <View className="my-2">
+          <Text className="font-bold">Goals</Text>
+
+          <Input
+            className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
+              updatedPractice.goals?.length && updatedPractice.goals?.length > 0
+                ? "text-base-content"
+                : "text-muted"
+            }`}
+            placeholder="Goals..."
+            value={updatedPractice.goals}
+            onChangeText={(value: string) =>
+              setUpdatedPractice({ ...updatedPractice, goals: value })
+            }
+            multiline
+          />
+        </View>
+
+        <View className="my-2">
           <Text className="font-bold">Notes</Text>
 
           <Input

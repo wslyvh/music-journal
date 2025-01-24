@@ -1,4 +1,3 @@
-import { PracticeData } from "@/types";
 import { router } from "expo-router";
 import {
   createContext,
@@ -8,13 +7,11 @@ import {
   useState,
 } from "react";
 import { usePracticeMutationCreate } from "@/hooks/practice/usePracticeMutationCreate";
-import { useInstrument } from "@/hooks/useInstrument";
+import { usePracticeContext } from "./practice";
 
 interface RecordingContext {
   state: string;
   timer: number;
-  current: PracticeData;
-  setPractice: (data: PracticeData) => void;
   start: () => void;
   pause: () => void;
   resume: () => void;
@@ -37,17 +34,10 @@ export const useRecorder = () => {
 };
 
 export function RecordingProvider(props: PropsWithChildren) {
+  const practice = usePracticeContext();
   const createPractice = usePracticeMutationCreate();
-  const instrument = useInstrument();
-  const defaultState = {
-    type: instrument ?? "",
-    duration: 0,
-    notes: "",
-    rating: 0,
-  };
   const [state, setState] = useState("");
   const [timer, setTimer] = useState(0);
-  const [current, setCurrent] = useState<PracticeData>(defaultState);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [pausedTime, setPausedTime] = useState<number>(0);
 
@@ -72,14 +62,6 @@ export function RecordingProvider(props: PropsWithChildren) {
     return () => clearInterval(interval);
   }, [state, startTime]);
 
-  function setPractice(data: PracticeData) {
-    setCurrent({
-      ...current,
-      notes: data.notes,
-      rating: data.rating,
-    });
-  }
-
   function start() {
     setState("RUNNING");
   }
@@ -99,14 +81,14 @@ export function RecordingProvider(props: PropsWithChildren) {
   async function submit() {
     createPractice.mutate(
       {
-        ...current,
+        ...practice.current,
         duration: timer,
       },
       {
         onSuccess: () => {
           setState("");
           setTimer(0);
-          setCurrent(defaultState);
+          practice.clear();
           router.replace("/");
         },
         onError: (error) => {
@@ -121,7 +103,7 @@ export function RecordingProvider(props: PropsWithChildren) {
     setTimer(0);
     setStartTime(null);
     setPausedTime(0);
-    setCurrent(defaultState);
+    practice.clear();
   }
 
   return (
@@ -129,8 +111,6 @@ export function RecordingProvider(props: PropsWithChildren) {
       value={{
         state,
         timer,
-        current,
-        setPractice,
         start,
         pause,
         resume,

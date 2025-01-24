@@ -19,6 +19,7 @@ export interface PracticeData {
   type: string;
   duration: number;
   data?: number;
+  goals?: string;
   notes?: string;
   rating?: number;
 }

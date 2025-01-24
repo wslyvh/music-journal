@@ -4,6 +4,7 @@ import { Text } from "@/components/text";
 import { ConfirmPractice } from "@/components/practice/confirm";
 import { formatTime } from "@/utils/format";
 import { useRecorder } from "@/context/recording";
+import { PracticeFeatures } from "@/components/practice/features";
 
 export function PracticeTimer() {
   const recorder = useRecorder();
@@ -21,6 +22,8 @@ export function PracticeTimer() {
               </Text>
             </View>
           </View>
+
+          <PracticeFeatures />
 
           <View className="flex flex-col justify-center space-between mt-8 gap-4">
             {recorder.state === "" && (
