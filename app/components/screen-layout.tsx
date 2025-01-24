@@ -137,7 +137,7 @@ function Header(props: Props) {
 
   return (
     <View className="flex flex-row items-center justify-between h-16 mb-2">
-      <View className="w-12 items-start">
+      <View className="w-20 items-start">
         {props.goBack || props.backAction ? (
           <TouchableOpacity
             onPress={props.backAction || (() => router.back())}
@@ -161,7 +161,7 @@ function Header(props: Props) {
         </Text>
       </View>
 
-      <View className="w-12 items-end">
+      <View className="w-20 items-end">
         {props.cancelable && (
           <TouchableOpacity onPress={handleCancel} className="p-2 -mr-2">
             <Badge text="cancel" />
