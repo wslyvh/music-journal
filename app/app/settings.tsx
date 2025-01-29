@@ -2,12 +2,40 @@ import { AccountBanner } from "@/components/account/banner";
 import { ScreenLayout } from "@/components/screen-layout";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Switch, Text, TouchableOpacity, View } from "react-native";
 import Constants from "expo-constants";
 import { CONFIG } from "@/utils/config";
 import { THEME_COLORS } from "@/utils/theme";
+import { useNotificationPermissions } from "@/hooks/useNotificationPermissions";
+import {
+  cancelDailyReminder,
+  isDailyReminderEnabled,
+} from "@/utils/notifications";
+import { useState, useEffect } from "react";
 
 export default function Settings() {
+  const { refetch: refetchNotifications } = useNotificationPermissions();
+  const [dailyReminders, setDailyReminders] = useState(false);
+
+  useEffect(() => {
+    async function checkDailyReminder() {
+      const enabled = await isDailyReminderEnabled();
+      setDailyReminders(enabled);
+    }
+
+    checkDailyReminder();
+  }, []);
+
+  async function toggleNotifications(value: boolean) {
+    if (value) {
+      refetchNotifications();
+      setDailyReminders(true);
+    } else {
+      cancelDailyReminder();
+      setDailyReminders(false);
+    }
+  }
+
   const appItems = [
     {
       title: "Manage Profile",
@@ -37,7 +65,7 @@ export default function Settings() {
       <AccountBanner />
 
       <View className="flex gap-2 mt-8">
-        <Text className="text-xl font-bold text-base-content">Settings</Text>
+        <Text className="text-xl font-bold text-base-content">Profile</Text>
         {appItems.map((item, index) => (
           <TouchableOpacity
             key={`app-${index}`}
@@ -59,6 +87,29 @@ export default function Settings() {
             />
           </TouchableOpacity>
         ))}
+      </View>
+
+      <View className="flex gap-2 mt-8">
+        <Text className="text-xl font-bold text-base-content">
+          Notifications
+        </Text>
+        <View className="flex-row items-center py-4 border-b border-base-300">
+          <Text className="text-base-content">Daily Reminder</Text>
+          <Switch
+            value={dailyReminders}
+            onValueChange={toggleNotifications}
+            className="ml-auto"
+            thumbColor={
+              dailyReminders
+                ? THEME_COLORS["primary"]
+                : THEME_COLORS["base-content"]
+            }
+            trackColor={{
+              false: THEME_COLORS["base-300"],
+              true: THEME_COLORS["base-300"],
+            }}
+          />
+        </View>
       </View>
 
       <View className="flex gap-2 my-8">
