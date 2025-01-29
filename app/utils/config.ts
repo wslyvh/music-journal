@@ -16,6 +16,7 @@ export const CONFIG = {
   APP_DESCRIPTION:
     "Music Journal helps helps you transform your music practice. Record, reflect and improve!",
   APP_CONTACT: "support@musicjournal.fm",
+  APP_DOMAIN: "app.musicjournal.fm",
   APP_URL: "https://app.musicjournal.fm",
   WEBSITE_URL: "https://www.musicjournal.fm",
 

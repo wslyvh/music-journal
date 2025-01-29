@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { THEME_COLORS } from "@/utils/theme";
 import { Badge } from "./badge";
 import { useRecorder } from "@/context/recording";
+import { trackEvent } from "@/utils/plausible";
 
 interface Props extends PropsWithChildren {
   title?: string;
@@ -39,6 +40,11 @@ interface Props extends PropsWithChildren {
 export function ScreenLayout(props: Props) {
   const [refreshing, setRefreshing] = useState(false);
   const pathname = usePathname();
+  trackEvent("pageview", {
+    props: {
+      pathname,
+    },
+  });
 
   let containerClassName = "flex-1 bg-base-100";
   let contentClassName = "flex-1 p-4 pb-20 mb-4";
