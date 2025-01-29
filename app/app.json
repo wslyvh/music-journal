@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": ["audio", "remote-notification"]
       }
     },
     "android": {
@@ -27,14 +27,23 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ff5533"
       },
-      "permissions": ["WAKE_LOCK"]
+      "permissions": ["WAKE_LOCK", "SCHEDULE_EXACT_ALARM", "POST_NOTIFICATIONS"]
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font", "expo-notifications"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },

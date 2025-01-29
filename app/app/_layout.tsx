@@ -12,7 +12,16 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { THEME_COLORS } from "@/utils/theme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { setNotificationHandler } from "expo-notifications";
 import "@/assets/global.css";
+
+setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function RootLayout() {
   const router = useRouter();
