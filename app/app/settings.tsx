@@ -6,7 +6,7 @@ import { Switch, Text, TouchableOpacity, View } from "react-native";
 import Constants from "expo-constants";
 import { CONFIG } from "@/utils/config";
 import { THEME_COLORS } from "@/utils/theme";
-import { useNotificationPermissions } from "@/hooks/useNotificationPermissions";
+import { checkPermissions } from "@/hooks/useNotificationPermissions";
 import {
   cancelDailyReminder,
   isDailyReminderEnabled,
@@ -14,7 +14,6 @@ import {
 import { useState, useEffect } from "react";
 
 export default function Settings() {
-  const { refetch: refetchNotifications } = useNotificationPermissions();
   const [dailyReminders, setDailyReminders] = useState(false);
 
   useEffect(() => {
@@ -28,10 +27,10 @@ export default function Settings() {
 
   async function toggleNotifications(value: boolean) {
     if (value) {
-      refetchNotifications();
+      await checkPermissions();
       setDailyReminders(true);
     } else {
-      cancelDailyReminder();
+      await cancelDailyReminder();
       setDailyReminders(false);
     }
   }

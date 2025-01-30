@@ -3,11 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getPermissionsAsync,
   requestPermissionsAsync,
-  SchedulableTriggerInputTypes,
-  scheduleNotificationAsync,
 } from "expo-notifications";
 
-async function checkPermissions() {
+export async function checkPermissions() {
   try {
     console.log("Checking notification permissions");
     let granted = false;
