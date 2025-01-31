@@ -65,7 +65,7 @@ export default function Settings() {
     <ScreenLayout title="Update Profile" goBack>
       <AccountBanner />
 
-      <View className="text-base-content">
+      <View className="text-base-content gap-4">
         <Input
           className="mt-4"
           placeholder="Enter your (user) name"
@@ -76,7 +76,7 @@ export default function Settings() {
         />
 
         <InstrumentPicker
-          className="my-4"
+          className=""
           items={INSTRUMENTS}
           selected={profileData?.instrument ?? ""}
           onSelect={(value) =>
