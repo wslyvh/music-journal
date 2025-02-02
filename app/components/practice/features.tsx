@@ -7,6 +7,7 @@ import { Text } from "@/components/text";
 import { Input } from "@/components/input";
 import { StarRating } from "./rating";
 import { usePracticeContext } from "@/context/practice";
+import { PracticeAlarm } from "./alarm";
 
 export const PracticeFeatures = memo(function PracticeFeatures() {
   const practice = usePracticeContext();
@@ -111,7 +112,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
           </View>
         </Sheet> */}
 
-        {/* <Sheet
+        <Sheet
           trigger={
             <View className="w-16 h-16 rounded-full bg-base-200 items-center justify-center">
               <Ionicons
@@ -123,13 +124,8 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
             </View>
           }
         >
-          <View className="flex flex-col">
-            <Text className="text-lg font-bold">Practice timer</Text>
-            <View className="flex flex-row mt-4">
-              <Text>10 min</Text>
-            </View>
-          </View>
-        </Sheet> */}
+          <PracticeAlarm />
+        </Sheet>
 
         {/* 
         <Sheet
