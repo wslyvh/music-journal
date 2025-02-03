@@ -234,7 +234,7 @@ export default function Index() {
         </View>
 
         <Button
-          onPress={() => router.push("/start")}
+          onPress={() => router.push("/practice")}
           text="Start recording"
           className="mt-4"
         />

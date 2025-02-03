@@ -14,7 +14,7 @@ export function StartActivityBanner() {
         will be recorded here when you finish.
       </Text>
 
-      <Button text="Start Practice" onPress={() => router.push("/start")} />
+      <Button text="Start Practice" onPress={() => router.push("/practice")} />
     </View>
   );
 }

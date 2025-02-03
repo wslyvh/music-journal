@@ -48,7 +48,7 @@ export function PracticeOverview(props: Props) {
 
   return (
     <View className={className}>
-      <View className="flex flex-row gap-2 justify-between mb-4">
+      <View className="flex flex-row gap-4 justify-between mb-4">
         <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
           <Text className="text-4xl font-bold text-base-content">
             {stats.total}

@@ -3,7 +3,7 @@ import { PracticeTimer } from "@/components/practice/timer";
 import { useRecorder } from "@/context/recording";
 import { Permissions } from "@/components/permissions";
 
-export default function Start() {
+export default function Practice() {
   const recorder = useRecorder();
 
   return (

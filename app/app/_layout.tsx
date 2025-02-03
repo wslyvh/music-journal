@@ -30,12 +30,12 @@ export default function RootLayout() {
 
   const pages = [
     "index",
-    "start",
     "onboarding",
+    "practice",
+    "practice/[id]",
     "settings",
     "settings/profile",
     "settings/delete",
-    "practice/[id]",
     "+not-found",
   ];
 
@@ -46,17 +46,17 @@ export default function RootLayout() {
     {
       name: "index",
       title: "Home",
-      icon: (focused: boolean) => (focused ? "home-sharp" : "home-outline"),
+      icon: (focus: boolean) => (focus ? "home-sharp" : "home-outline"),
     },
     {
-      name: "start",
-      title: "Start",
-      icon: (focused: boolean) => (focused ? "play" : "play-outline"),
+      name: "practice",
+      title: "Practice",
+      icon: (focus: boolean) => (focus ? "play" : "play-outline"),
     },
     {
       name: "settings",
       title: "Settings",
-      icon: (focused: boolean) => (focused ? "settings" : "settings-outline"),
+      icon: (focus: boolean) => (focus ? "settings" : "settings-outline"),
     },
   ];
 

@@ -18,12 +18,12 @@ export function ActiveTimer(props: Props) {
     "flex flex-row items-center justify-between rounded-xl border border-1 border-primary bg-[#2b2124] text-primary p-4 mb-4";
   if (props.className) className += ` ${props.className}`;
 
-  if (route.name === "start") return null;
+  if (route.name === "practice") return null;
 
   if (recorder.state === "RUNNING" || recorder.state === "PAUSED") {
     return (
       <View className={className}>
-        <Link href="/start" className="text-primary font-bold">
+        <Link href="/practice" className="text-primary font-bold">
           Recording {formatTime(recorder.timer)}
         </Link>
         <View className="flex-row gap-4">
@@ -47,7 +47,7 @@ export function ActiveTimer(props: Props) {
           <Ionicons
             onPress={() => {
               recorder.stop();
-              router.navigate("/start");
+              router.navigate("/practice");
             }}
             name="stop"
             size={21}
