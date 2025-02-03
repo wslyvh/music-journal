@@ -8,23 +8,18 @@ import { osVersion, modelName } from "expo-device";
 import { Platform } from "react-native";
 import { CONFIG } from "./config";
 
-const plausibleEventName = {
-  pageview: "pageview",
-} as const;
-
-type EventName = keyof typeof plausibleEventName;
-
-const getDeviceId = async () => {
+async function getDeviceId() {
   if (Platform.OS === "android") {
     return getAndroidId();
   }
   if (Platform.OS === "ios") {
     return getIosIdForVendorAsync();
   }
-  return "web-user";
-};
 
-export const trackEvent = (eventName: EventName, pathname: string = "/") => {
+  return "web-user";
+}
+
+export function trackEvent(eventName: "pageview", pathname: string = "/") {
   getDeviceId().then((deviceId) => {
     const appName = applicationName ?? CONFIG.APP_NAME;
     const appVersion = nativeApplicationVersion ?? "1.0.0";
@@ -40,7 +35,7 @@ export const trackEvent = (eventName: EventName, pathname: string = "/") => {
         "User-Agent": userAgent,
       },
       body: JSON.stringify({
-        name: plausibleEventName[eventName],
+        name: eventName,
         url: CONFIG.APP_URL + pathname,
         domain: CONFIG.APP_DOMAIN,
         props: {
@@ -53,4 +48,4 @@ export const trackEvent = (eventName: EventName, pathname: string = "/") => {
       console.error("Analytics error:", error);
     });
   });
-};
+}
