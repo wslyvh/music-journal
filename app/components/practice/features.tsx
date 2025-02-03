@@ -92,26 +92,6 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
           </View>
         </Sheet>
 
-        {/* <Sheet
-          trigger={
-            <View className="w-16 h-16 rounded-full bg-base-200 items-center justify-center">
-              <MaterialCommunityIcons
-                name="metronome"
-                size={28}
-                color={THEME_COLORS["base-content"]}
-                className="text-base-content"
-              />
-            </View>
-          }
-        >
-          <View className="flex flex-col">
-            <Text className="text-lg font-bold">Metronome</Text>
-            <View className="flex flex-row mt-4">
-              <Text>120 BPM</Text>
-            </View>
-          </View>
-        </Sheet> */}
-
         <Sheet
           trigger={
             <View className="w-16 h-16 rounded-full bg-base-200 items-center justify-center">
@@ -127,15 +107,34 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
           <PracticeAlarm />
         </Sheet>
 
-        {/* 
+        <Sheet
+          trigger={
+            <View className="w-16 h-16 rounded-full bg-base-200 items-center justify-center">
+              <MaterialCommunityIcons
+                name="metronome"
+                size={28}
+                color={THEME_COLORS["muted"]}
+                className="text-muted"
+              />
+            </View>
+          }
+        >
+          <View className="flex flex-col">
+            <Text className="text-lg font-bold">Metronome</Text>
+            <View className="flex flex-row mt-4">
+              <Text className="text-muted">Coming soon</Text>
+            </View>
+          </View>
+        </Sheet>
+
         <Sheet
           trigger={
             <View className="w-16 h-16 rounded-full bg-base-200 items-center justify-center">
               <Ionicons
                 name="mic-outline"
                 size={28}
-                color={THEME_COLORS["base-content"]}
-                className="text-base-content"
+                color={THEME_COLORS["muted"]}
+                className="text-muted"
               />
             </View>
           }
@@ -143,10 +142,10 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
           <View className="flex flex-col">
             <Text className="text-lg font-bold">Recording</Text>
             <View className="flex flex-row mt-4">
-              <Text>Recording...</Text>
+              <Text className="text-muted">Coming soon</Text>
             </View>
           </View>
-        </Sheet> */}
+        </Sheet>
       </View>
     </>
   );
