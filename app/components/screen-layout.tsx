@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -40,11 +40,14 @@ interface Props extends PropsWithChildren {
 export function ScreenLayout(props: Props) {
   const [refreshing, setRefreshing] = useState(false);
   const pathname = usePathname();
-  trackEvent("pageview", pathname);
 
   let containerClassName = "flex-1 bg-base-100";
   let contentClassName = "flex-1 p-4 pb-20 mb-4";
   if (props.className) contentClassName += ` ${props.className}`;
+
+  useEffect(() => {
+    trackEvent("pageview", pathname);
+  }, [pathname]);
 
   const Content = (
     <>
