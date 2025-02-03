@@ -2,6 +2,8 @@ import { DataSchema, Practice, PracticeData, PracticeStats } from "@/types";
 import { randomUUID } from "expo-crypto";
 import { getProfile } from "@/client/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { completeAchievement } from "./achievements";
+import dayjs from "dayjs";
 
 const SCHEMA_VERSION = 1;
 
@@ -34,6 +36,15 @@ export async function getPracticeStats(period?: number) {
   console.log("getPracticeStats", period);
 
   let practices = await getPractices();
+  if (!practices.length) {
+    return {
+      total: 0,
+      totalDuration: 0,
+      longestSession: 0,
+      averageSession: 0,
+    };
+  }
+
   if (period) {
     practices = practices.filter((practice: Practice) => {
       return practice.timestamp > Date.now() - period * 24 * 60 * 60 * 1000;
@@ -44,9 +55,20 @@ export async function getPracticeStats(period?: number) {
     return acc + practice.duration;
   }, 0);
 
+  const longestSession = practices.sort(
+    (a: Practice, b: Practice) => b.duration - a.duration
+  )[0]?.duration;
+
+  const averageSession =
+    practices.reduce((acc: number, practice: Practice) => {
+      return acc + practice.duration;
+    }, 0) / practices.length;
+
   return {
     total: practices.length,
     totalDuration,
+    longestSession,
+    averageSession,
   } as PracticeStats;
 }
 
@@ -69,6 +91,7 @@ export async function createPractice(practice: PracticeData) {
     JSON.stringify({ version: SCHEMA_VERSION, data: practices })
   );
 
+  await updatePracticeAchievements(practices);
   return practice;
 }
 
@@ -108,4 +131,95 @@ export async function deletePractice(id: string) {
 
 export async function deletePractices() {
   await AsyncStorage.removeItem("practices");
+}
+
+export async function updatePracticeAchievements(practices: Practice[]) {
+  if (!practices.length) return;
+
+  if (practices.length === 1) {
+    await completeAchievement("first-practice");
+  }
+
+  if (practices.length === 10) {
+    await completeAchievement("10-sessions");
+  }
+
+  if (practices.length === 20) {
+    await completeAchievement("20-sessions");
+  }
+
+  if (practices.length === 50) {
+    await completeAchievement("50-sessions");
+  }
+
+  if (practices.length === 100) {
+    await completeAchievement("100-sessions");
+  }
+
+  const totalDuration = practices.reduce((acc: number, practice: Practice) => {
+    return acc + practice.duration;
+  }, 0);
+
+  if (totalDuration >= 60 * 60 * 1000) {
+    await completeAchievement("1-hour");
+  }
+
+  if (totalDuration >= 10 * 60 * 60 * 1000) {
+    await completeAchievement("10-hours");
+  }
+
+  if (totalDuration >= 20 * 60 * 60 * 1000) {
+    await completeAchievement("20-hours");
+  }
+
+  if (totalDuration >= 50 * 60 * 60 * 1000) {
+    await completeAchievement("50-hours");
+  }
+
+  if (totalDuration >= 100 * 60 * 60 * 1000) {
+    await completeAchievement("100-hours");
+  }
+
+  const practicesByDay = practices.reduce(
+    (acc: { [key: string]: Practice[] }, practice: Practice) => {
+      const day = dayjs(practice.timestamp).format("YYYY-MM-DD");
+      if (!acc[day]) acc[day] = [];
+      acc[day].push(practice);
+      return acc;
+    },
+    {}
+  );
+
+  let streak = 0;
+  const today = dayjs().format("YYYY-MM-DD");
+
+  if (practicesByDay[today]) {
+    streak = 1;
+    let checkDate = dayjs(today).subtract(1, "day");
+
+    while (practicesByDay[checkDate.format("YYYY-MM-DD")]) {
+      streak++;
+      checkDate = checkDate.subtract(1, "day");
+    }
+  }
+
+  if (streak >= 7) {
+    await completeAchievement("7-day-streak");
+  }
+
+  if (streak >= 14) {
+    await completeAchievement("14-day-streak");
+  }
+
+  if (streak >= 30) {
+    await completeAchievement("30-day-streak");
+  }
+
+  if (streak >= 50) {
+    await completeAchievement("50-day-streak");
+  }
+
+  if (streak >= 100) {
+    await completeAchievement("100-day-streak");
+  }
 }

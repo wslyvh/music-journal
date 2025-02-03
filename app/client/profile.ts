@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { DataSchema, Profile } from "@/types";
+import { completeAchievement } from "./achievements";
 
 const SCHEMA_VERSION = 1;
 
@@ -24,6 +25,7 @@ export async function getProfile(): Promise<Profile | null> {
 export async function setProfile(profile: Profile) {
   const id = profile.id ?? randomUUID();
   console.log("setProfile", id, profile);
+
   await AsyncStorage.setItem(
     "profile",
     JSON.stringify({
@@ -34,6 +36,11 @@ export async function setProfile(profile: Profile) {
       },
     })
   );
+
+  if (!profile.id) {
+    await completeAchievement("joined");
+    await completeAchievement("profile");
+  }
 
   return {
     ...profile,

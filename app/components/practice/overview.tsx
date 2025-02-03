@@ -59,11 +59,12 @@ export function PracticeOverview(props: Props) {
         <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
           <Text className="text-4xl font-bold text-base-content">
             {formatDuration(stats.totalDuration)}
+            <Text className="text-2xl text-muted">
+              {stats.totalDuration < 7200 && " min"}
+              {stats.totalDuration >= 7200 && " hr"}
+            </Text>
           </Text>
-          <Text className="text-muted">
-            {stats.totalDuration < 7200 && <>Total minutes</>}
-            {stats.totalDuration >= 7200 && <>Total hours</>}
-          </Text>
+          <Text className="text-muted">Total practice time</Text>
         </View>
       </View>
 

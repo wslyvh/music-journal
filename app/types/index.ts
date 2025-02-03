@@ -17,6 +17,8 @@ export interface Profile {
 export interface PracticeStats {
   total: number;
   totalDuration: number;
+  longestSession: number;
+  averageSession: number;
 }
 
 export interface Practice extends PracticeData {
@@ -32,4 +34,11 @@ export interface PracticeData {
   goals?: string;
   notes?: string;
   rating?: number;
+}
+
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  completed?: number;
 }

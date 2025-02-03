@@ -33,6 +33,7 @@ export default function RootLayout() {
     "onboarding",
     "practice",
     "practice/[id]",
+    "achievements",
     "settings",
     "settings/profile",
     "settings/delete",
@@ -52,6 +53,11 @@ export default function RootLayout() {
       name: "practice",
       title: "Practice",
       icon: (focus: boolean) => (focus ? "play" : "play-outline"),
+    },
+    {
+      name: "achievements",
+      title: "Achievements",
+      icon: (focus: boolean) => (focus ? "trophy" : "trophy-outline"),
     },
     {
       name: "settings",
