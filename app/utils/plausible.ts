@@ -10,8 +10,6 @@ import { CONFIG } from "./config";
 
 const plausibleEventName = {
   pageview: "pageview",
-  onboarding: "onboarding",
-  start: "start",
 } as const;
 
 type EventName = keyof typeof plausibleEventName;
@@ -40,12 +38,16 @@ export const trackEvent = (eventName: EventName, pathname: string = "/") => {
       headers: {
         "Content-Type": "application/json",
         "User-Agent": userAgent,
-        "X-Device-Id": deviceId ?? "unknown",
       },
       body: JSON.stringify({
-        domain: CONFIG.APP_DOMAIN,
         name: plausibleEventName[eventName],
         url: CONFIG.APP_URL + pathname,
+        domain: CONFIG.APP_DOMAIN,
+        props: {
+          deviceId,
+          pathname,
+          platform: Platform.OS,
+        },
       }),
     }).catch((error) => {
       console.error("Analytics error:", error);
