@@ -21,7 +21,7 @@ interface Props {
 }
 
 export function PracticeOverview(props: Props) {
-  const { data: practices } = usePractices();
+  const { data: practices, refetch: refetchPractices } = usePractices();
   const { data: stats } = usePracticeStats();
 
   let className = "flex-col mt-4";
@@ -37,7 +37,7 @@ export function PracticeOverview(props: Props) {
         <View className="flex flex-col items-center justify-center mt-4">
           <Text
             className="text-muted italic mt-4"
-            onPress={() => practices.refetch()}
+            onPress={() => refetchPractices()}
           >
             No practices found
           </Text>
@@ -76,9 +76,11 @@ export function PracticeOverview(props: Props) {
         <View className="flex flex-row mt-4">
           {[7, 6, 5, 4, 3, 2, 1, 0].map((i) => {
             const practiceDay = dayjs().subtract(i, "day");
-            const count = practices.filter((i: Practice) =>
+            const count = practices?.filter((i: Practice) =>
               practiceDay.isSame(dayjs(i.timestamp), "day")
             );
+
+            if (!count) return null;
 
             return (
               <View
@@ -102,7 +104,7 @@ export function PracticeOverview(props: Props) {
         </View>
       </View>
 
-      {practices.slice(0, 5).map((practice: Practice) => {
+      {practices?.slice(0, 5).map((practice: Practice) => {
         return (
           <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
             <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">

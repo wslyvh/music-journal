@@ -111,7 +111,7 @@ export default function Index() {
           <Text>What's the primary instrument that you're playing?</Text>
           <InstrumentPicker
             className="my-4"
-            items={INSTRUMENTS}
+            items={["", ...INSTRUMENTS]}
             selected={profileData.instrument}
             onSelect={(value) =>
               setProfileData({ ...profileData, instrument: value })

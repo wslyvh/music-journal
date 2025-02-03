@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Vibration } from "react-native";
+import { View, TouchableOpacity, Vibration, Platform } from "react-native";
 import { Text } from "@/components/text";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
@@ -30,18 +30,22 @@ export function PracticeAlarm() {
   // clear expired timers
   useEffect(() => {
     async function clearTimers() {
-      const notifications = await getAllScheduledNotificationsAsync();
-      const expiredTimers = notifications.filter((i) =>
-        dayjs(i.content.data?.endTime).isBefore(dayjs())
-      );
-
-      if (expiredTimers.length > 0) {
-        console.log("Clear expired timers", expiredTimers.length);
-        Promise.all(
-          expiredTimers.map((i) =>
-            cancelScheduledNotificationAsync(i.identifier)
-          )
+      try {
+        const notifications = await getAllScheduledNotificationsAsync();
+        const expiredTimers = notifications.filter((i) =>
+          dayjs(i.content.data?.endTime).isBefore(dayjs())
         );
+
+        if (expiredTimers.length > 0) {
+          console.log("Clear expired timers", expiredTimers.length);
+          Promise.all(
+            expiredTimers.map((i) =>
+              cancelScheduledNotificationAsync(i.identifier)
+            )
+          );
+        }
+      } catch (error) {
+        console.error("Failed to clear timers:", error);
       }
     }
 
@@ -50,23 +54,27 @@ export function PracticeAlarm() {
 
   // load active timer from notifications
   useEffect(() => {
-    const loadTimer = async () => {
-      const notifications = await getAllScheduledNotificationsAsync();
-      const timer = notifications
-        .filter((n) => n.content.data?.channelId === "practice-timer")
-        .map((n) => {
-          const endTime = dayjs(n.content.data?.endTime);
-          return {
-            id: n.content.data?.id as string,
-            endTime: endTime.valueOf(),
-            remaining: dayjs(endTime).diff(dayjs(), "second"),
-          };
-        })
-        .find((t) => t.remaining > 0);
+    async function loadTimer() {
+      try {
+        const notifications = await getAllScheduledNotificationsAsync();
+        const timer = notifications
+          .filter((n) => n.content.data?.channelId === "practice-timer")
+          .map((n) => {
+            const endTime = dayjs(n.content.data?.endTime);
+            return {
+              id: n.content.data?.id as string,
+              endTime: endTime.valueOf(),
+              remaining: dayjs(endTime).diff(dayjs(), "second"),
+            };
+          })
+          .find((t) => t.remaining > 0);
 
-      setActiveTimer(timer);
-      setLoading(false);
-    };
+        setActiveTimer(timer);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to load timer:", error);
+      }
+    }
 
     loadTimer();
   }, []);
@@ -159,6 +167,15 @@ export function PracticeAlarm() {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }
+
+  if (Platform.OS === "web") {
+    console.log("Not available on web");
+    return (
+      <View className="flex flex-col items-center gap-8">
+        <Text className="text-lg font-bold">Not available on web</Text>
+      </View>
+    );
   }
 
   if (loading) return null;

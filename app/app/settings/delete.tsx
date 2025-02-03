@@ -6,7 +6,6 @@ import { Text } from "@/components/text";
 import { useState } from "react";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useProfileDelete } from "@/hooks/profile/useProfileDelete";
 
 export default function Settings() {

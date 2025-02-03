@@ -1,3 +1,8 @@
+export interface DataSchema<T> {
+  version: number;
+  data: T;
+}
+
 export interface Profile {
   id?: string;
   username: string;
@@ -7,6 +12,11 @@ export interface Profile {
   goals: string;
 
   createdAt: number;
+}
+
+export interface PracticeStats {
+  total: number;
+  totalDuration: number;
 }
 
 export interface Practice extends PracticeData {

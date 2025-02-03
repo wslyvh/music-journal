@@ -1,13 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
-import { Profile } from "@/types";
+import { DataSchema, Profile } from "@/types";
+
+const SCHEMA_VERSION = 1;
 
 export async function getProfile(): Promise<Profile | null> {
   try {
     const data = await AsyncStorage.getItem("profile");
     if (!data) return null;
 
-    return JSON.parse(data);
+    const profile = JSON.parse(data) as DataSchema<Profile>;
+    if (profile.version !== SCHEMA_VERSION) {
+      return null;
+    }
+
+    return profile.data;
   } catch (err) {
     console.error("Error getting profile:", err);
     return null;
@@ -20,8 +27,11 @@ export async function setProfile(profile: Profile) {
   await AsyncStorage.setItem(
     "profile",
     JSON.stringify({
-      ...profile,
-      id,
+      version: SCHEMA_VERSION,
+      data: {
+        ...profile,
+        id,
+      },
     })
   );
 

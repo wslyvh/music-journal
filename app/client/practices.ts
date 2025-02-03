@@ -1,16 +1,22 @@
-import { Practice, PracticeData } from "@/types";
+import { DataSchema, Practice, PracticeData, PracticeStats } from "@/types";
 import { randomUUID } from "expo-crypto";
 import { getProfile } from "@/client/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const SCHEMA_VERSION = 1;
+
 export async function getPractices() {
   console.log("getPractices");
 
-  const practices = JSON.parse(
-    (await AsyncStorage.getItem("practices")) || "[]"
-  );
+  const practiceData = await AsyncStorage.getItem("practices");
+  if (!practiceData) return [];
 
-  return practices.sort(
+  const data = JSON.parse(practiceData) as DataSchema<Practice[]>;
+  if (data.version !== SCHEMA_VERSION) {
+    return [];
+  }
+
+  return data.data.sort(
     (a: Practice, b: Practice) => b.timestamp - a.timestamp
   );
 }
@@ -41,7 +47,7 @@ export async function getPracticeStats(period?: number) {
   return {
     total: practices.length,
     totalDuration,
-  };
+  } as PracticeStats;
 }
 
 export async function createPractice(practice: PracticeData) {
@@ -55,10 +61,13 @@ export async function createPractice(practice: PracticeData) {
   practices.push({
     ...practice,
     id,
-    accountId: profile?.id,
+    accountId: profile?.id ?? "",
     timestamp: Date.now(),
   });
-  await AsyncStorage.setItem("practices", JSON.stringify(practices));
+  await AsyncStorage.setItem(
+    "practices",
+    JSON.stringify({ version: SCHEMA_VERSION, data: practices })
+  );
 
   return practice;
 }
@@ -73,7 +82,10 @@ export async function updatePractice(practice: Practice) {
   }
 
   practices[index] = practice;
-  await AsyncStorage.setItem("practices", JSON.stringify(practices));
+  await AsyncStorage.setItem(
+    "practices",
+    JSON.stringify({ version: SCHEMA_VERSION, data: practices })
+  );
 
   return practice;
 }
@@ -88,7 +100,10 @@ export async function deletePractice(id: string) {
   }
 
   practices.splice(index, 1);
-  await AsyncStorage.setItem("practices", JSON.stringify(practices));
+  await AsyncStorage.setItem(
+    "practices",
+    JSON.stringify({ version: SCHEMA_VERSION, data: practices })
+  );
 }
 
 export async function deletePractices() {
