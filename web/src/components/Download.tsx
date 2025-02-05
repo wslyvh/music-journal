@@ -1,5 +1,7 @@
 import { Button } from "react-daisyui";
 import { Input } from "react-daisyui";
+import appstoreImg from "@/assets/images/logo/appstore-soon.png";
+import playstoreImg from "@/assets/images/logo/playstore.png";
 
 export const Download = () => {
   return (
@@ -8,10 +10,21 @@ export const Download = () => {
       id="download"
     >
       <div className="container text-center">
-        <p className="text-xl font-semibold xl:text-3xl">Coming Soon</p>
+        <p className="text-xl font-semibold xl:text-3xl">Download Now</p>
         <p className="mt-8 inline-block max-w-[600px] text-base">
-          Music Journal will be available on iOS and Android soon. Sign up below
-          to be notified when it's ready.
+          Music Journal is available for on Android right now. iOS coming soon.
+        </p>
+        <div className="mt-8 flex justify-center gap-6">
+          <a href="https://play.google.com/store/apps/details?id=wslyvh.musicjournal.fm">
+            <img src={playstoreImg} alt="Play Store" />
+          </a>
+          <a href="#" className="opacity-50">
+            <img src={appstoreImg} alt="App Store" />
+          </a>
+        </div>
+
+        <p className="text-xl font-semibold mt-8 xl:text-3xl">
+          Sign up for updates
         </p>
         <div className="mt-8">
           <form
@@ -35,14 +48,6 @@ export const Download = () => {
             </Button>
           </form>
         </div>
-        {/* <div className="mt-8 flex justify-center gap-6">
-          <a href="#">
-            <img src={appstoreImg} alt="App Store" />
-          </a>
-          <a href="#">
-            <img src={playstoreImg} alt="Play Store" />
-          </a>
-        </div> */}
       </div>
     </section>
   );

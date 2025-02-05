@@ -4,6 +4,8 @@ import avatar1Img from "@/assets/images/avatar/1.png";
 import { StarIcon, ZapIcon } from "lucide-react";
 import { Button, Card, Input } from "react-daisyui";
 import { CONFIG } from "@/utils/config";
+import appstoreImg from "@/assets/images/logo/appstore-soon.png";
+import playstoreImg from "@/assets/images/logo/playstore.png";
 
 export const Hero = () => {
   return (
@@ -22,15 +24,15 @@ export const Hero = () => {
             <h5 className="mt-8 text-center text-base sm:text-start lg:text-lg">
               {CONFIG.SITE_DESCRIPTION}
             </h5>
-            {/* <div className="mt-16 flex justify-center gap-4 sm:justify-start">
-              <a href="#">
-                <img src={appstoreImg} alt="App Store" />
-              </a>  
-              <a href="#">
+            <div className="mt-16 flex justify-center gap-4 sm:justify-start">
+              <a href="https://play.google.com/store/apps/details?id=wslyvh.musicjournal.fm">
                 <img src={playstoreImg} alt="Play Store" />
               </a>
-            </div> */}
-            <div className="mt-8 flex justify-center gap-4 sm:justify-start">
+              <a href="#download" className="opacity-50">
+                <img src={appstoreImg} alt="App Store" />
+              </a>
+            </div>
+            {/* <div className="mt-8 flex justify-center gap-4 sm:justify-start">
               <form
                 className="join inline-flex"
                 target="_blank"
@@ -51,7 +53,7 @@ export const Hero = () => {
                   Join waitlist
                 </Button>
               </form>
-            </div>
+            </div> */}
           </div>
 
           <div className="relative order-1 lg:order-2">
