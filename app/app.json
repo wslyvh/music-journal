@@ -18,7 +18,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": ["audio", "remote-notification"]
-      }
+      },
+      "bundleIdentifier": "wslyvh.musicjournal.fm"
     },
     "android": {
       "package": "wslyvh.musicjournal.fm",
@@ -34,16 +35,11 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/icon.png",
-          "color": "#ffffff"
-        }
-      ]
-    ],
+    "notification": {
+      "icon": "./assets/images/notification.png",
+      "color": "#ff5533"
+    },
+    "plugins": ["expo-router", "expo-notifications"],
     "experiments": {
       "typedRoutes": true
     },

@@ -18,3 +18,7 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Native build files
+android/
+ios/
