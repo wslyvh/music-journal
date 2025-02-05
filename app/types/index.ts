@@ -19,6 +19,11 @@ export interface PracticeStats {
   totalDuration: number;
   longestSession: number;
   averageSession: number;
+  days: {
+    date: number;
+    sessions: number;
+    duration: number;
+  }[];
 }
 
 export interface Practice extends PracticeData {

@@ -9,6 +9,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { THEME_COLORS } from "@/utils/theme";
 import dayjs from "dayjs";
 
+const weeks = 24;
+
 export default function Achievements() {
   const { data: stats } = usePracticeStats();
   const { data: achievements } = useAchievements();
@@ -44,7 +46,7 @@ export default function Achievements() {
         </View>
       </View>
 
-      <View className="flex flex-row gap-4 justify-between mb-4">
+      <View className="flex flex-row gap-4 justify-between mb-8">
         <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
           <Text className="text-4xl font-bold text-base-content">
             {formatDuration(stats.averageSession)}
@@ -68,7 +70,77 @@ export default function Achievements() {
         </View>
       </View>
 
-      <Text className="text-xl font-bold text-base-content mt-2 mb-6">
+      <Text className="text-xl font-bold text-base-content mb-4">Overview</Text>
+
+      <View className="flex flex-row gap-4 justify-between mb-8">
+        <View className="flex flex-col gap-1 flex-1">
+          <View className="flex flex-row gap-1">
+            {[...Array(weeks)].map((_, weekIndex) => (
+              <View
+                key={`week-${weekIndex}`}
+                className="flex flex-col gap-1 flex-1"
+              >
+                {[...Array(7)].map((_, dayIndex) => {
+                  const date = dayjs()
+                    .subtract(weeks - 1 - weekIndex, "weeks")
+                    .startOf("week")
+                    .add(dayIndex, "days");
+
+                  if (date.isAfter(dayjs())) {
+                    return null;
+                  }
+
+                  const activityDay = stats.days.find((day) =>
+                    dayjs(day.date).isSame(date, "day")
+                  );
+
+                  return (
+                    <View
+                      key={date.format("YYYY-MM-DD")}
+                      className={`aspect-square rounded-md ${
+                        activityDay
+                          ? activityDay.duration <= 900000
+                            ? "bg-primary/40"
+                            : activityDay.duration <= 1800000
+                            ? "bg-primary/60"
+                            : activityDay.duration <= 2700000
+                            ? "bg-primary/80"
+                            : "bg-primary"
+                          : "bg-base-200"
+                      }`}
+                    >
+                      <Text className="text-xs text-center text-muted pt-1">
+                        {/* {date.format("DD")} */}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+            ))}
+          </View>
+
+          <View className="flex flex-row mt-1 gap-1">
+            {[...Array(weeks)].map((_, weekIndex) => {
+              const date = dayjs()
+                .subtract(weeks - 1 - weekIndex, "weeks")
+                .startOf("week");
+              const nextWeek = date.add(1, "week");
+
+              return (
+                <View key={`month-${weekIndex}`} className="flex-1">
+                  {date.format("MMM") !== nextWeek.format("MMM") && (
+                    <Text className="text-xs absolute left-0">
+                      {nextWeek.format("MMM")}
+                    </Text>
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      </View>
+
+      <Text className="text-xl font-bold text-base-content mt-2 mb-4">
         Progress{" "}
         <Text className="text-sm text-muted ml-2">
           {achievements?.filter((i: Achievement) => i.completed).length} /{" "}

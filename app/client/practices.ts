@@ -1,8 +1,8 @@
 import { DataSchema, Practice, PracticeData, PracticeStats } from "@/types";
 import { randomUUID } from "expo-crypto";
 import { getProfile } from "@/client/profile";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { completeAchievement } from "./achievements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 
 const SCHEMA_VERSION = 1;
@@ -42,6 +42,7 @@ export async function getPracticeStats(period?: number) {
       totalDuration: 0,
       longestSession: 0,
       averageSession: 0,
+      days: [],
     };
   }
 
@@ -64,11 +65,31 @@ export async function getPracticeStats(period?: number) {
       return acc + practice.duration;
     }, 0) / practices.length;
 
+  const practicesByDay = practices.reduce(
+    (acc: { [key: string]: Practice[] }, practice: Practice) => {
+      const day = dayjs(practice.timestamp).format("YYYY-MM-DD");
+      if (!acc[day]) acc[day] = [];
+      acc[day].push(practice);
+      return acc;
+    },
+    {}
+  );
+
+  const days = Object.entries(practicesByDay).map(([date, dayPractices]) => ({
+    date: dayjs(date).valueOf(),
+    sessions: dayPractices.length,
+    duration: dayPractices.reduce(
+      (sum, practice) => sum + practice.duration,
+      0
+    ),
+  }));
+
   return {
     total: practices.length,
     totalDuration,
     longestSession,
     averageSession,
+    days,
   } as PracticeStats;
 }
 
