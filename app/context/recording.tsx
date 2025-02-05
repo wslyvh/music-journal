@@ -89,7 +89,7 @@ export function RecordingProvider(props: PropsWithChildren) {
           setState("");
           setTimer(0);
           practice.clear();
-          router.replace("/");
+          router.replace("/?practice=true");
         },
         onError: (error) => {
           console.error("Upload failed:", error);
