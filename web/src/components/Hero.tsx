@@ -2,7 +2,7 @@ import bgGradientImg from "@/assets/images/landing/bg-gradient.png";
 import mobile1Img from "@/assets/images/landing/mobile-1.png";
 import avatar1Img from "@/assets/images/avatar/1.png";
 import { StarIcon, ZapIcon } from "lucide-react";
-import { Button, Card, Input } from "react-daisyui";
+import { Card } from "react-daisyui";
 import { CONFIG } from "@/utils/config";
 import appstoreImg from "@/assets/images/logo/appstore-soon.png";
 import playstoreImg from "@/assets/images/logo/playstore.png";
