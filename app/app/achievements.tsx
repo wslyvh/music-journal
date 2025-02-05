@@ -99,11 +99,11 @@ export default function Achievements() {
                       key={date.format("YYYY-MM-DD")}
                       className={`aspect-square rounded-md ${
                         activityDay
-                          ? activityDay.duration <= 900000
+                          ? activityDay.duration <= 600
                             ? "bg-primary/40"
-                            : activityDay.duration <= 1800000
+                            : activityDay.duration <= 1200
                             ? "bg-primary/60"
-                            : activityDay.duration <= 2700000
+                            : activityDay.duration <= 1800
                             ? "bg-primary/80"
                             : "bg-primary"
                           : "bg-base-200"
