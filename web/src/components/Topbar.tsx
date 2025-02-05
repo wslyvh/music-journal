@@ -79,7 +79,7 @@ export const Topbar = () => {
                         onClick={() => setDrawerOpened(false)}
                       >
                         <Button size={"sm"} color={"primary"}>
-                          Coming Soon
+                          Download
                         </Button>
                       </a>
                     </Menu>
@@ -128,7 +128,7 @@ export const Topbar = () => {
                 </div>
                 <a href="/#download">
                   <Button size={"sm"} color={"primary"}>
-                    Coming Soon
+                    Download
                   </Button>
                 </a>
               </Menu>
