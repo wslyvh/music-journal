@@ -51,7 +51,7 @@ export default function Settings() {
         />
         <Button
           onPress={async () => {
-            if (confirmText === "sudo delete") {
+            if (confirmText.toLowerCase() === "sudo delete") {
               deleteProfile.mutate(undefined);
             }
           }}
