@@ -47,6 +47,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 onChangeText={(value: string) =>
                   practice.setPractice({ ...practice.current, goals: value })
                 }
+                numberOfLines={5}
                 multiline
               />
             </View>
@@ -68,6 +69,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 onChangeText={(value: string) =>
                   practice.setPractice({ ...practice.current, notes: value })
                 }
+                numberOfLines={5}
                 multiline
               />
             </View>

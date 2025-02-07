@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { router } from "expo-router";
-import { formatDate } from "@/utils/format";
 import { useProfile } from "@/hooks/profile/useProfile";
+import dayjs from "dayjs";
 
 export function AccountBanner() {
   const { data: profile } = useProfile();
@@ -20,7 +20,8 @@ export function AccountBanner() {
             {profile.username}
           </Text>
           <Text className="flex text-base-content items-center gap-1">
-            {formatDate(profile.createdAt)} <Badge text="early adopter" />
+            {dayjs.unix(profile.createdAt).format("MMM DD, YYYY")}{" "}
+            <Badge text="early adopter" />
           </Text>
         </View>
       </View>

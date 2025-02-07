@@ -11,45 +11,68 @@ import { useNotificationPermissions } from "@/hooks/useNotificationPermissions";
 import { useAudioPermissions } from "@/hooks/useAudioPermissions";
 import { InstrumentPicker } from "@/components/instrument-picker";
 import { useProfileMutation } from "@/hooks/profile/useProfileMutation";
+import dayjs from "dayjs";
 
 export default function Index() {
   const profileMutation = useProfileMutation();
   const [step, setStep] = useState(1);
+  const [instrument, setInstrument] = useState("");
   const [profileData, setProfileData] = useState({
     username: "",
+    email: "",
+    referral: "",
+    profession: "",
     instrument: "",
     yearsOfExperience: "",
     practiceFrequency: "",
     goals: "",
-    createdAt: Date.now(),
+    createdAt: dayjs().unix(),
   });
   const [userError, setUserError] = useState("");
   const {
     data: notificationPermissionsEnabled,
     refetch: refetchNotificationPermissions,
-  } = useNotificationPermissions();
+  } = useNotificationPermissions(false);
   const { data: audioPermissionsEnabled, refetch: refetchAudioPermissions } =
-    useAudioPermissions();
+    useAudioPermissions(false);
+
+  async function validateProfileData() {
+    if (!profileData.username) {
+      setUserError("Please complete required fields");
+      return;
+    }
+
+    setUserError("");
+    setStep(3);
+  }
 
   async function handleProfileUpdate() {
     if (
       !profileData.username ||
       !profileData.instrument ||
-      !profileData.yearsOfExperience ||
-      !profileData.practiceFrequency ||
       !profileData.goals
     ) {
-      setUserError("Please complete all fields");
+      setUserError("Please complete required fields");
+      return;
+    }
+
+    if (profileData.instrument === "Other" && !instrument) {
+      setUserError("Please enter the instrument you play");
       return;
     }
 
     profileMutation.mutate({
       ...profileData,
+      instrument:
+        profileData.instrument === "Other"
+          ? instrument
+          : profileData.instrument,
       yearsOfExperience: Number(profileData.yearsOfExperience ?? 0),
       practiceFrequency: Number(profileData.practiceFrequency ?? 0),
     });
+
     setUserError("");
-    setStep(3);
+    setStep(4);
   }
 
   if (step === 1) {
@@ -82,6 +105,13 @@ export default function Index() {
             </Text>
           </View>
 
+          <View className="flex flex-col items-center mt-8">
+            <Text className="text-sm text-center">
+              This onboarding process will take about 2 minutes. Most data is
+              optional and is only used to help us improve the app.
+            </Text>
+          </View>
+
           <View className="flex flex-col w-full items-center mt-8">
             <Button
               className="w-full"
@@ -98,7 +128,9 @@ export default function Index() {
     return (
       <ScreenLayout backAction={() => setStep(1)}>
         <View className="flex">
-          <Text>How should we call you?</Text>
+          <Text>
+            How should we call you? <Text className="text-primary">*</Text>
+          </Text>
           <Input
             value={profileData.username}
             onChangeText={(value) =>
@@ -108,59 +140,122 @@ export default function Index() {
             className="my-4"
           />
 
-          <Text>What's the primary instrument that you're playing?</Text>
-          <InstrumentPicker
-            className="my-4"
-            items={["", ...INSTRUMENTS]}
-            selected={profileData.instrument}
-            onSelect={(value) =>
-              setProfileData({ ...profileData, instrument: value })
-            }
-          />
-
-          <Text>How many years have you been playing?</Text>
+          <Text>What's your email?</Text>
           <Input
-            value={profileData.yearsOfExperience}
-            onChangeText={(value) => {
-              const numericValue = value.replace(/[^0-9]/g, "");
-              setProfileData({
-                ...profileData,
-                yearsOfExperience: numericValue,
-              });
-            }}
-            placeholder="2"
-            keyboardType="numeric"
-            className="my-4"
-          />
-
-          <Text>How often a week do you practice?</Text>
-          <Input
-            value={profileData.practiceFrequency.toString()}
-            onChangeText={(value) => {
-              const numericValue = value.replace(/[^0-9]/g, "");
-              setProfileData({
-                ...profileData,
-                practiceFrequency: numericValue,
-              });
-            }}
-            placeholder="4"
-            keyboardType="numeric"
-            className="my-4"
-          />
-
-          <Text>What is your goal?</Text>
-          <Input
-            value={profileData.goals}
+            value={profileData.email}
             onChangeText={(value) =>
-              setProfileData({ ...profileData, goals: value })
+              setProfileData({ ...profileData, email: value })
             }
-            placeholder="E.g. Learn a new song or play in a band."
+            placeholder="hello@musicjournal.fm"
             className="my-4"
-            multiline
+            showClear
           />
-        </View>
 
-        <Button onPress={handleProfileUpdate} text="Continue" />
+          <Text>What do you do for a living?</Text>
+          <Input
+            value={profileData.profession}
+            onChangeText={(value) =>
+              setProfileData({ ...profileData, profession: value })
+            }
+            placeholder="e.g. Musician, teacher, student, etc."
+            className="my-4"
+          />
+
+          <Text>How did you hear about the App?</Text>
+          <Input
+            value={profileData.referral}
+            onChangeText={(value) =>
+              setProfileData({ ...profileData, referral: value })
+            }
+            placeholder="e.g. Google, friend, social media, etc."
+            className="my-4"
+          />
+
+          <Button
+            onPress={validateProfileData}
+            text="Continue"
+            className="mt-4"
+          />
+
+          {userError && (
+            <Alert className="my-4" type="warning" text={userError} />
+          )}
+        </View>
+      </ScreenLayout>
+    );
+  }
+
+  if (step === 3) {
+    return (
+      <ScreenLayout backAction={() => setStep(2)}>
+        <Text>
+          What's the primary instrument that you're playing?{" "}
+          <Text className="text-primary">*</Text>
+        </Text>
+        <InstrumentPicker
+          className="my-4"
+          items={["", ...INSTRUMENTS]}
+          selected={profileData.instrument}
+          onSelect={(value) =>
+            setProfileData({ ...profileData, instrument: value })
+          }
+        />
+
+        {profileData.instrument === "Other" && (
+          <Input
+            value={instrument}
+            onChangeText={(value) => {
+              setInstrument(value);
+            }}
+            placeholder="e.g. Cello, Saxophone, etc."
+            className="my-4"
+          />
+        )}
+
+        <Text>How many years have you been playing?</Text>
+        <Input
+          value={profileData.yearsOfExperience}
+          onChangeText={(value) => {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            setProfileData({
+              ...profileData,
+              yearsOfExperience: numericValue,
+            });
+          }}
+          placeholder="2"
+          keyboardType="numeric"
+          className="my-4"
+        />
+
+        <Text>How often a week do you practice?</Text>
+        <Input
+          value={profileData.practiceFrequency.toString()}
+          onChangeText={(value) => {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            setProfileData({
+              ...profileData,
+              practiceFrequency: numericValue,
+            });
+          }}
+          placeholder="4"
+          keyboardType="numeric"
+          className="my-4"
+        />
+
+        <Text>
+          What are your goals? <Text className="text-primary">*</Text>
+        </Text>
+        <Input
+          value={profileData.goals}
+          onChangeText={(value) =>
+            setProfileData({ ...profileData, goals: value })
+          }
+          placeholder="E.g. Learn a new song or play in a band."
+          className="my-4"
+          numberOfLines={5}
+          multiline
+        />
+
         {profileMutation.error && (
           <Alert
             className="my-4"
@@ -171,13 +266,19 @@ export default function Index() {
         {userError && (
           <Alert className="my-4" type="warning" text={userError} />
         )}
+
+        <Button
+          onPress={handleProfileUpdate}
+          text="Continue"
+          className="mt-4"
+        />
       </ScreenLayout>
     );
   }
 
-  if (step === 3) {
+  if (step === 4) {
     return (
-      <ScreenLayout backAction={() => setStep(2)}>
+      <ScreenLayout backAction={() => setStep(3)}>
         <View className="flex">
           <Text className="text-xl">Stay connected</Text>
           <Text className="mt-2">
@@ -218,18 +319,18 @@ export default function Index() {
           />
         </View>
 
-        <Button onPress={() => setStep(4)} text="Continue" className="mt-4" />
+        <Button onPress={() => setStep(5)} text="Continue" className="mt-4" />
       </ScreenLayout>
     );
   }
 
-  if (step === 4) {
+  if (step === 5) {
     return (
-      <ScreenLayout backAction={() => setStep(3)}>
+      <ScreenLayout backAction={() => setStep(4)}>
         <View className="flex flex-col items-center justify-center h-full">
           <Text className="text-xl">
-            We've set up your account. You're all set! Grab your instrument and
-            start recording a new practice session!
+            You're all set! Grab your instrument and start recording a new
+            practice session!
           </Text>
         </View>
 

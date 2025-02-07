@@ -54,6 +54,7 @@ export function ConfirmPractice(props: Props) {
           onChangeText={(value: string) =>
             practice.setPractice({ ...practice.current, goals: value })
           }
+          numberOfLines={5}
           multiline
         />
       </View>
@@ -73,6 +74,7 @@ export function ConfirmPractice(props: Props) {
           onChangeText={(value: string) =>
             practice.setPractice({ ...practice.current, notes: value })
           }
+          numberOfLines={5}
           multiline
         />
       </View>

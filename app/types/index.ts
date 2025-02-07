@@ -6,12 +6,17 @@ export interface DataSchema<T> {
 export interface Profile {
   id?: string;
   username: string;
+  email?: string;
+  referral?: string;
+  profession?: string;
+
   instrument: string;
-  yearsOfExperience: number;
-  practiceFrequency: number;
+  yearsOfExperience?: number;
+  practiceFrequency?: number;
   goals: string;
 
   createdAt: number;
+  updatedAt?: number;
 }
 
 export interface PracticeStats {

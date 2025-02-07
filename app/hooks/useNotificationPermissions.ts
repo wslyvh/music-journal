@@ -34,9 +34,10 @@ export async function checkPermissions() {
   }
 }
 
-export function useNotificationPermissions() {
+export function useNotificationPermissions(enabled: boolean = false) {
   return useQuery({
     queryKey: ["permissions", "notification"],
     queryFn: checkPermissions,
+    enabled,
   });
 }

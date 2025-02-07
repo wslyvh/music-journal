@@ -34,12 +34,13 @@ async function checkPermissions() {
   }
 }
 
-export function useAudioPermissions() {
+export function useAudioPermissions(enabled: boolean = false) {
   return useQuery({
     queryKey: ["permissions", "audio"],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
     queryFn: checkPermissions,
+    enabled,
   });
 }

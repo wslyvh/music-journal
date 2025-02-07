@@ -85,6 +85,7 @@ export default function PracticeDetails() {
             onChangeText={(value: string) =>
               setUpdatedPractice({ ...updatedPractice, goals: value })
             }
+            numberOfLines={5}
             multiline
           />
         </View>
@@ -103,6 +104,7 @@ export default function PracticeDetails() {
             onChangeText={(value: string) =>
               setUpdatedPractice({ ...updatedPractice, notes: value })
             }
+            numberOfLines={5}
             multiline
           />
         </View>

@@ -26,15 +26,10 @@ export const CONFIG = {
 
 export const INSTRUMENTS = [
   "Bass",
-  "Cello",
   "Drums",
-  "Flute",
   "Guitar",
   "Keyboard",
-  "Percussion",
   "Piano",
-  "Saxophone",
-  "Trumpet",
   "Ukulele",
   "Violin",
   "Voice",

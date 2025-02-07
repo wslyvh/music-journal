@@ -40,6 +40,7 @@ export default function Settings() {
           placeholder="sudo delete"
           value={confirmText}
           onChangeText={setConfirmText}
+          autoFocus
         />
       </View>
 

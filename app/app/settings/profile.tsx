@@ -9,6 +9,7 @@ import { useProfileMutation } from "@/hooks/profile/useProfileMutation";
 import { useProfile } from "@/hooks/profile/useProfile";
 import { InstrumentPicker } from "@/components/instrument-picker";
 import { INSTRUMENTS } from "@/utils/config";
+import dayjs from "dayjs";
 
 export default function Settings() {
   const { data: profile } = useProfile();
@@ -16,11 +17,12 @@ export default function Settings() {
   const [profileData, setProfileData] = useState(
     profile ?? {
       username: "",
+      email: "",
       instrument: "",
       yearsOfExperience: "",
       practiceFrequency: "",
       goals: "",
-      createdAt: Date.now(),
+      createdAt: dayjs().unix(),
     }
   );
   const [userError, setUserError] = useState("");
@@ -35,14 +37,8 @@ export default function Settings() {
   async function handleProfileUpdate() {
     if (!profileData) return;
 
-    if (
-      !profileData.username ||
-      !profileData.instrument ||
-      !profileData.yearsOfExperience ||
-      !profileData.practiceFrequency ||
-      !profileData.goals
-    ) {
-      setUserError("Please complete all fields");
+    if (!profileData.username || !profileData.goals) {
+      setUserError("Please complete required fields");
       return;
     }
 
@@ -72,6 +68,14 @@ export default function Settings() {
           value={profileData?.username ?? ""}
           onChangeText={(value) =>
             setProfileData({ ...profileData, username: value })
+          }
+        />
+
+        <Input
+          placeholder="Enter your email"
+          value={profileData?.email ?? ""}
+          onChangeText={(value) =>
+            setProfileData({ ...profileData, email: value })
           }
         />
 

@@ -9,7 +9,6 @@ import { StartActivityBanner } from "../start-activity";
 import { usePractices } from "@/hooks/practice/usePractices";
 import { Input } from "../input";
 import { PracticeCard } from "./card";
-import { seedPractices } from "@/scripts/seed";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);

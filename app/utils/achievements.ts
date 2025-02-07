@@ -14,11 +14,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: "Register to stay motivated!",
   },
   {
-    id: "profile",
-    title: "Profile perfectionist",
-    description: "Complete your profile to personalize your experience",
-  },
-  {
     id: "first-practice",
     title: "First practice",
     description: "Log your first practice session",
