@@ -1,11 +1,5 @@
 import { memo, useState, useEffect } from "react";
-import {
-  TextInput,
-  TextInputProps,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { TextInput, TextInputProps, View, Text } from "react-native";
 import { THEME_COLORS } from "@/utils/theme";
 
 interface Props extends TextInputProps {
@@ -46,12 +40,12 @@ export const Input = memo(function Input(props: Props) {
         {...rest}
       />
       {showClear && internalValue && (
-        <TouchableOpacity
-          className="absolute right-0 text-muted px-4 py-2"
+        <Text
+          className="absolute right-0 top-5 text-muted px-4 py-2"
           onPress={handleClear}
         >
           ×
-        </TouchableOpacity>
+        </Text>
       )}
     </View>
   );
