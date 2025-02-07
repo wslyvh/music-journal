@@ -43,6 +43,8 @@ export interface PracticeData {
   goals?: string;
   notes?: string;
   rating?: number;
+  resourcesUrl?: string;
+  recordingUrl?: string;
   timestamp?: number;
 }
 

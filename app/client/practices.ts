@@ -19,7 +19,7 @@ export async function getPractices() {
   }
 
   return data.data.sort(
-    (a: Practice, b: Practice) => b.timestamp - a.timestamp
+    (a: Practice, b: Practice) => (b.timestamp ?? 0) - (a.timestamp ?? 0)
   );
 }
 
@@ -48,7 +48,10 @@ export async function getPracticeStats(period?: number) {
 
   if (period) {
     practices = practices.filter((practice: Practice) => {
-      return practice.timestamp > Date.now() - period * 24 * 60 * 60 * 1000;
+      return (
+        practice.timestamp &&
+        practice.timestamp > dayjs().subtract(period, "days").valueOf()
+      );
     });
   }
 
@@ -106,8 +109,9 @@ export async function createPractice(practice: PracticeData) {
     id,
     accountId: profile?.id ?? "",
   };
+
   if (!practiceData.timestamp) {
-    practiceData.timestamp = Date.now();
+    practiceData.timestamp = dayjs().valueOf();
   }
 
   practices.push(practiceData);
@@ -247,4 +251,28 @@ export async function updatePracticeAchievements(practices: Practice[]) {
   if (streak >= 100) {
     await completeAchievement("100-day-streak");
   }
+}
+
+export async function seedPractices() {
+  console.log("seedPractices");
+
+  console.log("clear existing practices");
+  await deletePractices();
+
+  const practiceCount = Math.floor(Math.random() * 200) + 100;
+  for (let i = 0; i < practiceCount; i++) {
+    const daysAgo = Math.floor(Math.random() * 240);
+    const duration = Math.floor(Math.random() * 2400) + 300;
+    const rating = Math.floor(Math.random() * 5) + 1;
+
+    await createPractice({
+      type: "Guitar",
+      duration,
+      notes: `Practice session ${i + 1}`,
+      rating,
+      timestamp: dayjs().subtract(daysAgo, "days").valueOf(),
+    });
+  }
+
+  console.log(`Created ${practiceCount} practices`);
 }
