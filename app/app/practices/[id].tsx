@@ -11,7 +11,6 @@ import { Input } from "@/components/input";
 import { Text } from "@/components/text";
 import dayjs from "dayjs";
 import { AudioPlayer } from "@/components/audio-player";
-import { CONFIG } from "@/utils/config";
 
 export default function PracticeDetails() {
   const { id } = useLocalSearchParams();

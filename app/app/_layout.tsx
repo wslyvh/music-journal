@@ -32,7 +32,8 @@ export default function RootLayout() {
     "index",
     "onboarding",
     "practice",
-    "practice/[id]",
+    "practices",
+    "practices/[id]",
     "achievements",
     "settings",
     "settings/profile",
@@ -48,6 +49,12 @@ export default function RootLayout() {
       name: "index",
       title: "Home",
       icon: (focus: boolean) => (focus ? "home-sharp" : "home-outline"),
+    },
+    {
+      name: "practices",
+      title: "Practices",
+      icon: (focus: boolean) =>
+        focus ? "musical-notes" : "musical-notes-outline",
     },
     {
       name: "practice",
@@ -123,6 +130,7 @@ export default function RootLayout() {
                     {tabs.map((tab) => {
                       const focused =
                         pathname === `/${tab.name}` ||
+                        pathname.startsWith(`/${tab.name}/`) ||
                         (tab.name === "index" && pathname === "/");
 
                       return (

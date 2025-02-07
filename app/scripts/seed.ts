@@ -11,17 +11,13 @@ export async function seedPractices() {
     const rating = Math.floor(Math.random() * 5) + 1;
 
     await createPractice({
-      type: "guitar",
+      type: "Guitar",
       duration,
       notes: `Practice session ${i + 1}`,
       rating,
       timestamp: dayjs().subtract(daysAgo, "days").valueOf(),
     });
-
-    console.log(`Created practice ${i + 1}:`, {
-      date: dayjs().subtract(daysAgo, "days").format("YYYY-MM-DD"),
-      duration: `${Math.floor(duration / 60)} minutes`,
-      rating,
-    });
   }
+
+  console.log(`Created ${practiceCount} practices`);
 }

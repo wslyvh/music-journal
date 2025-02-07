@@ -14,6 +14,7 @@ import { THEME_COLORS } from "@/utils/theme";
 import { usePracticeStats } from "@/hooks/practice/usePracticeStats";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { Button } from "../button";
+import { PracticeCard } from "./card";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -30,7 +31,6 @@ export function PracticeOverview(props: Props) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("PRACTICE Effect", practice, practices);
     if (practice === "true" && practices?.length === 1) {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
@@ -52,7 +52,7 @@ export function PracticeOverview(props: Props) {
             className="text-muted italic mt-4"
             onPress={() => refetchPractices()}
           >
-            No practices found
+            No sessions found
           </Text>
         </View>
       </>
@@ -176,58 +176,7 @@ export function PracticeOverview(props: Props) {
         </View>
 
         {practices?.slice(0, 5).map((practice: Practice) => {
-          return (
-            <Link href={`/practice/${practice.id}`} key={practice.id} asChild>
-              <View className="flex-row py-4 border-b border-base-300 items-center active:opacity-70">
-                <View className="w-12 h-12 mr-4">
-                  <View className="bg-secondary rounded-lg w-full h-full items-center justify-center">
-                    <Ionicons
-                      name="stats-chart"
-                      size={18}
-                      color={THEME_COLORS["secondary-content"]}
-                    />
-                  </View>
-                </View>
-
-                <View className="flex-1">
-                  <View className="flex-row justify-between items-center">
-                    <Text className="text-base font-bold text-base-content flex-shrink">
-                      {dayjs(practice.timestamp).format("ddd, MMM DD")}
-                    </Text>
-                    <Text className="text-xs text-muted ml-2">
-                      {dayjs(practice.timestamp).fromNow()}
-                    </Text>
-                  </View>
-
-                  <View className="flex-row items-center mt-2">
-                    <View className="flex-row items-center flex-1">
-                      <Ionicons
-                        name="time-outline"
-                        size={16}
-                        color={THEME_COLORS["muted"]}
-                      />
-                      <Text className="text-muted text-sm ml-2">
-                        {formatDuration(practice.duration, false, true)}
-                      </Text>
-                    </View>
-                    <View className="flex-row">
-                      {Array.from(Array(practice.rating ?? 0).keys()).map(
-                        (i) => (
-                          <Ionicons
-                            key={`${practice.id}_rating_${i}`}
-                            name="star"
-                            size={12}
-                            color={THEME_COLORS["muted"]}
-                            style={{ marginLeft: 2 }}
-                          />
-                        )
-                      )}
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </Link>
-          );
+          return <PracticeCard item={practice} key={practice.id} />;
         })}
       </View>
     </>
