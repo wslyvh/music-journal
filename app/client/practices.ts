@@ -101,12 +101,16 @@ export async function createPractice(practice: PracticeData) {
   console.log("createPractice", id, profile?.id, practice);
 
   const practices = await getPractices();
-  practices.push({
+  let practiceData = {
     ...practice,
     id,
     accountId: profile?.id ?? "",
-    timestamp: Date.now(),
-  });
+  };
+  if (!practiceData.timestamp) {
+    practiceData.timestamp = Date.now();
+  }
+
+  practices.push(practiceData);
   await AsyncStorage.setItem(
     "practices",
     JSON.stringify({ version: SCHEMA_VERSION, data: practices })

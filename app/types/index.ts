@@ -29,7 +29,6 @@ export interface PracticeStats {
 export interface Practice extends PracticeData {
   id: string;
   accountId: string;
-  timestamp: number;
 }
 
 export interface PracticeData {
@@ -39,6 +38,7 @@ export interface PracticeData {
   goals?: string;
   notes?: string;
   rating?: number;
+  timestamp?: number;
 }
 
 export interface Achievement {
