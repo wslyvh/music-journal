@@ -114,7 +114,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 name="metronome"
                 size={28}
                 color={THEME_COLORS["muted"]}
-                className="text-muted"
+                className="text-muted opacity-40"
               />
             </View>
           }
@@ -134,7 +134,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 name="mic-outline"
                 size={28}
                 color={THEME_COLORS["muted"]}
-                className="text-muted"
+                className="text-muted opacity-40"
               />
             </View>
           }
