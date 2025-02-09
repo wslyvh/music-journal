@@ -1,0 +1,22 @@
+---
+description: This rule explains the App's tech stack and code conventions
+globs: app
+---
+This rule serves as high-level documentation for how the App is structured.
+
+# Rules for AI
+
+- Use this file to understand how the codebase works
+- Treat this rule/file as your "source of truth" when making code recommendations
+
+# Project Instructions
+- Follow the latest React Native, and Expo documentation and best practices
+- Use TypeScript for type safety
+- Implement styling using NativeWind and ensure cross-device compatibility (iOS and Android first)
+- Use functional components with hooks
+- Implement proper navigation using React Navigation
+- Implement proper error handling and crash reporting
+- Utilize Expo SDK features and APIs
+- Utilize Expo's push notification system
+- Use Expo's asset system for images and fonts
+
