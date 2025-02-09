@@ -1,4 +1,11 @@
-import { SparklesIcon, BarChartIcon, Goal, ListMusic } from "lucide-react";
+import {
+  SparklesIcon,
+  BarChartIcon,
+  Goal,
+  ListMusic,
+  Code2Icon,
+  ShieldCheckIcon,
+} from "lucide-react";
 import { Card } from "react-daisyui";
 
 export const Feature = () => {
@@ -47,6 +54,34 @@ export const Feature = () => {
                 Use our app to streamline your practice, stay motivated, and
                 achieve your musical goals, whether you're a beginner or a
                 seasoned musician.
+              </p>
+            </div>
+          </Card>
+          <Card className="border border-base-content/10">
+            <div className="p-6">
+              <ShieldCheckIcon className="text-primary" size={32} />
+              <p className="mt-2 text-xl font-semibold">Local-first</p>
+              <p className="mt-2 text-base-content/80">
+                Your data is yours! All App data is stored locally on your
+                device. We do not collect any data from your device.
+              </p>
+            </div>
+          </Card>
+          <Card className="border border-base-content/10">
+            <div className="p-6">
+              <Code2Icon className="text-primary" size={32} />
+              <p className="mt-2 text-xl font-semibold">Open Source</p>
+              <p className="mt-2 text-base-content/80">
+                This project is open source. All code is available on{" "}
+                <a
+                  href="https://github.com/wslyvh/music-journal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link link-hover text-primary"
+                >
+                  GitHub
+                </a>
+                . Feel free to join the community and contribute to the project.
               </p>
             </div>
           </Card>

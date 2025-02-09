@@ -22,7 +22,7 @@ export const Hero = () => {
               {CONFIG.SITE_TAGLINE}
             </h1>
             <h5 className="mt-8 text-center text-base sm:text-start lg:text-lg">
-              {CONFIG.SITE_DESCRIPTION}
+              {CONFIG.SITE_DESCRIPTION}. Open source and Local-/offline first.
             </h5>
             <div className="mt-16 flex justify-center gap-4 sm:justify-start">
               <a href="https://play.google.com/store/apps/details?id=wslyvh.musicjournal.fm">
