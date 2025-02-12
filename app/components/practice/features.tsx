@@ -47,7 +47,9 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 onChangeText={(value: string) =>
                   practice.setPractice({ ...practice.current, goals: value })
                 }
-                numberOfLines={5}
+                numberOfLines={3}
+                textAlignVertical="top"
+                style={{ textAlignVertical: "top" }}
                 multiline
               />
             </View>
@@ -69,7 +71,9 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
                 onChangeText={(value: string) =>
                   practice.setPractice({ ...practice.current, notes: value })
                 }
-                numberOfLines={5}
+                numberOfLines={3}
+                textAlignVertical="top"
+                style={{ textAlignVertical: "top" }}
                 multiline
               />
             </View>

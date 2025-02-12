@@ -85,7 +85,9 @@ export default function PracticeDetails() {
             onChangeText={(value: string) =>
               setUpdatedPractice({ ...updatedPractice, goals: value })
             }
-            numberOfLines={5}
+            numberOfLines={3}
+            textAlignVertical="top"
+            style={{ textAlignVertical: "top" }}
             multiline
           />
         </View>
@@ -104,7 +106,9 @@ export default function PracticeDetails() {
             onChangeText={(value: string) =>
               setUpdatedPractice({ ...updatedPractice, notes: value })
             }
-            numberOfLines={5}
+            numberOfLines={3}
+            textAlignVertical="top"
+            style={{ textAlignVertical: "top" }}
             multiline
           />
         </View>

@@ -252,7 +252,9 @@ export default function Index() {
           }
           placeholder="E.g. Learn a new song or play in a band."
           className="my-4"
-          numberOfLines={5}
+          numberOfLines={3}
+          textAlignVertical="top"
+          style={{ textAlignVertical: "top" }}
           multiline
         />
 
