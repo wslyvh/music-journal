@@ -5,12 +5,9 @@ import { Practice } from "@/types";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Ionicons } from "@expo/vector-icons";
 import { StartActivityBanner } from "../start-activity";
-import { formatDuration } from "@/utils/format";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { usePractices } from "@/hooks/practice/usePractices";
-import { THEME_COLORS } from "@/utils/theme";
 import { usePracticeStats } from "@/hooks/practice/usePracticeStats";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { Button } from "../button";
@@ -118,40 +115,16 @@ export function PracticeOverview(props: Props) {
       )}
 
       <View className={className}>
-        <View className="flex flex-row gap-4 justify-between mb-4">
-          <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
-            <View className="flex-row items-baseline pt-2">
-            <Text className="text-4xl font-bold text-base-content">
-              {stats.total}
-            </Text>
-            </View>
-            <Text className="text-muted">Total sessions</Text>
-          </View>
-
-          <View className="flex flex-col bg-base-200 rounded-xl p-4 gap-2 flex-1">
-            <View className="flex-row items-baseline pt-2">
-            <Text className="text-4xl font-bold text-base-content">
-              {formatDuration(stats.totalDuration)}
-              </Text>
-              <Text className="text-2xl text-muted ml-1">
-                {stats.totalDuration < 7200 && " min"}
-                {stats.totalDuration >= 7200 && " hr"}
-              </Text>
-            </View>
-            <Text className="text-muted">Total practice time</Text>
-          </View>
-        </View>
-
         <View className="bg-base-200 rounded-xl p-4 mb-4 gap-2">
           <View className="flex-row items-baseline pt-2">
-          <Text className="text-xl font-bold text-base-content">
+            <Text className="text-xl font-bold text-base-content">
               Latest activity
-          </Text>
+            </Text>
           </View>
           <Text className="text-muted">Current streak</Text>
 
           <View className="flex flex-row mt-4">
-            {[7, 6, 5, 4, 3, 2, 1, 0].map((i) => {
+            {[6, 5, 4, 3, 2, 1, 0].map((i) => {
               const practiceDay = dayjs().subtract(i, "day");
               const count = practices?.filter((i: Practice) =>
                 practiceDay.isSame(dayjs(i.timestamp), "day")
@@ -164,13 +137,12 @@ export function PracticeOverview(props: Props) {
                   className="flex flex-col items-center flex-1"
                   key={`daily_${i}`}
                 >
-                  <View className="w-full max-w-4 h-32 justify-end">
-                    {count.length === 0 && (
-                      <View className="bg-neutral rounded h-2"></View>
-                    )}
-                    {count.length > 0 && (
-                      <View className="bg-primary rounded h-32"></View>
-                    )}
+                  <View className="w-full justify-end">
+                    <View
+                      className={`w-8 h-8 rounded-full mx-auto ${
+                        count.length > 0 ? "bg-primary" : "bg-neutral"
+                      }`}
+                    />
                   </View>
                   <Text className="text-xs text-muted mt-2">
                     {practiceDay.format("ddd")}
@@ -181,9 +153,32 @@ export function PracticeOverview(props: Props) {
           </View>
         </View>
 
-        {practices?.slice(0, 5).map((practice: Practice) => {
-          return <PracticeCard item={practice} key={practice.id} />;
-        })}
+        {!practices?.length && (
+          <View className="flex flex-col items-center justify-center mt-4">
+            <Text className="text-muted italic mt-4">
+              No sessions recorded yet
+            </Text>
+          </View>
+        )}
+
+        {practices
+          ?.filter((practice: Practice) => {
+            const practiceDate = dayjs(practice.timestamp);
+            const sevenDaysAgo = dayjs().subtract(7, "days");
+            return practiceDate.isAfter(sevenDaysAgo);
+          })
+          .map((practice: Practice) => {
+            return <PracticeCard item={practice} key={practice.id} />;
+          })}
+
+        {practices?.length && (
+          <Link
+            href="/practices"
+            className="my-4 flex flex-row justify-end w-full text-right"
+          >
+            <Text className="text-primary">View all sessions &rarr;</Text>
+          </Link>
+        )}
       </View>
     </>
   );
