@@ -31,11 +31,11 @@ export function PracticeOverview(props: Props) {
   const router = useRouter();
 
   useEffect(() => {
-    if (practice === "true" && practices?.length === 1) {
+    if (practice === "1") {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
     }
-  }, [practice, practices]);
+  }, [practice]);
 
   let className = "flex-col mt-4";
   if (props.className) className += ` ${props.className}`;

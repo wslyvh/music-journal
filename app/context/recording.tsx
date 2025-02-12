@@ -8,6 +8,7 @@ import {
 } from "react";
 import { usePracticeMutationCreate } from "@/hooks/practice/usePracticeMutationCreate";
 import { usePracticeContext } from "./practice";
+import { usePractices } from "@/hooks/practice/usePractices";
 
 interface RecordingContext {
   state: string;
@@ -36,6 +37,7 @@ export const useRecorder = () => {
 export function RecordingProvider(props: PropsWithChildren) {
   const practice = usePracticeContext();
   const createPractice = usePracticeMutationCreate();
+  const { data: practices } = usePractices();
   const [state, setState] = useState("");
   const [timer, setTimer] = useState(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -79,6 +81,7 @@ export function RecordingProvider(props: PropsWithChildren) {
   }
 
   async function submit() {
+    const practiceCount = practices?.length ?? 0;
     createPractice.mutate(
       {
         ...practice.current,
@@ -89,7 +92,7 @@ export function RecordingProvider(props: PropsWithChildren) {
           setState("");
           setTimer(0);
           practice.clear();
-          router.replace("/?practice=true");
+          router.replace(`/?practice=${practiceCount + 1}`);
         },
         onError: (error) => {
           console.error("Upload failed:", error);
