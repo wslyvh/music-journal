@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import React, { View } from "react-native";
 import { Button } from "@/components/button";
 import { Text } from "@/components/text";
 import { ConfirmPractice } from "@/components/practice/confirm";

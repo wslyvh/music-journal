@@ -26,6 +26,8 @@ export async function setDailyReminder() {
   console.log("Setting daily reminder notification");
 
   try {
+    await cancelDailyReminder();
+
     await scheduleNotificationAsync({
       content: {
         title: "Time to practice! 🎵",

@@ -222,8 +222,8 @@ export default function Index() {
               yearsOfExperience: numericValue,
             });
           }}
+          numeric
           placeholder="2"
-          keyboardType="numeric"
           className="my-4"
         />
 
@@ -237,8 +237,8 @@ export default function Index() {
               practiceFrequency: numericValue,
             });
           }}
+          numeric
           placeholder="4"
-          keyboardType="numeric"
           className="my-4"
         />
 

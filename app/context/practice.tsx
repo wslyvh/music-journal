@@ -29,6 +29,7 @@ export function PracticeProvider(props: PropsWithChildren) {
     goals: "",
     notes: "",
     rating: 0,
+    resource: "",
   };
   const [current, setCurrent] = useState<PracticeData>(defaultState);
 
@@ -37,7 +38,9 @@ export function PracticeProvider(props: PropsWithChildren) {
       ...current,
       goals: data.goals,
       notes: data.notes,
+      data: data.data,
       rating: data.rating,
+      resource: data.resource,
     });
   }
 

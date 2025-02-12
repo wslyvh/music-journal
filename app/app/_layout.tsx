@@ -75,8 +75,8 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <ContextProvider>
+      <ContextProvider>
+        <BottomSheetModalProvider>
           <StatusBar translucent={true} backgroundColor="transparent" />
           <View className="flex-1 items-center bg-base-100 pt-8">
             <View className="flex-1 w-full">
@@ -162,8 +162,8 @@ export default function RootLayout() {
               )}
             </View>
           </View>
-        </ContextProvider>
-      </BottomSheetModalProvider>
+        </BottomSheetModalProvider>
+      </ContextProvider>
     </GestureHandlerRootView>
   );
 }

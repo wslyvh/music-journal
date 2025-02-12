@@ -39,11 +39,11 @@ export interface Practice extends PracticeData {
 export interface PracticeData {
   type: string;
   duration: number;
-  data?: number;
   goals?: string;
   notes?: string;
+  data?: number;
   rating?: number;
-  resourcesUrl?: string;
+  resource?: string;
   recordingUrl?: string;
   timestamp?: number;
 }

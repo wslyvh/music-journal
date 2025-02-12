@@ -4,14 +4,10 @@ import { Sheet } from "@/components/sheet";
 import { THEME_COLORS } from "@/utils/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text } from "@/components/text";
-import { Input } from "@/components/input";
-import { StarRating } from "./rating";
-import { usePracticeContext } from "@/context/practice";
 import { PracticeAlarm } from "./alarm";
+import { PracticeNotes } from "./notes";
 
 export const PracticeFeatures = memo(function PracticeFeatures() {
-  const practice = usePracticeContext();
-
   return (
     <View className="flex flex-row items-center justify-center gap-8">
       <Sheet
@@ -29,71 +25,7 @@ export const PracticeFeatures = memo(function PracticeFeatures() {
         <View className="flex flex-col">
           <Text className="text-lg font-bold">Practice notes</Text>
 
-          <View className="my-4">
-            <View className="flex flex-row">
-              <Text>What are your goals for today?</Text>
-            </View>
-
-            <Input
-              className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
-                practice.current.goals?.length &&
-                practice.current.goals?.length > 0
-                  ? "text-base-content"
-                  : "text-muted"
-              }`}
-              placeholder="Set your intention for this session..."
-              value={practice.current?.goals}
-              onChangeText={(value: string) =>
-                practice.setPractice({ ...practice.current, goals: value })
-              }
-              numberOfLines={3}
-              textAlignVertical="top"
-              style={{ textAlignVertical: "top" }}
-              multiline
-            />
-          </View>
-
-          <View className="my-4">
-            <View className="flex flex-row">
-              <Text>What did you learn?</Text>
-            </View>
-
-            <Input
-              className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
-                practice.current.notes?.length &&
-                practice.current.notes?.length > 0
-                  ? "text-base-content"
-                  : "text-muted"
-              }`}
-              placeholder="Add any notes after the session..."
-              value={practice.current?.notes}
-              onChangeText={(value: string) =>
-                practice.setPractice({ ...practice.current, notes: value })
-              }
-              numberOfLines={3}
-              textAlignVertical="top"
-              style={{ textAlignVertical: "top" }}
-              multiline
-            />
-          </View>
-
-          <View className="my-4">
-            <View className="flex flex-row">
-              <Text>How do you feel about this session?</Text>
-            </View>
-
-            <View className="mt-4">
-              <StarRating
-                score={practice.current.rating || 0}
-                onScore={(value) => {
-                  practice.setPractice({
-                    ...practice.current,
-                    rating: value,
-                  });
-                }}
-              />
-            </View>
-          </View>
+          <PracticeNotes />
         </View>
       </Sheet>
 

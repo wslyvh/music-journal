@@ -40,12 +40,15 @@ export function PracticeSearch(props: Props) {
           practice.type.toLowerCase().includes(searchTerm) ||
           practice.notes?.toLowerCase().includes(searchTerm) ||
           practice.goals?.toLowerCase().includes(searchTerm) ||
+          practice.resource?.toLowerCase().includes(searchTerm) ||
           dayjs(practice.timestamp)
             .format("MMMM D")
             .toLowerCase()
             .includes(searchTerm);
 
         if (searchNumber !== null) {
+          const dataMatch =
+            practice.data !== undefined && practice.data === searchNumber;
           const ratingMatch =
             practice.rating !== undefined && practice.rating === searchNumber;
           const dateMatch = date.date() === searchNumber;
@@ -53,7 +56,12 @@ export function PracticeSearch(props: Props) {
           const yearMatch = date.year() === searchNumber;
 
           return (
-            textMatch || ratingMatch || dateMatch || monthMatch || yearMatch
+            textMatch ||
+            dataMatch ||
+            ratingMatch ||
+            dateMatch ||
+            monthMatch ||
+            yearMatch
           );
         }
 

@@ -114,6 +114,37 @@ export default function PracticeDetails() {
         </View>
 
         <View className="my-2">
+          <Text className="font-bold">Data</Text>
+
+          <Input
+            className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
+              updatedPractice.data ? "text-base-content" : "text-muted"
+            }`}
+            placeholder="Data..."
+            value={updatedPractice.data?.toString()}
+            onChangeText={(value: string) =>
+              setUpdatedPractice({ ...updatedPractice, data: Number(value) })
+            }
+            numeric
+          />
+        </View>
+
+        <View className="my-2">
+          <Text className="font-bold">Resource</Text>
+
+          <Input
+            className={`bg-base-200 text-base-content rounded-lg border-2 border-base-300 p-4 mt-4 ${
+              updatedPractice.resource ? "text-base-content" : "text-muted"
+            }`}
+            placeholder="Resource..."
+            value={updatedPractice.resource}
+            onChangeText={(value: string) =>
+              setUpdatedPractice({ ...updatedPractice, resource: value })
+            }
+          />
+        </View>
+
+        <View className="my-2">
           <Text className="font-bold">Recording</Text>
           {!updatedPractice.recordingUrl && (
             <Text className="text-muted italic mt-4">
@@ -123,16 +154,6 @@ export default function PracticeDetails() {
           {updatedPractice.recordingUrl && (
             <AudioPlayer url={updatedPractice.recordingUrl} className="mt-4" />
           )}
-        </View>
-
-        <View className="my-2">
-          <Text className="font-bold">Rating</Text>
-          <StarRating
-            score={updatedPractice.rating}
-            onScore={(value) => {
-              setUpdatedPractice({ ...updatedPractice, rating: value });
-            }}
-          />
         </View>
       </View>
     </ScreenLayout>
