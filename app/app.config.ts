@@ -1,7 +1,8 @@
 import { ExpoConfig } from "expo/config";
 
 const config: ExpoConfig = {
-  name: "Music Journal",
+  name:
+    process.env.APP_ENVIRONMENT === "development" ? "MJ Dev" : "Music Journal",
   description:
     "Transform your music practice with Music Journal, the app that helps you record, reflect, and improve.",
   slug: "music-journal-app",
@@ -24,7 +25,10 @@ const config: ExpoConfig = {
     bundleIdentifier: "wslyvh.musicjournal.fm",
   },
   android: {
-    package: "wslyvh.musicjournal.fm",
+    package:
+      process.env.APP_ENVIRONMENT === "development"
+        ? "wslyvh.musicjournal.dev"
+        : "wslyvh.musicjournal.fm",
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
