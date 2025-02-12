@@ -89,16 +89,16 @@ export function PracticeSearch(props: Props) {
     <View className={className} style={{ height: "100%" }}>
       <View className="flex flex-col mb-4">
         <View className="flex flex-row gap-4 justify-between mb-4">
-          <Text className="text-xl font-bold text-base-content">
-            Search
-            <Text className="text-sm text-muted ml-2">
+          <View className="flex-row items-center gap-2">
+            <Text className="text-xl font-bold text-base-content">Search</Text>
+            <Text className="text-sm text-muted">
               (
               {filteredPractices.length === practices.length
                 ? `${filteredPractices.length} sessions`
                 : `${filteredPractices.length}/${practices.length} sessions`}
               )
             </Text>
-          </Text>
+          </View>
         </View>
         <Input
           placeholder="Search notes, dates, goals, etc..."
