@@ -33,7 +33,7 @@ export const Input = memo(function Input(props: Props) {
   return (
     <View className="relative">
       <TextInput
-        className={className}
+        className={`${className} ${showClear ? "pr-12" : ""}`}
         placeholderTextColor={THEME_COLORS.muted}
         value={internalValue}
         onChangeText={handleChangeText}
@@ -41,7 +41,7 @@ export const Input = memo(function Input(props: Props) {
       />
       {showClear && internalValue && (
         <Text
-          className="absolute right-0 top-5 text-muted px-4 py-2"
+          className="absolute right-0 px-4 py-3 text-xl text-muted"
           onPress={handleClear}
         >
           ×
