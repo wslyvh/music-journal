@@ -6,12 +6,18 @@ import { router } from "expo-router";
 import { useProfile } from "@/hooks/profile/useProfile";
 import dayjs from "dayjs";
 
-export function AccountBanner() {
+interface Props {
+  className?: string;
+}
+
+export function AccountBanner(props: Props) {
   const { data: profile } = useProfile();
+  let className = "flex flex-row items-center bg-base-200 rounded-xl p-8 gap-4";
+  if (props.className) className += ` ${props.className}`;
 
   if (profile) {
     return (
-      <View className="flex flex-row items-center bg-base-200 rounded-xl p-8 gap-4">
+      <View className={className}>
         <View className="bg-primary w-12 h-12 rounded-full flex items-center justify-center">
           <Ionicons name="person-outline" size={24} color="white" />
         </View>

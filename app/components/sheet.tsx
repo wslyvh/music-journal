@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useRef } from "react";
+import React, { ReactNode, useCallback, useRef } from "react";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Pressable } from "react-native";
 import { THEME_COLORS } from "@/utils/theme";
@@ -25,7 +25,7 @@ export function Sheet(props: Props) {
 
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        snapPoints={["60%"]}
+        snapPoints={["80%"]}
         enableDynamicSizing={false}
         enableDismissOnClose={true}
         enablePanDownToClose={true}

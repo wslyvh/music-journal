@@ -6,7 +6,7 @@ export default function Practice() {
   const recorder = useRecorder();
 
   return (
-    <ScreenLayout title="Practice Timer" cancelable={recorder.state !== ""}>
+    <ScreenLayout title="Start Jamming" cancelable={recorder.state !== ""}>
       <PracticeTimer />
     </ScreenLayout>
   );

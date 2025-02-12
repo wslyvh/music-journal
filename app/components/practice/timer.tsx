@@ -27,7 +27,7 @@ export function PracticeTimer() {
 
           <View className="flex flex-col justify-center space-between mt-8 gap-4">
             {recorder.state === "" && (
-              <Button onPress={() => recorder.start()} text="Start Practice" />
+              <Button onPress={() => recorder.start()} text="Start Session" />
             )}
 
             {recorder.state !== "" && (
