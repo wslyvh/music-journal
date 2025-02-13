@@ -6,6 +6,8 @@
     "dev": "expo start --tunnel",
     "offline": "expo start --offline",
     "android": "expo run:android",
+    "android:dev": "expo run:android --dev-client",
+    "android:prod": "eas build --platform android --profile production",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "build": "npx expo export -p web",
