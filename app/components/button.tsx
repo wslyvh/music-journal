@@ -8,7 +8,7 @@ interface Props extends TouchableOpacityProps {
 
 export function Button(props: Props) {
   let { className: _, ...rest } = props;
-  let className = "items-center rounded-md px-6 py-3";
+  let className = "items-center rounded-md min-h-12 justify-center px-6 py-3";
   let textClassName = "font-bold";
 
   if (props.type === "primary" || !props.type) {

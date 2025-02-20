@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Share,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState } from "react";
 import { ActiveTimer } from "./active-timer";
@@ -75,6 +76,8 @@ export function ScreenLayout(props: Props) {
       {props.scrollable !== false ? (
         <ScrollView
           className={contentClassName}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="none"
           refreshControl={
             Platform.OS !== "web" ? (
               <RefreshControl
