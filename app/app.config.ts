@@ -23,6 +23,9 @@ const config: ExpoConfig = {
       UIBackgroundModes: ["audio", "remote-notification"],
     },
     bundleIdentifier: "wslyvh.musicjournal.fm",
+    config: {
+      usesNonExemptEncryption: false,
+    },
   },
   android: {
     package:
