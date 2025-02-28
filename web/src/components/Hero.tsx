@@ -4,7 +4,7 @@ import avatar1Img from "@/assets/images/avatar/1.png";
 import { StarIcon, ZapIcon } from "lucide-react";
 import { Card } from "react-daisyui";
 import { CONFIG } from "@/utils/config";
-import appstoreImg from "@/assets/images/logo/appstore-soon.png";
+import appstoreImg from "@/assets/images/logo/appstore.png";
 import playstoreImg from "@/assets/images/logo/playstore.png";
 
 export const Hero = () => {
@@ -28,7 +28,7 @@ export const Hero = () => {
               <a href="https://play.google.com/store/apps/details?id=wslyvh.musicjournal.fm">
                 <img src={playstoreImg} alt="Play Store" />
               </a>
-              <a href="#download" className="opacity-50">
+              <a href="https://apps.apple.com/app/6742420442">
                 <img src={appstoreImg} alt="App Store" />
               </a>
             </div>

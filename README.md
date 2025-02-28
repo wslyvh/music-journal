@@ -22,7 +22,7 @@ Music Journal helps helps you transform your music practice. Like Strava for you
 Download the app from Google Play or the Apple App Store (coming soon)
 
 [![Google Play](./assets/google-play.png)](https://play.google.com/store/apps/details?id=wslyvh.musicjournal.fm)
-![Apple App Store](./assets/apple-store-soon.png)
+[![Apple App Store](./assets/apple-store.png)](https://apps.apple.com/app/6742420442)
 
 # Development
 
